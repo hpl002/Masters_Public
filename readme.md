@@ -12,6 +12,7 @@
 - [Resources](#resources)
 
 ## Project description:
+   Create an algorithm capable of creating a more effective process model provided a semantic process log, ontology, and resoruce model. This algorithm will be demonstrated on a hospital department setting. Here we will measure the performance of some existing careflow and compare this to the enhanced careflow, as outputted by the algorithm.
 
 ## Why (Project usefulness)
 
@@ -20,7 +21,7 @@
 > We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without compromising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
 
 ## Novelty 
-**Pending verification**
+**Pending verification**  
 There exists very few works on automatic process model enhancements, and even fewer that take this semantic approach.
 There exists very few works on semantic enrichment of process logs.
 There does not exist a work that investigates careflow enhancement with this process mining approach.  
