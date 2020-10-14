@@ -12,7 +12,7 @@
 - [Resources](#resources)
 
 ## Project description:
-   Create an algorithm capable of creating a more effective process model provided a semantic process log, ontology, and resoruce model. This algorithm will be demonstrated on a hospital department setting. Here we will measure the performance of some existing careflow and compare this to the enhanced careflow, as outputted by the algorithm.
+   Create an algorithm capable of creating a more effective process model provided a semantic process log, ontology, and resource model. This algorithm will be demonstrated on a hospital department setting. Here we will measure the performance of some existing careflow and compare this to the enhanced careflow, as outputted by the algorithm.
 
 ## Why (Project usefulness)
 
@@ -22,8 +22,9 @@
 
 ## Novelty 
 **Pending verification**  
-There exists very few works on automatic process model enhancements, and even fewer that take this semantic approach.
-There exists very few works on semantic enrichment of process logs.
+Thus far i confirm the following:  
+There exists very few works on semantic enrichment of process logs.  
+There exists very few works on automatic process model enhancements, and even fewer that take this semantic approach.  
 There does not exist a work that investigates careflow enhancement with this process mining approach.  
 
 
@@ -40,7 +41,7 @@ The project has two aims, these are:
 
 #### Primary Aim
 
-Demonstrate how one can semantically enhance a process log and then use this to decompose a overworked task into smaller fragments which can then be carried out by less specialized workers. The decomposing technique respects the required competence level of all sub-tasks and also available resources. Only tasks that can be filled by available workers will be offered.
+Demonstrate how one can semantically enhance a process log and then use this to decompose a overworked task into smaller fragments which can then be carried out by less specialized workers. The decomposing technique respects the required competence level of all sub-tasks and also available resources. Only sub-tasks that can be filled by available workers will be implemented.
 
 #### Secondary Aim
 
@@ -53,7 +54,7 @@ Verify or dismiss the effect of the implemented model changes by running accurat
 
 While splitting a larger activity into smaller sub-activities might alone increase efficiencies, we could also investigate if there are any obvious identifiers that separate the more demanding patient from the less demanding patients. 
 
-> This is an expansion that i could investigate given adequate data. An obvious classification problem.
+> This is an expansion that i could investigate if the data allows it. Likely a very solvable classification problem.
 
 ### Method
 
@@ -75,16 +76,18 @@ This is built on the assumption that one will be able to accurately and fairly s
 High level description:
 
 1. Semantically annotate process log
-2. Identify all bottleneck activities
+2. Identify all bottleneck activities (Automatic Bottleneck Analysis)
    1.  Filter bottleneck activities (There are likely some bottlenecks which are not fit for decomposition, these should be removed)
 3.  Intermediary step: Translate process log to petri net
 4.  Decompose bottleneck activities into smaller sub-activities 
     1.  (Considerations: Resource availability, resource competences, resource cost)
-    2.  Here we should only decompose into activities that are actually available (What resources do we have, what competences / activities are they capable of) 
+    2.  Query ontology and get back sub-activities of bottleneck activity.
+    3.  Here we should only decompose into activities that are actually available 
          - Cannot decompose into activity that does not have an available resource 
          - Cannot decompose into activity that requires some competence that the available resource does not have
-         -  Results in a fitness measure: How far off are we from the optimal case where we have all resources available and these resources have all needed competences
-    3.  We want to create a optimal process model that respects the available resources and also cost.
+         -  Results in a fitness measure: How far off are we from the optimal case?
+         -  The optimal case being that we have all required resources available.
+    4.  We want to create a optimal process model that respects the available resources and also cost.
 5.  Make the discovered improvements to the petrinet.
 6.  Return as petri-net model
 
