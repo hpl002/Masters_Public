@@ -1,3 +1,4 @@
+- [Current progress and problems](#current-progress-and-problems)
 - [Project description:](#project-description)
 - [Why (Project usefulness)](#why-project-usefulness)
 - [Novelty](#novelty)
@@ -10,6 +11,10 @@
 - [Algorithm](#algorithm)
 - [Definitions:](#definitions)
 - [Resources](#resources)
+
+## Current progress and problems
+Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/projects/1)
+
 
 ## Project description:
    Create an algorithm capable of creating a more effective process model provided a semantic process log, ontology, and resource model. This algorithm will be demonstrated on a hospital department setting. Here we will measure the performance of some existing careflow and compare this to the enhanced careflow, as outputted by the algorithm.
