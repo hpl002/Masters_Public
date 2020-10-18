@@ -9,6 +9,7 @@
   - [Expansion](#expansion)
   - [Method](#method)
 - [Algorithm](#algorithm)
+- [Ontology](#ontology)
 - [Definitions:](#definitions)
 - [Resources](#resources)
 
@@ -96,6 +97,17 @@ High level description:
 5.  Make the discovered improvements to the petrinet.
 6.  Return as petri-net model
 
+## Ontology
+Ontology requirements:
+   > There exists many vast ontologies in the medical field, such as SNOMED-CT and ICT-10. It is seemingly as ontologies have had a particularly significant impact in the medical field, and understandably so. 
+   1. Ontology needs to have concepts pertaining to the main activities in some patient flow. 
+   2. Ontology must be queryable
+   3. Ontology must be expandable
+      1. Will likely need to add the concept of 'required competence' to the activities in the ontology and then map this to the capabilities of the different medical professions.
+   4. Must have these concepts:
+      1. competence or skill
+      2. different medical professions.  
+      Doctor, nurse, surgeon, and more importantly specializations of these.
  
 
 ## Definitions:
