@@ -108,6 +108,21 @@ Ontology requirements:
       1. competence or skill
       2. different medical professions.  
       Doctor, nurse, surgeon, and more importantly specializations of these.
+
+**High level breakdown:**  
+1. A patient care flow has a series of **events** (atomic and complex).   
+2. Each event has a person with the **caretaker** role that performs some series of **actions**.  
+3. The caretaker has a **role**.  
+4. The role is assigned some **competence**.  
+   > Competences are structured in a hierarchy (presumably) or simply assigned a label. 
+
+5. Since an **event** is simply a series of **actions**, we can split the series into smaller **groupings**.  
+
+> We can then create new **groupings** based on new **priorities** such as available resources and cost.   
+I.e what staff is available and what competences do they have?  
+
+ 
+
  
 
 ## Definitions:
