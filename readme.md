@@ -27,6 +27,7 @@
 - [Deliverables](#deliverables)
   - [App](#app)
   - [Method](#method)
+    - [Activity and resource mapping](#activity-and-resource-mapping)
     - [Simulations with resource dependencies](#simulations-with-resource-dependencies)
     - [Resource conformance through awareness](#resource-conformance-through-awareness)
   - [ABS compiler](#abs-compiler)
@@ -50,21 +51,42 @@
 
  ----
 ## Master thesis project description
-**Demonstrate how one can use process mining and model simulation to create more efficient process models that are also resource aware.** This is made possible by exploring the relationship between resource availability and activity composition, and also by ensuring model efficiency through the measuring of key performance indicators (KPI).
+**Demonstrate how one can use process mining and model simulation to create more efficient process models that are also resource aware.** This is made possible by exploring the relationship between resource availability, activity composition, model compostion, and simulation. 
+
+> By introducing the notion of resource availability into model simulaton we can get a greater understanding of where there are too few resources and where there are too many. Thus hopefully reducing costs and increasing efficiency.
 
 **Resource aware?**  
-Designing a process model without taking into account the dynamics of the environemnt in which it is deployed might lead to unforseen consequences. A process can be understood as a sequence of activities. An activity can be atomic or composed of multiple other activities. These activities often have strict depencencies on resources that are subject to change, such as human capital or machinery. Any change in the availability of one of these resources might lead to unwanted consequences, delays, or complete halts. By addressing this weakness we can not only plan and prepare for such an event, but even make conscious choices in our model design to outright avoid them.
+Designing a process model without taking into account the dynamics of the environment in which it is deployed might lead to unforseen consequences. A process can be understood as a sequence of activities. An activity can be atomic or composed of multiple other activities. These activities often have strict depencencies on resources that are subject to change, such as human capital or machinery. Any change in the availability of one of these resources might lead to unwanted consequences such as delays and complete halts. Alternatively, having abundant resources will prevent the aforementioned, but lead to lower efficiencies. 
 
-This is addressed via two methods:
-1. [running simulations with resource restrictions](#simulations-with-resource-dependencies)
-2. [creating new process models via resource awareness](#resource-conformance-through-awareness)
+The ideal process lies within these two outer limits, ensuring the most amount of uptime and the least amount of wastage. This problem is addressed differently depending on how critial the throughput time is. 
+
+The fundamental problem being that we create process models with the expectation that we always have the required resources to execute the modeled activities. In the event where these are not available then there will be delays and halts, and in the event where these are always available then there will be wastage. When processes become large and complex it can become very expensive to keep throwing resources at them to ensure uptime. 
+
+In this project i will address this problem via two methods:
+1. [creating new process models via resource awareness](#resource-conformance-through-awareness)
+   1. Aid the user in understanding the relationship between modeled activities and the resources that these consume. This allows us to test a new resource pool against a annotated model to see if they align. Here we are adressing questions such as:
+      1. Where are resources of type T used in this model?
+      2. Given a new resource pool P, how well does it align with my model?
+         1. Are activities short staffed, and where?
+         2. Are activities over staffed, and where?
+         3. 
+2. [Running simulations with resource restrictions](#simulations-with-resource-dependencies) allows for the creation of event logs that mock real world scenarios with varying resource availability. This again allows us to locate potential resource issues. Here we are adressing questions such as:  
+   1. What effects will having too few of a resource have on my process flow? 
+      1. To what extent is the throughput time increased?
+      2. Where is it increased?
+      3. Can this effect be mitigated by restructuring?
+    
+  The running of simulations that also have the notion of resources demand that the resource model has been annotated with activities and resources. This means that the method "steps" have to occur in the aforementioned order.
 
 
-**Main artefact** TODO: find source on comment about the source of performance issues..
-The main artefact of this project will be a web based tool that is used to bridge this gap between process mining and simulation, while also including the notion of resource awareness. By making it easy to simulate a given process model we can gather performance metrics and get insights into potential issues before the model is deployed. It has been shown that performance issues are often linked to resource capacity. We can therefore try to avoid these issues by addressing this resource availability when creating new models. 
+
+**Main artefact**   
+
+The main artefact of this project will be a web based tool that is used to bridge this gap between process mining and simulation, while also including the notion of resource awareness. By making it easy to simulate a given process model we can gather performance metrics and get insights into potential issues before the model is deployed. [It has been shown that performance issues can be caused by a lack of resource capacity](#why-project-usefulness). We can therefore try to avoid these issues by addressing this resource availability when creating new models. 
+
 
 **Problemspace:**  
-Rigid and dependale process models are unvaluable tools in critical environments. They allow for strict planning and act as a source of reference for stakeholders and give structure to complex activities. However, they can also lead to inefficiencies and lost profits due to this exact rigidness.  TODO: source
+Rigid and dependale process models are unvaluable tools in critical environments. They allow for strict planning and act as a source of reference for stakeholders and give structure to complex activities. However, they can also lead to inefficiencies and lost profits due to this exact rigidness. 
 
 Having a single process model designed to handle all scenarios is likely impossible. The undeniable trade-off of [granular processes](#granular-process) is that there might exist a scenario where the [process itself becomes counter-productive](#fallacy-of-granular-processes). This can be combated by desinging a process which allows for more flexibility and is more generic, otherwise known as a [coarse process](#coarse-process). However, these also have their [downsides](#fallacy-of-coarse-process)
 
@@ -106,7 +128,9 @@ Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/
 
 > We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without compromising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
 
-The tool could be used to help alleviate this bottleneck. Firstly we would model the current process model and run simulations on it to gather baseline metrics. From this we would be able to locate the aforementioned bottleneck. We could then try to resolve the bottleneck by following one of the many different [resolvement strategies](#resolvement-strategies). For example, by breaking the task down into atomic tasks which can then be handled by less skilled workers, which are more abundant. However, this would also require that we have the necessary resources for such a reorganization. By first creating a definition of our resource pool and then mapping these definitions to our activities we can get a understanding of where our resources are utilized and what resources we have available. We can then reorganize accordingly, ensuring that we have the needed resources to fill the new activities, if not then this could lead to new issues.
+The tool could be used to help alleviate this bottleneck. Firstly we would model the current process model and run simulations on it to gather baseline metrics. From this we would be able to locate the aforementioned bottleneck. We could then try to resolve the bottleneck by following one of the many different [resolvement strategies](#resolvement-strategies). For example, by breaking the task down into atomic tasks which can then be handled by less skilled workers, which are more abundant. 
+
+However, this would also require that we have the necessary resources for such a reorganization. By first creating a definition of our resource pool and then mapping these definitions to our activities we can get a understanding of where our resources are utilized and what resources we have available. We can then reorganize accordingly, ensuring that we have the needed resources to fill the new activities, if not then this could lead to new issues.
 
 We then run new process simulations on the model to gather new metrics which would allow us to quantify what effect the alteration have had. Through iteration we can find a model that resolves the initial issue, does not lead to new problems, and also is executable based on the resources that we have available.
 
@@ -145,33 +169,23 @@ One wide model vs set of narrow models.
 How easy and doable is it to change change resource modle. Can these be hotswapped? 
 
 
- 
+
 ### Aim:
-
 The project has two aims, these are:
-
 #### Primary Aim
-
 Demonstrate how one can effectively use simulation and the notion of resource availability to create a more effective and less error-prone proces models via selected example cases. Error prone here being understood as a scenario where we have unwanted side effects because of poor model design.
-
 #### Secondary Aim
-
 Verify or dismiss the effect of the implemented model changes by running accurate simulations on the enhanced models.
-
-> the “Achilles heel of process mining” is the fact that it is backward-looking. Process mining can be used to diagnose problems (e.g., bottlenecks or non-compliance) and predict the paths taken by running process instances (i.e., cases), but it cannot be used to answer “what if” questions and explore radical redesigns. Given the above, it is very natural to combine process mining and simulation [PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386).
-
-
- 
-
+> the “Achilles heel of process mining” is the fact that it is backward-looking. Process mining can be used to diagnose problems (e.g., bottlenecks or non-compliance) and predict the paths taken by running process instances (i.e., cases), but it cannot be used to answer “what if” questions and explore radical redesigns. Given the above, it is very natural to combine process mining and simulation.   
+> 
+> Source: [PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)
 
 
 ### Tooling
-
 TODO:
 What efforts have been made with CPN?   
 Why use ABS?  
 what process mining tools exist  
-
 #### Simulation
 ##### ABS
 ##### Colored Petri-nets (CPN)
@@ -179,7 +193,6 @@ what process mining tools exist
 #### Process mining tools
 ##### PRoM
 ##### PM4PY
-
 
 ### Related works
 TODO: 
@@ -195,19 +208,38 @@ WORKS ON MODELING PROCESS AVAILABILITY
 ### Novelty 
 The fundamental problem of process optimization is far from new. This is an issue with its own field devoted to it [Business Process Re-engineering](https://en.wikipedia.org/wiki/Business_process_re-engineering). 
 
-## Deliverables 
-TODO: visual model showing the different components of the method
-      - process log
-      - process analysis
-      - model improvement
-      - iteration:
-      - model simulation
-      - result analysis
+## Deliverables  
 ### App
-TODO: 
-details about the app to be determined
+The web application acts as a framework and facilitator of these two methods. 
+> simple app comprised of three containerized applications, a interface and two services.
+1. A web interface
+2. process mining service running Process Mining for Python(PM4PY)
+3. simulation service running the core version of the Abstract Behavioral Specification(ABS)  
+
+
+**Features:**
+1. upload a process log and get this translated to a visual process model.
+2. run simulation of this model and get back a event log
+3. Create a list of activities and resources. Map resources to activities. Map activities to model events
+4. get an overview of the resource usage of the model (what resources are being used and what activities are they being used in)
+5. upload file containing updated resource availability and get notified if this breaches or conforms to the model
+6. Upload file containing updated model and get notified if this breaches or conforms to the available resources
+7. get back key performance indicators of the model (unsure if this calculation is universal for all models. If it requires finess to make it fit to ach model then its unfeasible)
+
+
 
 ### Method
+
+#### Activity and resource mapping
+Once the user has uploaded a event log, then they are presented with the resulting process model. Based on this model they are tasked with creating a set of disccrete activities which are then mapped to the modeled events. The user then creates a list of resource elements which are mapped to the activity. This results in the following relationship:
+
+``` bash
+Modeled event <- Activity(One or more) <- Resource(One or more)
+```
+
+> A single event can be comprised of one or multiple activities. A single activity can be comprised of one or multiple resources.
+
+
 #### Simulations with resource dependencies
 Make the connection between formal methods, simulation, and ABS.
 
@@ -216,10 +248,11 @@ The tool can be used to simulate a new process model. The resulting event log ca
 
 1. Upload event log to application
 2. Event log is translated to process model
-3. Process model is [compiled](ABS-compiler) into simulation that can run on ABS.
-4. Simulation runs and a new process model is returned.
-5. We perform our analysis, gather new knowledge, and reflect this in the improved process model.
-6. We can then iterate the same procedure again to get a updated event log for our updated model.
+3. User then has to perform [Activity and resource mapping](#activity-and-resource-mapping)
+4. Process model is [compiled](ABS-compiler) into simulation that can run on ABS.
+5. Simulation runs and a new process model is returned.
+6. We perform our analysis, gather new knowledge, and reflect this in the improved process model.
+7. We can then iterate the same procedure again to get a updated event log for our updated model.
 
 #### Resource conformance through awareness
 Here we use the application to create relationships between events, actions, and resources. With these relationships we can check that any new model is in accordance with our resource pool and vice versa.
@@ -267,7 +300,7 @@ Redesigning some process by looking at process data
 Redesigning some process by looking at process documentation            
 
 ## Resources
-[PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)
+[PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)  
 [ProcessMining.org](<https://[github.com/camunda](http://processmining.org/)>)  
 [PM4PY](https://pm4py.fit.fraunhofer.de/)  
 [BPMN Miner](https://github.com/hpl002/BPMN-Miner)
