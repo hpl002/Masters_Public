@@ -94,7 +94,7 @@ Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/
 
 > We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without compromising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
 
-We can simplify this process into the following basic [petri net](#pretri-net):
+We can simplify this process into the following basic [petri net](#petri-net):
 
 ![](./resources/PN-1.svg)
 
