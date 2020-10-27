@@ -11,12 +11,11 @@
     - [Fallacy of granular process](#fallacy-of-granular-process)
     - [Fallacy of coarse process](#fallacy-of-coarse-process)
     - [The "sweetspot"](#the-sweetspot)
-    - [Strategies](#strategies)
   - [Aim:](#aim)
     - [Primary Aim](#primary-aim)
     - [Secondary Aim](#secondary-aim)
   - [Tooling](#tooling)
-    - [Simulation](#simulation)
+    - [Simulation software](#simulation-software)
       - [ABS](#abs)
       - [Colored Petri-nets (CPN)](#colored-petri-nets-cpn)
     - [Process mining tools](#process-mining-tools)
@@ -27,7 +26,7 @@
 - [Deliverables](#deliverables)
   - [App](#app)
   - [ABS compiler](#abs-compiler)
-- [Concepts and definitions:](#concepts-and-definitions)
+- [Concepts:](#concepts)
   - [Process mining](#process-mining)
     - [Process reengineering](#process-reengineering)
     - [Petri net](#petri-net)
@@ -36,16 +35,11 @@
       - [Discrete event simulation](#discrete-event-simulation)
       - [Continuous simulation](#continuous-simulation)
       - [Parallel discrete event simulation](#parallel-discrete-event-simulation)
-    - [Process design](#process-design-1)
-      - [generic processes](#generic-processes)
-      - [set of models](#set-of-models)
-      - [resolvement strategies](#resolvement-strategies)
     - [Process analysis](#process-analysis)
       - [Performance analysis](#performance-analysis)
       - [Bottleneck analysis](#bottleneck-analysis)
-      - [Clinical Pathway](#clinical-pathway)
-      - [Bottom-up process redesign](#bottom-up-process-redesign)
-      - [Top-down process redesign](#top-down-process-redesign)
+      - [Key performance indicators (KPI)](#key-performance-indicators-kpi)
+- [Definitions](#definitions)
 - [Resources](#resources)
 
  ----
@@ -86,10 +80,10 @@ Having a single process model designed to handle all scenarios is likely impossi
 ### Research questions
    > strict RQs are in the works..
 Current draft..:  
-How can simulatons be used to verify the outcome of a process model?  
-How can simulatons be used to improve a real life process model?  
-What simulation algorithms exist, and what scenarios are they fit for?    
-What process discovery algorithms exist, and what scenarios are they fit for?  
+1. How can simulatons be used to verify the outcome of a process model?  
+2. How can simulatons be used to improve a real life process model?  
+3. What simulation algorithms exist, and what scenarios are they fit for?    
+4. What process discovery algorithms exist, and what scenarios are they fit for?  
 
 ### Current progress and problems
 Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/projects/1)
@@ -102,17 +96,21 @@ Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/
 
 > We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without compromising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
 
-The tool could be used to help alleviate this bottleneck. Firstly we would model the current process model and run simulations on it to gather baseline metrics. From this we would be able to locate the aforementioned bottleneck. We could then try to resolve the bottleneck by following one of the many different [resolvement strategies](#resolvement-strategies). For example, by breaking the task down into atomic tasks which can then be handled by less skilled workers, which are more abundant. 
+We can simplify this process into the following basic [petri net](#pretri-net):
 
-However, this would also require that we have the necessary resources for such a reorganization. By first creating a definition of our resource pool and then mapping these definitions to our activities we can get a understanding of where our resources are utilized and what resources we have available. We can then reorganize accordingly, ensuring that we have the needed resources to fill the new activities, if not then this could lead to new issues.
+![](./resources/PN-1.svg)
 
-We then run new process simulations on the model to gather new metrics which would allow us to quantify what effect the alteration have had. Through iteration we can find a model that resolves the initial issue, does not lead to new problems, and also is executable based on the resources that we have available.
+This process could be resolved by adding a two new actions. A classification action where it is determined if the patient is a demanding or a easy case. And secondly a treatment step where the easy cases can be handled. 
+
+![](./resources/PN-2.svg)
+ 
+
+> Provided that the process has been given a new a path we can expect improvements in the time spent in place P3 and P4. However, we now have to also consider the time spent to diagnose the patient in P2.
+
 
 ### Process design
 
 Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i not focus on a specific notation, but rather [petri nets](#petri-net).  
-
-*When designing a new process, should we aim to create a process that covers all scenarios and is very generic or should we aim to create a process that is very specific and covers a subset of scenarios with great detail ?*  
 
 #### Granular process
 Also known as a narrow process.
@@ -135,26 +133,24 @@ Process is so coarse (generic) that it allows for too much flexibility. This lea
 #### The "sweetspot"
 A perfect combination of granularity and coarseness is perhaps unobtainable, but the sweetspot is having granularity and flexibility where they are needed. Some activities need to be very detailed, while others rely on there being some flexibility. This knowledge is obtained through domain experience,trial, and error.
 
-#### Strategies
-Different strategies can be used to resolve different problems.  
-We can for example have one single process model that is flexible and rigid where needed. Alternatively, we can have one rigid base model and then a series of alterations of this model that are used when needed. Essentally swapping out the process model for some alternative that is more fit for some scenario.  
-
-Swapping process modles can of course lead to confusion, but in the case where this is planned and structured then it might be viable.
-
 
 ### Aim:
 The project has two aims, these are:
 #### Primary Aim
-Demonstrate how one can effectively use simulation and the notion of resource availability to create a more effective and less error-prone proces models via selected example cases. Error prone here being understood as a scenario where we have unwanted side effects because of poor model design.
+Create a web based tool that allows for quick and easy simulation of process models in a interative manner.
+
 #### Secondary Aim
-Verify or dismiss the effect of the implemented model changes by running accurate simulations on the enhanced models.
+Demonstrate how existing process models can be improved by use of the tool.  
+
+Verify or dismiss the effect of the implemented model changes by running accurate simulations on the enhanced models.  
+
 > ...the “Achilles heel of process mining” is the fact that it is backward-looking. Process mining can be used to diagnose problems (e.g., bottlenecks or non-compliance) and predict the paths taken by running process instances (i.e., cases), but it cannot be used to answer “what if” questions and explore radical redesigns. Given the above, it is very natural to combine process mining and simulation.   
 > 
 > Source: [PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)
 
 
 ### Tooling
-#### Simulation
+#### Simulation software
 
 ##### ABS
 ##### Colored Petri-nets (CPN)
@@ -170,9 +166,8 @@ DISCRETE EVENT SIMULATION
 NON-DISCRETE EVENT SIMULATION  
 WORKS THAT USE ABS  
 WORKS THAT USE CPN  
-> There exists multiple works on process mining and simulation. These run simulations on an extended version of petri nets, namely the [Colored Petri-net](https://en.wikipedia.org/wiki/Coloured_Petri_net).   
+> There exists multiple works on process mining and simulation. These run simulations on a extended version of petri nets, namely the [Colored Petri-net](https://en.wikipedia.org/wiki/Coloured_Petri_net).   
 
-WORKS ON MODELING PROCESS AVAILABILITY   
 
 ### Novelty 
 The fundamental problem of process optimization is far from new. This is an issue with its own field devoted to it [Business Process Re-engineering](https://en.wikipedia.org/wiki/Business_process_re-engineering). 
@@ -195,7 +190,8 @@ Feature set:
 Translates a process model to something that can run on ABS.  
  
 
-## Concepts and definitions:
+## Concepts:
+
   ### Process mining
   #### Process reengineering
   *Process Reengineering (PR): improving or extending the model based on event data. Like for conformance checking, both an event log and a process model are used as input. However, now the goal is not to diagnose differences. **The goal is to change the process model.** For example, it is possible to “repair” the model to better reflect reality. **It is also possible to enrich an existing process model with additional perspectives.** For example, replay techniques can be used to show bottlenecks or resource usage. **Process reengineering yields updated models.** These models can be used to improve the actual processes.* - Wil Van der Aalst
@@ -231,27 +227,20 @@ https://en.wikipedia.org/wiki/Continuous_simulation
 
 ##### Parallel discrete event simulation
 
-#### Process design
-##### generic processes
-##### set of models
-##### resolvement strategies
-decompose a comlpex task into smaller atomic tasks  
-add more resources  
-move the task  
-restructure the task  
+ 
 
  
 #### Process analysis
 ##### Performance analysis
 ##### Bottleneck analysis
+##### Key performance indicators (KPI)
 
  
-##### Clinical Pathway
-
-##### Bottom-up process redesign
+## Definitions  
+**Bottom-up process redesign**
 Redesigning some process by looking at process data 
 
-##### Top-down process redesign
+**Top-down process redesign**
 Redesigning some process by looking at process documentation            
 
 ## Resources
