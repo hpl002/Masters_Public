@@ -1,6 +1,6 @@
  
 **Table of contents**
-- [Process reengineering by use of resource aware simulation](#process-reengineering-by-use-of-resource-aware-simulation)
+- [Process reengineering by use of simulation](#process-reengineering-by-use-of-simulation)
   - [Research questions](#research-questions)
   - [Current progress and problems](#current-progress-and-problems)
 - [Background](#background)
@@ -41,7 +41,7 @@
 - [Resources](#resources)
 
  ----
-## Process reengineering by use of resource aware simulation
+## Process reengineering by use of simulation
  
 **Demonstrate how one can use process mining and model simulation to create more efficient process models by use of a simple web interface.** By simulating process flows we can get insights into process performance before it is deployed in a real system. 
 
