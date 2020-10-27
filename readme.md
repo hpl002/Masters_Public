@@ -30,22 +30,20 @@
   - [Process mining](#process-mining)
     - [Process reengineering](#process-reengineering)
     - [Petri net](#petri-net)
-    - [Model simulation](#model-simulation)
-    - [Process mining and simulation](#process-mining-and-simulation)
+    - [Simulation](#simulation)
       - [Discrete event simulation](#discrete-event-simulation)
-      - [Continuous simulation](#continuous-simulation)
-      - [Parallel discrete event simulation](#parallel-discrete-event-simulation)
     - [Process analysis](#process-analysis)
       - [Performance analysis](#performance-analysis)
       - [Bottleneck analysis](#bottleneck-analysis)
       - [Key performance indicators (KPI)](#key-performance-indicators-kpi)
+      - [Statistical methods](#statistical-methods)
 - [Definitions](#definitions)
 - [Resources](#resources)
 
  ----
 ## Process reengineering by use of resource aware simulation
  
-**Demonstrate how one can use process mining and model simulation to create more efficient process models by use of a simple web interface.** By simulating process flows we can get insights into process perforence before it is deployed in a real system. 
+**Demonstrate how one can use process mining and model simulation to create more efficient process models by use of a simple web interface.** By simulating process flows we can get insights into process performance before it is deployed in a real system. 
 
 The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model.
 
@@ -57,7 +55,7 @@ Designing a process model without taking into account the dynamics of the enviro
 
 The ideal process lies within these two outer limits, ensuring the most amount of uptime and the least amount of wastage. This problem is addressed differently depending on how critial the throughput time is. 
 
-By use of model simulation it is possible to finess the model compositon until it meets the required performance metrics.
+By use of model simulation it is possible to finesse the model compositon until it meets the required performance metrics.
 
 The fundamental problem being that we create process models with the expectation that we always have the required resources to execute the modeled activities. In the event where these are not available then there will be delays and halts, and in the event where these are always available then there will be wastage. When processes become large and complex it can become very expensive to keep throwing resources at them to ensure uptime. 
 
@@ -78,8 +76,8 @@ Having a single process model designed to handle all scenarios is likely impossi
 
     
 ### Research questions
-   > strict RQs are in the works..
-Current draft..:  
+   > Current RQs are subject to change..  
+Current draft:  
 1. How can simulatons be used to verify the outcome of a process model?  
 2. How can simulatons be used to improve a real life process model?  
 3. What simulation algorithms exist, and what scenarios are they fit for?    
@@ -110,23 +108,23 @@ This process could be resolved by adding a two new actions. A classification act
 
 ### Process design
 
-Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i not focus on a specific notation, but rather [petri nets](#petri-net).  
+Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i do not focus on a specific notation, but rather [petri nets](#petri-net).  
 
 #### Granular process
-Also known as a narrow process.
+*Also known as a narrow process.*  
 Process with smaller pieces. Not flexible, but detailed.
 
 #### Coarse process
-Also known as a wide process.
+*Also known as a wide process.*  
 Process with many large chunks. Not detailed, but flexible.
 
 #### Fallacy of granular process
-Narrow, detailed, rigid, strict.  
+*Narrow, detailed, rigid, strict.*  
 Process is so granular (detailed) that it allows for no flexibility. This hampers all efficiency the second some unaccounted event occurs. If one single activity stops then this can causes delays in all dependent activities.
 
  
 #### Fallacy of coarse process
-Wide, flexible.  
+*Wide, flexible.*  
 Process is so coarse (generic) that it allows for too much flexibility. This leads to unceirtanty and can make the process difficult to follow. Also leads to many altering process flows which then results in poor event logs. Having a ill defined process can have the same results as having no process definition at all.
 
  
@@ -170,11 +168,13 @@ WORKS THAT USE CPN
 
 
 ### Novelty 
-The fundamental problem of process optimization is far from new. This is an issue with its own field devoted to it [Business Process Re-engineering](https://en.wikipedia.org/wiki/Business_process_re-engineering). 
+TODO: 
+1. Current tooling is usually a nighmare to use. process mining tools are lagging behind that which could be considered modern software development practices.
+2. Does curretly not exist a tool with the described [feature set](#app).  
 
 ## Deliverables  
 ### App
-Feature set:
+**Feature set:**  
 - Upload event log and translate this into a process model.
     - Allows for the user to select the process discovery algorithm to be used
   - Upload process model directly
@@ -201,39 +201,30 @@ Translates a process model to something that can run on ABS.
 #### Petri net
 A petri net is one of several mathematical modelling languages used for describing distributed systems. Contraty to its more advanced descendants, petri nets are very basic and only model places and transitions.
 
-#### Model simulation
-#### Process mining and simulation
-the simulatons run on the model and share state witht the model. The simulations have direct effect on each other.
-
-If we have some activity that has a capacity of 3 and then a fourth resource tries to start the activity then this hinderence must be reflected in simulation. 
-
-Resource restrictions are implemented by use of delays.
-
-A simulation is a continious flow throughe events, but at each event the state is delayed
-
-
-How is the delay calculated?
-How is the delay related to resource capacity?
-
-An activity has a capacity
-
+#### Simulation 
+ 
+TODO: 
+- simulation types
+  - discrete event
+  - continious 
+  - parallel discrete event
+- simulation algorithms
+  - PM4PY
+    - Playout of a Petri Net
+    - Monte Carlo Simulation
+    - CTMC Simulation (DFG)
+    - Extensive Playout of a Process Tree
 
 
 ##### Discrete event simulation
   "... models the operation of a system as a discrete sequence of events in time. Each event occurs at a particular instant in time and marks a change of state in the sytem. Between the consecustive events, no change in the system is assumed to occur; thus the simulation can directly jump tot teh " - [source](https://en.wikipedia.org/wiki/Discrete-event_simulation)
-
-##### Continuous simulation
-https://en.wikipedia.org/wiki/Continuous_simulation
-
-##### Parallel discrete event simulation
-
- 
 
  
 #### Process analysis
 ##### Performance analysis
 ##### Bottleneck analysis
 ##### Key performance indicators (KPI)
+##### Statistical methods
 
  
 ## Definitions  
@@ -247,6 +238,7 @@ Redesigning some process by looking at process documentation
 **Literature:**
 1. [PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)  
 2. [A Generic Framework for Context-AwareProcess Performance Analysis](https://www.researchgate.net/publication/309228794_A_Generic_Framework_for_Context-Aware_Process_Performance_Analysis)  
+   
 **Other:**  
 1. [ProcessMining.org](<https://[github.com/camunda](http://processmining.org/)>)  
 2. [PM4PY](https://pm4py.fit.fraunhofer.de/)  
