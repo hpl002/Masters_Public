@@ -1,6 +1,7 @@
  
 **Table of contents**
 - [Process reengineering by use of simulation](#process-reengineering-by-use-of-simulation)
+  - [Method](#method)
   - [Research questions](#research-questions)
   - [Current progress and problems](#current-progress-and-problems)
 - [Background](#background)
@@ -21,22 +22,31 @@
     - [Process mining tools](#process-mining-tools)
       - [PRoM](#prom)
       - [PM4PY](#pm4py)
+    - [Development tools](#development-tools)
+      - [Tool for drawing and editing directed graphs](#tool-for-drawing-and-editing-directed-graphs)
   - [Related works](#related-works)
+      - [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining)
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
   - [App](#app)
   - [ABS compiler](#abs-compiler)
 - [Concepts:](#concepts)
   - [Process mining](#process-mining)
+    - [Process log](#process-log)
+    - [Process model](#process-model)
     - [Process reengineering](#process-reengineering)
-    - [Petri net](#petri-net)
-    - [Simulation](#simulation)
+    - [Process discovery](#process-discovery)
+    - [Model validation](#model-validation)
+    - [Process repair](#process-repair)
+  - [Petri net](#petri-net)
+  - [Simulation](#simulation)
       - [Discrete event simulation](#discrete-event-simulation)
-    - [Process analysis](#process-analysis)
-      - [Performance analysis](#performance-analysis)
+  - [Process analysis](#process-analysis)
+      - [Performance analysis / quality assessment](#performance-analysis--quality-assessment)
       - [Bottleneck analysis](#bottleneck-analysis)
       - [Key performance indicators (KPI)](#key-performance-indicators-kpi)
       - [Statistical methods](#statistical-methods)
+  - [Process mining and formalisms](#process-mining-and-formalisms)
 - [Definitions](#definitions)
 - [Resources](#resources)
 
@@ -73,6 +83,24 @@ Having a single process model designed to handle all scenarios is likely impossi
 
 
 >This project does not intend to solve the tremendous task of finding the perfect model, but rather provide a [tool](#app) that can be used to aid in the design of a single model that is applicable to many scenarios, or a set of models that are applicable to a set of scenarios. 
+
+### Method
+
+> A high level overview.   
+> The resulting application will be a detailed instance of this exact model.
+
+![](./resources/method-overview.svg)
+
+**Steps:**
+1. The event log will have to be prepared by the user. This includes filtering, grouping, and cleaning.
+2. The event log is then uploaded.
+3. Envent log is transformed to a process model by use of on of the [process discovery algorithms](#process-discovery).
+4. The model will then have to be checked for [validity](#model-validation). 
+   1. Process discovery will often not yield a perfect model. There might be need to intercept and edit.
+   2. There are techniques for both manual and automatic model checking.
+6. The resulting model is then simulated by use of one of the [simulation techniques](#simulation).
+7. The simulation will yield a new event log. This is then analysed by of appropriate [techniques](#process-analysis).
+8. Lastly, the user has to reason over the resulting metrics. If the metrics are not are not as expected then this issue needs to be resolved by altering the model composition. The user jumpts back to step 4.
 
     
 ### Research questions
@@ -157,7 +185,50 @@ Verify or dismiss the effect of the implemented model changes by running accurat
 ##### PRoM
 ##### PM4PY
 
+#### Development tools
+##### Tool for drawing and editing directed graphs
+**required features:**  
+1. delete nodes
+2. add nodes
+3. delete paths 
+4. add paths
+5. add label (weight)
+6. replay?  
+
+Options:
+   - Graphviz - Graph Visualization Software (as used in "Automated simulation and verification of process models discovered by process mining")
+     - !!dont think this has the ability to edit the graph
+
 ### Related works
+##### Automated simulation and verification of process models discovered by process mining
+ Highly relevant and similar aims. Can partly be used as the foundations for this project. 
+
+"..it is evident that, relative to process discovery, there are still far fewer techniques and tools for analysis of process models and process repair."
+
+Method:  
+   *The proposed method is composed of data preparation, process discovery, analysis and repair of the discovered process model.*
+
+Process synthesis is based on a inductive machine learning algorithm using the *libalf* library. Based on the *finite automata theory*. Process discovery is implemented using an adaptation of the *k-tail algorithm / Biermann's algorithm*. 
+Model checking is then used to analyse and evaluate the process model.  
+A verification model is built from the discovered process model, which can be simulated and formally checked for specification performance using the *spin model checker*. Process analysis is then used to refine and repair the discovered process model.
+
+This specific method can be abstracted out to:
+  - process discovery
+  - model verification
+  - model simulation
+  - process analysis
+  - model repair
+
+My project will this same high level model, but allow for more flexibility within each of these steps.
+
+
+
+*The main contribution of this paper is our approach for automated analysis of discovered process models based on model checking.*
+
+
+-----
+
+
 TODO: 
 WHAT WORKS EXST ON PROCESS MINING AND SIMULATION     
 DISCRETE EVENT SIMULATION  
@@ -192,16 +263,58 @@ Translates a process model to something that can run on ABS.
 
 ## Concepts:
 
-  ### Process mining
+### Process mining
+
+#### Process log
+Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from incomplete log using pro- cess mining. In: 2015 57th International Symposium ELMAR (ELMAR); ÍEEE; 2015. p. 117–120.
+
+#### Process model
+
+Process model is a formal or semi-formal representation of underlying processes behaviour, performance and conformance - [source](van der Aalst WMP. Data science in action. New York, NY: Springer; 2016).
+
   #### Process reengineering
   *Process Reengineering (PR): improving or extending the model based on event data. Like for conformance checking, both an event log and a process model are used as input. However, now the goal is not to diagnose differences. **The goal is to change the process model.** For example, it is possible to “repair” the model to better reflect reality. **It is also possible to enrich an existing process model with additional perspectives.** For example, replay techniques can be used to show bottlenecks or resource usage. **Process reengineering yields updated models.** These models can be used to improve the actual processes.* - Wil Van der Aalst
   [Source](https://www.researchgate.net/project/Responsible-Event-Driven-Process-Improvement-REDPI)
 
+  #### Process discovery
+  write about the different process discovery algos   
 
-#### Petri net
+inductive machine learning
+ - k-tail algo / Biermanns algo  
+
+  Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from incomplete log using pro- cess mining. In: 2015 57th International Symposium ELMAR (ELMAR); ÍEEE; 2015. p. 117–120.
+
+  #### Model validation
+  SPIN model checker  
+  "Spin model checker is primarily used for formal verifica- tion of distributed systems, such as communication protocols. Spin can run random simulations of the process model or perform a verification of the pro- cess model by exploring all the possible execution paths. To formally describe process models, we use Spin’s Promela language (Process meta language)."
+
+  [42] Holzmann GJ. The SPIN model checker: primer and reference manual. Reading: Addison-Wesley; 2004;vol. 1003
+
+
+"Model checking is a formal method for software and hardware system verification.Its goal is to check whether a model of a system satisfies given specifi-cation."
+  
+Researchers have explored various ways for auto-mated checking ofprocess models, e.g. by transforming
+the process model finite state automaton to a Petri net
+[40,41] that can be dynamically simulated and checked
+for problems.
+
+[40]de Medeiros AKA, van der Aalst W, Weijters A. Work- flowmining: current status and future directions. In: On the move to meaningful internet systems 2003: CoopIS, DOA, and ODBASE, volume 2888 of LNCS; Springer- Verlag; 2003. p. 389–406.
+
+[41] van der Aalst WM, Weijters T, Maruster L. Workflow mining: Discovering process models from event logs. IEEE Trans Knowl Data Eng. 2004;16(9):1128–1142.
+
+[16] van der Aalst WMP, Beer HT, Dongen BF. Process min- ing and verification ofproperties: An approach based on temporal logic. In: On the Move to Meaningful Inter- net Systems 2005: CoopIS, DOA, and ODBASE, LNCS; Springer;
+
+
+
+  #### Process repair
+  Zhang X, Du Y, Qi L, et al. An approach for repairing process models based on logic petri nets. IEEE Access. 2018;6:29926–29939.  
+[9] Xu J, Liu J. A profile clustering based event logs repairing approach for process mining. IEEE Access. 2019;7:17872–17881  
+
+
+### Petri net
 A petri net is one of several mathematical modelling languages used for describing distributed systems. Contraty to its more advanced descendants, petri nets are very basic and only model places and transitions.
 
-#### Simulation 
+### Simulation 
  
 TODO: 
 - simulation types
@@ -220,11 +333,15 @@ TODO:
   "... models the operation of a system as a discrete sequence of events in time. Each event occurs at a particular instant in time and marks a change of state in the sytem. Between the consecustive events, no change in the system is assumed to occur; thus the simulation can directly jump tot teh " - [source](https://en.wikipedia.org/wiki/Discrete-event_simulation)
 
  
-#### Process analysis
-##### Performance analysis
+### Process analysis
+##### Performance analysis / quality assessment  
+De Weerdt J, De Backer M, Vanthienen J, et al. Amulti- dimensional quality assessment of state-of-the-art pro- cess discovery algorithms using real-life event logs. Inf Syst. 2012;37(7):654–676
 ##### Bottleneck analysis
 ##### Key performance indicators (KPI)
 ##### Statistical methods
+
+### Process mining and formalisms  
+Elgammal A, Turetken O, van den Heuvel W-J, et al. Formalizing and applying compliance patterns for business process compliance. Software Syst Model. 2016;15(1):119–146.
 
  
 ## Definitions  
