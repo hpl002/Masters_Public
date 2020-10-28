@@ -225,6 +225,8 @@ My project will this same high level model, but allow for more flexibility withi
 
 *The main contribution of this paper is our approach for automated analysis of discovered process models based on model checking.*
 
+Uses inductive machine learning, some scripts, and the spin model cheker. Not flexible, and uncertain to what extent the user can interact with this. Where is the code? The fundamentals are good, and these will be carried forwards to my projcet. A great deal of very useful resources.
+
 
 -----
 
