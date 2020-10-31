@@ -5,6 +5,7 @@
   - [Research questions](#research-questions)
 - [Background](#background)
   - [Why (Project usefulness)](#why-project-usefulness)
+    - [Yet another tool?](#yet-another-tool)
   - [Process design](#process-design)
     - [Granular process](#granular-process)
     - [Coarse process](#coarse-process)
@@ -29,7 +30,6 @@
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
   - [App](#app)
-  - [ABS compiler](#abs-compiler)
 - [Concepts:](#concepts)
   - [Process mining](#process-mining)
     - [Process log](#process-log)
@@ -40,6 +40,9 @@
     - [Process repair](#process-repair)
   - [Petri net](#petri-net)
   - [Simulation](#simulation)
+    - [Types](#types)
+    - [Techniques](#techniques)
+      - [Available Algorithms](#available-algorithms)
       - [Discrete event simulation](#discrete-event-simulation)
   - [Process analysis](#process-analysis)
       - [Performance analysis / quality assessment](#performance-analysis--quality-assessment)
@@ -56,14 +59,14 @@ Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/
  ----
 ## Process reengineering by use of simulation
  
-**Demonstrate how one can use process mining and model simulation to create more efficient process models by use of a simple web interface.** By simulating process flows we can get insights into process performance before it is deployed in a real system. 
+**Demonstrate how one can use process mining and model simulation to create more efficient process models by use of a simple web application.** By simulating process flows we can get insights into process performance before they are deployed into real systems, or perform [process repair](#process-repair) on existing models.
 
-The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model.
+The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and tecniques presented in [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining).
 
 "Through simulation experiments various “what if” questions can be answered and redesign alternatives can be compared with respect to key performance indicators." - [Source]((https://dl.acm.org/doi/pdf/10.5555/3275382.3275386))
 
 
-**Resource aware?**  
+**The difficulty of process model fitness **  
 Designing a process model without taking into account the dynamics of the environment in which it is deployed might lead to unforseen consequences. A process can be understood as a sequence of activities. An activity can be atomic or composed of multiple other activities. These activities often have strict depencencies on resources that are subject to change, such as human capital or machinery. Any change in the availability of one of these resources might lead to unwanted consequences such as delays and complete halts. Alternatively, having abundant resources will prevent the aforementioned, but lead to greater costs for the same throughput, i.e lower efficiencies. 
 
 The ideal process lies within these two outer limits, ensuring the most amount of uptime and the least amount of wastage. This problem is addressed differently depending on how critial the throughput time is. 
@@ -85,7 +88,7 @@ Rigid and dependale process models are unvaluable tools in critical environments
 Having a single process model designed to handle all scenarios is likely impossible. The undeniable trade-off of [granular processes](#granular-process) is that there might exist a scenario where the [process itself becomes counter-productive](#fallacy-of-granular-processes). This can be combated by desinging a process which allows for more flexibility and is more generic, otherwise known as a [coarse process](#coarse-process). However, these also have their [downsides](#fallacy-of-coarse-process)
 
 
->This project does not intend to solve the tremendous task of finding the perfect model, but rather provide a [tool](#app) that can be used to aid in the design of a single model that is applicable to many scenarios, or a set of models that are applicable to a set of scenarios. 
+>This project does not intend to solve the tremendous task of finding the perfect model, but rather provide a [tool](#app) that can be used to aid in the design or repair process models. 
 
 ### Method
 
@@ -134,6 +137,11 @@ This process could be resolved by adding a two new actions. A classification act
 
 > Provided that the process has been given a new a path we can expect improvements in the time spent in place P3 and P4. However, we now have to also consider the time spent to diagnose the patient in P2.
 
+#### Yet another tool?
+1. Why do we need another tool?
+2. find work that details existing tooling
+3. what is the problem with the tools that exist
+4. what is it that this tool is trying to solve that other tools do not have
 
 ### Process design
 
@@ -203,27 +211,46 @@ Options:
 ### Related works
 ##### Automated simulation and verification of process models discovered by process mining
 
-Highly relevant paper with similar aims and method. Showcases a method with formal foundations, and has also contributed with many useful resources. The method presented in this paper partly the foundation of my project.
+> Highly relevant paper with similar aims and method. Showcases a method with formal foundations, and has also contributed with many useful resources. The method presented in this paper partly forms the foundation of my project.
 
-Presents a method that is composed of data preparation, process discovery, analysis and repair of the discovered process model.
+"..it is evident that, relative to process discovery, there are still far fewer techniques and tools for analysis of process models and process repair."
 
-*The main contribution of this paper is our approach for automated analysis of discovered process models based on model checking.* The automated model checking tecnique is comprised of a series of scripts that translate the process model from dot format to Promela (Process meta language). The dot format is a specification used for model visualization in Graphviz^2. The promela model is then run in the Spin model checker. Spin can run random simulations of the process model or perform a verification of the process model by exploring all the possible execution paths. 
+Presents a method with the following structure:  
+**Overview of presented method:**
+  - process synthesis
+    - process discovery via inductive machine learning
+    - produces *finite state automatons, encoded as directed graphswith labelled nodes and edges in Graphviz2 dot textual format*
+  - evaluation and analysis of generated model
+    - via model checking 
+    - model is checked for specification conformance while being simulated
+  - automatically transalte model from visuzlization format to validation format
+    - translation via a series of scripts. From Graphviz^2 dot format to Promela.
+  - perform process analysis (**Main contribution**)
+    - by first performing process simulation (and model checking/specification conformance) via Spin model checker
+    - use results to refine and repair the discovered process model (**How?**)
 
-  
+**Abstraction of presented method:**
+  - [process discovery](#process-discovery) by using inductive machine learning
+  - [model checking](#model-checking)
+  - [model simulation](#simulation) by using spin model checker (**Main contribution**)
+  - [process analysis](#process-analysis) by analyzing the generated process log (**Main contribution**)
+  - model repair
+
+![](./resources/model-overview-from-paper.png)
+> Figure taken from paper.   
+> *Overview of the proposed method for proess synthesis, analysis and repair*  
+> Steps 0-4 are process synthesis  
+> Step 5 is the *automated analysis of the discovered process model. I.e the main contribution*
+
+
+*The main contribution of this paper is our approach for **automated analysis of discovered process models based on model checking**.* The automated model checking technique is comprised of a series of scripts that translate the process model from dot format to Promela (Process meta language). The dot format is a specification used for model visualization in Graphviz^2. The promela model is then run in the Spin model checker. Spin can run random simulations of the process model or perform a verification of the process model by exploring all the possible execution paths. 
+
 Process synthesis is based on a inductive machine learning algorithm using the *libalf* library. Based on the *finite automata theory*. Process discovery is implemented using an adaptation of the *k-tail algorithm / Biermann's algorithm*. 
 
 Model checking is then used to analyse and evaluate the process model.  
-A verification model is built from the discovered process model, which can be simulated and formally checked for specification performance using the *spin model checker*. Process analysis is then used to refine and repair the discovered process model.
+A verification model is built from the discovered process model, which can be simulated and formally checked for specification performance using the *spin model checker*. Process analysis is then used to refine and repair the discovered process model. The spin model checker generates a process analyser C program for the given Promela process model. This is then compiled and executed. It then performs automatic verification of the Promela model by examining all possible execution paths. 
 
-This specific method can be abstracted out to:
-  - process discovery
-  - model verification
-  - model simulation
-  - process analysis
-  - model repair
-
-"..it is evident that, relative to process discovery, there are still far fewer techniques and tools for analysis of process models and process repair."
- 
+Spin supports three simulation types, default random simulations, interactive simulations, and guided simulations. 
 
 
 
@@ -254,11 +281,10 @@ TODO:
 - Run simulation by selecting one of the available simulation methods
 - Run process analysis that fetches key performance indicators (KPI)
 
-> The web application is packaged in a easy to use interface that is designed for quick iteration. This again allows us to explore model alternatives with quick succession.
+> The web application is packaged in a easy to use interface that is designed for quick iteration. This again allows us to explore model alternatives with quick succession. While the app does return some performance indicators, it does not try to make intelligent observations about its results. It is the responsibility of the process mining expert and domain experts to reason over the results. 
 
 
-### ABS compiler
-Translates a process model to something that can run on ABS.  
+ 
  
 
 ## Concepts:
@@ -316,17 +342,25 @@ A petri net is one of several mathematical modelling languages used for describi
 
 ### Simulation 
  
-TODO: 
-- simulation types
+#### Types
   - discrete event
   - continious 
   - parallel discrete event
+
+#### Techniques
+ - Spin model checker 
+ - Abstract Behavioural Specification Language
+ - PM4PY
+##### Available Algorithms
+  - Playout of a Petri Net
+  - Monte Carlo Simulation
+  - CTMC Simulation (DFG)
+  - Extensive Playout of a Process Tree
+
+
+TODO: 
 - simulation algorithms
   - PM4PY
-    - Playout of a Petri Net
-    - Monte Carlo Simulation
-    - CTMC Simulation (DFG)
-    - Extensive Playout of a Process Tree
 
 
 ##### Discrete event simulation
