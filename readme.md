@@ -3,7 +3,6 @@
 - [Process reengineering by use of simulation](#process-reengineering-by-use-of-simulation)
   - [Method](#method)
   - [Research questions](#research-questions)
-  - [Current progress and problems](#current-progress-and-problems)
 - [Background](#background)
   - [Why (Project usefulness)](#why-project-usefulness)
   - [Process design](#process-design)
@@ -26,6 +25,7 @@
       - [Tool for drawing and editing directed graphs](#tool-for-drawing-and-editing-directed-graphs)
   - [Related works](#related-works)
       - [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining)
+      - [Other](#other)
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
   - [App](#app)
@@ -49,6 +49,9 @@
   - [Process mining and formalisms](#process-mining-and-formalisms)
 - [Definitions](#definitions)
 - [Resources](#resources)
+
+### Current progress and problems
+Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/projects/1)
 
  ----
 ## Process reengineering by use of simulation
@@ -111,8 +114,6 @@ Current draft:
 3. What simulation algorithms exist, and what scenarios are they fit for?    
 4. What process discovery algorithms exist, and what scenarios are they fit for?  
 
-### Current progress and problems
-Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/projects/1)
 
 ## Background
     
@@ -201,14 +202,16 @@ Options:
 
 ### Related works
 ##### Automated simulation and verification of process models discovered by process mining
- Highly relevant and similar aims. Can partly be used as the foundations for this project. 
 
-"..it is evident that, relative to process discovery, there are still far fewer techniques and tools for analysis of process models and process repair."
+Highly relevant paper with similar aims and method. Showcases a method with formal foundations, and has also contributed with many useful resources. The method presented in this paper partly the foundation of my project.
 
-Method:  
-   *The proposed method is composed of data preparation, process discovery, analysis and repair of the discovered process model.*
+Presents a method that is composed of data preparation, process discovery, analysis and repair of the discovered process model.
 
+*The main contribution of this paper is our approach for automated analysis of discovered process models based on model checking.* The automated model checking tecnique is comprised of a series of scripts that translate the process model from dot format to Promela (Process meta language). The dot format is a specification used for model visualization in Graphviz^2. The promela model is then run in the Spin model checker. Spin can run random simulations of the process model or perform a verification of the process model by exploring all the possible execution paths. 
+
+  
 Process synthesis is based on a inductive machine learning algorithm using the *libalf* library. Based on the *finite automata theory*. Process discovery is implemented using an adaptation of the *k-tail algorithm / Biermann's algorithm*. 
+
 Model checking is then used to analyse and evaluate the process model.  
 A verification model is built from the discovered process model, which can be simulated and formally checked for specification performance using the *spin model checker*. Process analysis is then used to refine and repair the discovered process model.
 
@@ -219,18 +222,12 @@ This specific method can be abstracted out to:
   - process analysis
   - model repair
 
-My project will this same high level model, but allow for more flexibility within each of these steps.
+"..it is evident that, relative to process discovery, there are still far fewer techniques and tools for analysis of process models and process repair."
+ 
 
 
 
-*The main contribution of this paper is our approach for automated analysis of discovered process models based on model checking.*
-
-Uses inductive machine learning, some scripts, and the spin model cheker. Not flexible, and uncertain to what extent the user can interact with this. Where is the code? The fundamentals are good, and these will be carried forwards to my projcet. A great deal of very useful resources.
-
-
------
-
-
+##### Other
 TODO: 
 WHAT WORKS EXST ON PROCESS MINING AND SIMULATION     
 DISCRETE EVENT SIMULATION  
@@ -238,6 +235,7 @@ NON-DISCRETE EVENT SIMULATION
 WORKS THAT USE ABS  
 WORKS THAT USE CPN  
 > There exists multiple works on process mining and simulation. These run simulations on a extended version of petri nets, namely the [Colored Petri-net](https://en.wikipedia.org/wiki/Coloured_Petri_net).   
+
 
 
 ### Novelty 
