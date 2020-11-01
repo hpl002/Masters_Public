@@ -25,6 +25,9 @@
     - [Development tools](#development-tools)
       - [Tool for drawing and editing directed graphs](#tool-for-drawing-and-editing-directed-graphs)
   - [Related works](#related-works)
+      - [Background and current trends in process mining](#background-and-current-trends-in-process-mining)
+      - [Process simulation and verification](#process-simulation-and-verification)
+      - [Process Repair](#process-repair)
       - [Other](#other)
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
@@ -36,7 +39,7 @@
     - [Process reengineering](#process-reengineering)
     - [Process discovery](#process-discovery)
     - [Model validation](#model-validation)
-    - [Process repair](#process-repair)
+    - [Process repair](#process-repair-1)
   - [Petri net](#petri-net)
   - [Simulation](#simulation)
     - [Types](#types)
@@ -208,11 +211,15 @@ Options:
      - !!dont think this has the ability to edit the graph
 
 ### Related works
+##### Background and current trends in process mining
+[Process mining techniques and applications – A systematic mapping study](./resources/09574174.md)
+##### Process simulation and verification
+[Automated simulation and verification of process models discovered by process mining](./resources/00051144.md)
+##### Process Repair
+1. [An Approach for Repairing Process ModelsBased on Logic Petri Nets](./resources/21693536.md)
+2. [A Profile Clustering Based Event Logs Repairing Approach for Process Mining](./resources/8625568.md)
 
-![Process mining techniques and applications – A systematic mapping study](./resources/09574174.md)
-
-![Automated simulation and verification of process models discovered by process mining](./resources/00051144.md)
-
+ 
 
 ##### Other
 TODO: 
@@ -250,6 +257,10 @@ TODO:
 ## Concepts:
 
 ### Process mining
+*
+Process mining is a growing and promising study area focused on understanding processes and to help
+capture the more significant findings during real execution rather than, those methods that, only ob-served idealized process model.* [source](https://www.sciencedirect.com/science/article/pii/S0957417419303161?via%3Dihub)
+
 
 #### Process log
 Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from incomplete log using pro- cess mining. In: 2015 57th International Symposium ELMAR (ELMAR); ÍEEE; 2015. p. 117–120.
