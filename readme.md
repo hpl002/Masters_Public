@@ -28,7 +28,6 @@
       - [Background and current trends in process mining](#background-and-current-trends-in-process-mining)
       - [Process simulation and verification](#process-simulation-and-verification)
       - [Process Repair](#process-repair)
-      - [Other](#other)
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
   - [App](#app)
@@ -218,18 +217,6 @@ Options:
 ##### Process Repair
 1. [An Approach for Repairing Process ModelsBased on Logic Petri Nets](./resources/21693536.md)
 2. [A Profile Clustering Based Event Logs Repairing Approach for Process Mining](./resources/8625568.md)
-
- 
-
-##### Other
-TODO: 
-WHAT WORKS EXST ON PROCESS MINING AND SIMULATION     
-DISCRETE EVENT SIMULATION  
-NON-DISCRETE EVENT SIMULATION  
-WORKS THAT USE ABS  
-WORKS THAT USE CPN  
-> There exists multiple works on process mining and simulation. These run simulations on a extended version of petri nets, namely the [Colored Petri-net](https://en.wikipedia.org/wiki/Coloured_Petri_net).   
-
 
 
 ### Novelty 
