@@ -220,9 +220,21 @@ Options:
 
 
 ### Novelty 
-TODO: 
-1. Current tooling is usually a nighmare to use. process mining tools are lagging behind that which could be considered modern software development practices.
-2. Does curretly not exist a tool with the described [feature set](#app).  
+> Overlaps with [#yet-another-tool](#yet-another-tool)   
+
+1. issues with current tooling and perhaps academic tooling in general
+   1. describe current trends and existent tooling
+2. transition from research to production is difficult?
+   1. use prom for research and then use what for production?
+3. process mining and modularization of software is non-existent
+   1. there are some ad-hoc docker images of commonly used applications
+4. Does curretly not exist a tool with the described [feature set](#app).  
+
+The general technique describes is not unique. Process mining and simulation is not unique. Creating an app that allows for different methods to be combined is unique.
+
+Automation possibilities? 
+ 
+ 
 
 ## Deliverables  
 ### App
