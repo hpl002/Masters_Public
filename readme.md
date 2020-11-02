@@ -22,17 +22,23 @@
     - [Process mining tools](#process-mining-tools)
       - [PRoM](#prom)
       - [PM4PY](#pm4py)
+      - [docker](#docker)
     - [Development tools](#development-tools)
       - [Tool for drawing and editing directed graphs](#tool-for-drawing-and-editing-directed-graphs)
   - [Related works](#related-works)
-      - [Background and current trends in process mining](#background-and-current-trends-in-process-mining)
-      - [Process simulation and verification](#process-simulation-and-verification)
-      - [Process Repair](#process-repair)
+    - [Background and current trends in process mining](#background-and-current-trends-in-process-mining)
+      - [Process mining techniques and applications – A systematic mapping study](#process-mining-techniques-and-applications--a-systematic-mapping-study)
+    - [Process simulation and verification](#process-simulation-and-verification)
+      - [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining)
+      - [A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare](#a-process-oriented-methodology-for-evaluating-the-impact-of-it-a-proposal-and-an-application-in-healthcare)
+    - [Process Repair](#process-repair)
+    - [Process metrics](#process-metrics)
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
   - [App](#app)
 - [Concepts:](#concepts)
   - [Process mining](#process-mining)
+    - [L* life-cycle](#l-life-cycle)
     - [Process log](#process-log)
     - [Process model](#process-model)
     - [Process reengineering](#process-reengineering)
@@ -60,9 +66,28 @@ Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/
  ----
 ## Process reengineering by use of simulation
  
-**Demonstrate how one can use process mining and model simulation to create more efficient process models by use of a simple web application.** By simulating process flows we can get insights into process performance before they are deployed into real systems, or perform [process repair](#process-repair) on existing models.
+**Demonstrate how one can use process mining and model simulation to enhance process models by use of a simple web application.** By running simulations on the generated process model we are able generate new event logs which can then be analyzed for [key performance indicators](#key-performance-indicators-kpi). 
 
-The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and tecniques presented in [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining).
+These metrics are then used to indicate if a process is in need of improvement. The tool serves two primary purposes:
+1. used to conduct process enhancement
+2. used to test the impact of some model alteration
+
+This is accomplished by combining methods from process discovery, conformance, and enhancement. These are combined in a modular fashion which allows the user to combine different techniques from these main areas. 
+
+The tool also supports direct alteration of the generated process model, meaning that the user can add or delete nodes at will, and then have this model simulated.
+
+While there exits tools that cover each of these aspects individually, there are none that combined them in a single application. Performing simulation in popular tools such as PRoM forces the user to conduct part of the analysis in PRoM and run the simulaton in CPN Tools. This forces the user to jump between applications and juggle different files. This workflow can be improved by combining techniques in a single application.
+
+The tool also addresses the poor interoperability concern of PRoM by containerizing the entire application and submodules in docker containers. While PRoM is platform independent, it is not technology independent. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, not matter what language or technology it is built on.
+
+>**Tags:**
+1. Process mining
+2. process simulation
+3. process enhancement
+4. process mining tooling
+
+
+The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and tecniques presented in [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining) and the [L* life-cycle](#l-life-cycle).
 
 "Through simulation experiments various “what if” questions can be answered and redesign alternatives can be compared with respect to key performance indicators." - [Source]((https://dl.acm.org/doi/pdf/10.5555/3275382.3275386))
 
@@ -89,7 +114,7 @@ Rigid and dependale process models are unvaluable tools in critical environments
 Having a single process model designed to handle all scenarios is likely impossible. The undeniable trade-off of [granular processes](#granular-process) is that there might exist a scenario where the [process itself becomes counter-productive](#fallacy-of-granular-processes). This can be combated by desinging a process which allows for more flexibility and is more generic, otherwise known as a [coarse process](#coarse-process). However, these also have their [downsides](#fallacy-of-coarse-process)
 
 
->This project does not intend to solve the tremendous task of finding the perfect model, but rather provide a [tool](#app) that can be used to aid in the design or repair process models. 
+>This project does not intend to solve the tremendous task of finding the perfect model, but rather provide a [tool](#app) that can be used to aid in the design or repair of process models. 
 
 ### Method
 
@@ -186,6 +211,19 @@ Verify or dismiss the effect of the implemented model changes by running accurat
 
 
 ### Tooling
+
+In the last decade, many tools have emerged to support process
+mining. However, the majority of publications use the ProM frame- work, 6 a very powerful and open source framework ( van Don- gen, de Medeiros, Verbeek, Weijters, & van der Aalst, 2005 ). ProM offers a pluggable architecture and is one reason why research communities embrace this framework. ProM allows flexibility in developing new algorithm (plug-ins), extending and combining them with standardized input and output formats. However, there are other options, such as Aris Process Performance Manager from Software AG, 7 BAB Framework 8 (Best Analytics of Big Data), Celo- nis Discovery, 9 Disco from Fluxicon, 10 Myivenio from Cognitive Technology, 11 Perceptive Process Mining from Lexmark (acquired by Hyland Software 12 and previously started by Pallas Athena as FLOWer)), Process Gold, 13 QPR ProcessAnalyzer, RapidProM, 14 SNP Business Process Analysis, 15 Signavio Process Intelligence, 16 Up- Flux, 17 and others.
+
+6 http://www.promtools.org . 7 https://www.softwareag.com/ . 8 https://www.babcloud.org . 9 https://www.celonis.com/ .
+10 http://www.fluxicon.com/disco . 11 https://www.my-invenio.com/ . 12 https://www.hyland.com/ . 13 http://processgold.com . 14 http://www.rapidprom.org/ . 15 https://www.snp-ag.com/ . 16 https://processmining.signavio.com/ . 17
+
+ - from [#process-mining-techniques-and-applications--a-systematic-mapping-study](#process-mining-techniques-and-applications--a-systematic-mapping-study)
+
+
+An approach to acquire, exchange, and analyze event logs was pro-posed, and this standard is called Extensible Event Stream (XES)
+( Xes, 2016 ).
+
 #### Simulation software
 
 ##### ABS
@@ -193,7 +231,17 @@ Verify or dismiss the effect of the implemented model changes by running accurat
 
 #### Process mining tools
 ##### PRoM
+Fundamental criticism.  
+There are likely opinionated works that comment on this.  
+
+What is the basic workflow in PRoM  
+How are methods and techniques combined?  
+Prom does not have a public facing library or package manager. Why are they hoarding?  
+
 ##### PM4PY
+
+##### docker
+tiny images: https://github.com/iron-io/dockers  
 
 #### Development tools
 ##### Tool for drawing and editing directed graphs
@@ -210,13 +258,25 @@ Options:
      - !!dont think this has the ability to edit the graph
 
 ### Related works
-##### Background and current trends in process mining
-[Process mining techniques and applications – A systematic mapping study](./resources/09574174.md)
-##### Process simulation and verification
-[Automated simulation and verification of process models discovered by process mining](./resources/00051144.md)
-##### Process Repair
-1. [An Approach for Repairing Process ModelsBased on Logic Petri Nets](./resources/21693536.md)
-2. [A Profile Clustering Based Event Logs Repairing Approach for Process Mining](./resources/8625568.md)
+#### Background and current trends in process mining
+##### Process mining techniques and applications – A systematic mapping study
+[Notes](./resources/09574174.md)
+
+#### Process simulation and verification
+##### Automated simulation and verification of process models discovered by process mining
+[Notes](./resources/00051144.md)
+##### A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare
+[Notes](./resources/00051144.md)
+[20] A. Rozinat, R.S. Mans, M. Song, W.M.P. van der Aalst, Discovering simulation models, Information Systems, 34, Elsevier305–327.
+
+#### Process Repair
+1. ##### An Approach for Repairing Process ModelsBased on Logic Petri Nets  
+ - [Notes](./resources/21693536.md)
+2. ##### A Profile Clustering Based Event Logs Repairing Approach for Process Mining
+ - [Notes](./resources/03064379.md)
+  
+#### Process metrics
+1. W. M. P. van der Aalst, Process Mining: Discovery, Conformance and Enhancement of Business Processes. Berlin, Germany: Springer, 2011.
 
 
 ### Novelty 
@@ -224,6 +284,8 @@ Options:
 
 1. issues with current tooling and perhaps academic tooling in general
    1. describe current trends and existent tooling
+   2. by creating a web based tool that uses async http requests in the process we are also making it easier for new developers and researchers to introduce their techniques into this process flow
+      1. say you have a new model checking technique then you can simply craete a dockerized application of it and substitute your method instead of using the default
 2. transition from research to production is difficult?
    1. use prom for research and then use what for production?
 3. process mining and modularization of software is non-existent
@@ -249,17 +311,27 @@ Automation possibilities?
 
 > The web application is packaged in a easy to use interface that is designed for quick iteration. This again allows us to explore model alternatives with quick succession. While the app does return some performance indicators, it does not try to make intelligent observations about its results. It is the responsibility of the process mining expert and domain experts to reason over the results. 
 
-
- 
- 
-
 ## Concepts:
 
 ### Process mining
-*
-Process mining is a growing and promising study area focused on understanding processes and to help
-capture the more significant findings during real execution rather than, those methods that, only ob-served idealized process model.* [source](https://www.sciencedirect.com/science/article/pii/S0957417419303161?via%3Dihub)
+*Process mining is a growing and promising study area focused on understanding processes and to help
+capture the more significant findings during real execution rather than, those methods that, only observed idealized process model.* - [source](#process-mining-techniques-and-applications--a-systematic-mapping-study)
 
+Consists of three main activities: [process discovery](#process-discovery), [process conformance](#process-conformance), and [process enhancement](#process-enhancement).
+
+![](./resources/PM_Main_areas.png)
+> Figure that showcases the main areas areas of process mining, and subsequent sub-interests. 
+> [source](#process-mining-techniques-and-applications--a-systematic-mapping-study)
+
+
+#### L* life-cycle
+A well know paper published by van der Aalst (2011) proposed the L ∗ life-cycle model consisting of five phases for conducting a process mining application.
+
+- Plan and justify phase-focus is data-driven to explore and answer curiosities and gain insights; or, question-driven focused on explaining a specific situation e.g., why determined issues occur; or, goal-driven focused on improving the KPI, response time performance, explain deviations, reduce costs.
+- Extract-explore the knowledge system data domain for recover- ing relevant events. Sometimes it can be very time-consuming owing to system complexity, e.g., with thousands of repositories spread among many tables.
+- Discover a process model based on event logs-process miner algorithms are used to obtain a process model. When an un- derstandable model is acquired, it is possible to start confor- mance checks, analyzing activities and deviations to the discov- ered process model.
+- Create integrated process model-enhancements and added in- formation are integrated in the model, promoting new perspec- tives related to time replayed, organization, resource utilization, case comparisons, and simulation, among other possibilities.
+- Operational support-involves detecting, predicting, and recom- mending. This is the most advanced level of computational sup- port, for example, the process mining tool should be capable to alert (email) on deviation cases, provide advice about bottle- necks, recommend resource setup or reallocation, etc
 
 #### Process log
 Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from incomplete log using pro- cess mining. In: 2015 57th International Symposium ELMAR (ELMAR); ÍEEE; 2015. p. 117–120.
@@ -268,12 +340,22 @@ Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from
 
 Process model is a formal or semi-formal representation of underlying processes behaviour, performance and conformance - [source](van der Aalst WMP. Data science in action. New York, NY: Springer; 2016).
 
-  #### Process reengineering
-  *Process Reengineering (PR): improving or extending the model based on event data. Like for conformance checking, both an event log and a process model are used as input. However, now the goal is not to diagnose differences. **The goal is to change the process model.** For example, it is possible to “repair” the model to better reflect reality. **It is also possible to enrich an existing process model with additional perspectives.** For example, replay techniques can be used to show bottlenecks or resource usage. **Process reengineering yields updated models.** These models can be used to improve the actual processes.* - Wil Van der Aalst
-  [Source](https://www.researchgate.net/project/Responsible-Event-Driven-Process-Improvement-REDPI)
+#### Process reengineering
+*Process Reengineering (PR): improving or extending the model based on event data. Like for conformance checking, both an event log and a process model are used as input. However, now the goal is not to diagnose differences. **The goal is to change the process model.** For example, it is possible to “repair” the model to better reflect reality. **It is also possible to enrich an existing process model with additional perspectives.** For example, replay techniques can be used to show bottlenecks or resource usage. **Process reengineering yields updated models.** These models can be used to improve the actual processes.* - Wil Van der Aalst
+[Source](https://www.researchgate.net/project/Responsible-Event-Driven-Process-Improvement-REDPI)
 
   #### Process discovery
-  write about the different process discovery algos   
+  The process discovery algorithm is responsible to generate a process model based on any a-priori information, such as an event log ( van der Aalst, 2016 ).
+
+  write about the different process discovery algos:  
+  alpha algorithm, heuristic mining, multiphase mining, fuzzy mining, genetic mining, region miner, integer linear programming (ILP) miner, declarative miner, etc.
+
+  This discovery process should deliver a model with quality, where it is expected to be comprehensible by avoiding unnecessary complexity, and deliver acceptable accuracy, balancing recall, precision, and generalization ( Weerdt et al., 2012 ).
+
+
+The result of a process discovery algorithm can be evaluated considering four quality dimensions can be characterized: fitness, simplicity, precision, and generalization ( van der Aalst, 2016 );
+
+  
 
 inductive machine learning
  - k-tail algo / Biermanns algo  
@@ -300,9 +382,18 @@ for problems.
 
 [16] van der Aalst WMP, Beer HT, Dongen BF. Process min- ing and verification ofproperties: An approach based on temporal logic. In: On the Move to Meaningful Inter- net Systems 2005: CoopIS, DOA, and ODBASE, LNCS; Springer;
 
+different approaches are mentioned that can be used for the validation of a simulation model: 
+[32] A.M. Law, Simulation Modeling and Analysis, 4th Edition, McGraw- Hill, 2007.
+
+
+
+![](./resources/PM-algos-overview.png)
+> figure taken from [here](#process-mining-techniques-and-applications--a-systematic-mapping-study)
 
 
   #### Process repair
+  Process repair is primarily conserned with the repairing of the model that is generated through model discovery.  
+
   Zhang X, Du Y, Qi L, et al. An approach for repairing process models based on logic petri nets. IEEE Access. 2018;6:29926–29939.  
 [9] Xu J, Liu J. A profile clustering based event logs repairing approach for process mining. IEEE Access. 2019;7:17872–17881  
 
@@ -311,6 +402,12 @@ for problems.
 A petri net is one of several mathematical modelling languages used for describing distributed systems. Contraty to its more advanced descendants, petri nets are very basic and only model places and transitions.
 
 ### Simulation 
+
+
+By means of discrete event simulation, the performance of systems can be evaluated, alternative configurations of a system can be compared, and an optimal configuration of a system can be found [7].
+
+R.S. Mans, H.A. Reijers, D. Wismeijer, M.V. Genuchten, A process- oriented methodology for evaluating the impact of IT: a proposal and an application in healthcare, BPM Center Report BPM-13-08, BPMcenter.org,
+
  
 #### Types
   - discrete event
@@ -336,10 +433,68 @@ TODO:
 ##### Discrete event simulation
   "... models the operation of a system as a discrete sequence of events in time. Each event occurs at a particular instant in time and marks a change of state in the sytem. Between the consecustive events, no change in the system is assumed to occur; thus the simulation can directly jump tot teh " - [source](https://en.wikipedia.org/wiki/Discrete-event_simulation)
 
+
+numerous studies can be found report-ing on the successful application of discrete-event simulation in order to improve efficiency and reduce costs.
+
+
+Good overviews of literature have been provided by Jun et al. [17], England et al. [18], and Yang et al. [19].
+
+With regard to healthcare clinics, Jun et al. [17] mention three different areas that impact patients in clinics. These are patient scheduling and admissions, patient routing and flow schemes, and scheduling and availability of resources.
+
+[17] J.B. Jun S.H. Jacobson, J.R. Swisher, Application of discrete-event simulation in healthcare clinics: a survey, Journal of the Operational Research Society 50, 109–123.
+[18] W. England, S. Roberts, Applications of computer simulation in health care, in: H.J. Highland, L.G. Hull, N.R. Neilsen (Eds.), Proceed- ings of the 1978 Winter Simulation Conference, Institute of Electrical and Electronics Engineers, 1978, pp. 665–676.
+[19] Y. Yang, K. Sullivan, P. Wang, K.D. Naidu, Applications of computer simulation in medical scheduling, Proceedings of the Joint Confer- ence on Information Sciences (2000).
+
+
+However, despite the abundance of literature that exists on simulation and its application, there is hardly any literature on the intersection of process mining and discrete-event simulation.
+
+[20] A. Rozinat, R.S. Mans, M. Song, W.M.P. van der Aalst, Discovering simulation models, Information Systems, 34, Elsevier305–327.
  
 ### Process analysis
 ##### Performance analysis / quality assessment  
 De Weerdt J, De Backer M, Vanthienen J, et al. Amulti- dimensional quality assessment of state-of-the-art pro- cess discovery algorithms using real-life event logs. Inf Syst. 2012;37(7):654–676
+
+Having poor process quality metrics is indicative of a process model that needs repair. There are two models in this setting. The "original" and governing model of the actual process. This model might not be available or exist at all. Then theres the process model which is generated through process discovery. 
+
+Poor metrics can be indicative of multiple scenarios.
+1. the generated process model is of poor quality
+2. the generated process model is actually accurate, it is the underlying process which is poor
+
+How can we determine where the project lies? With the underlying model or the generated model?
+
+**process model quality metrics**:  
+The metrics are tightly coupled.  
+*Some metrics have been proposed to determine the quality
+of a process model, such as fitness, simplicity, precision
+and generalization*
+
+Process Conformance is the type of process mining responsible
+to measure the quality of a process model.
+
+The quality of a process
+model is usually described considering the four quality dimensions
+( van der Aalst, 2016 ):
+• Fitness: ability to observe the event log behavior in the discov-ered model;
+• Precision: quality to avoid behavior unrelated to the used event
+log in the discovery process, like avoiding underfitting concept;
+• Generalization: capacity to accept new similar events related to
+previous events used for discovering, like avoiding overfitting
+concept; and
+• Simplicity: quality to be as simple as possible.
+
+Nominal work on process quality metrics:
+W. M. P. van der Aalst, Process Mining: Discovery, Conformance and Enhancement of Business Processes. Berlin, Germany: Springer, 2011.
+
+1. model fitness 
+   1. used to ensure the occurence of behaviors in event logs. Fitness is considered good if the process model supports the events in the process log. Poor if it does not support it. This can presumably be measured
+2. model precision
+   1. process model does not allows for unobserved activities. Does not allow for activities that are not observed in an event log. 
+   2. Generalization claims that a process model is able to reproduce future activities.  
+3. model simplicity
+   1. requires that a process model with a simple structure can execute the behaviours in the event logs. 
+   2. The simpler the model the better, i pressume..
+
+   
 ##### Bottleneck analysis
 ##### Key performance indicators (KPI)
 ##### Statistical methods
