@@ -174,6 +174,8 @@ This process could be resolved by adding a two new actions. A classification act
 
 > Provided that the process has been given a new a path we can expect improvements in the time spent in place P3 and P4. However, we now have to also consider the time spent to diagnose the patient in P2.
 
+TODO: reference process mining and simulation paper, a match made in heaven for the usefullness and promise of combining these two techniques.
+
 #### Yet another tool?
 1. Why do we need another tool?
 2. find work that details existing tooling
@@ -248,6 +250,9 @@ There are likely opinionated works that comment on this.
 What is the basic workflow in PRoM  
 How are methods and techniques combined?  
 Prom does not have a public facing library or package manager. Why are they hoarding?  
+
+conducting somulation in Prom:   
+![](./resources/simulationinprom.png)
 
 ##### PM4PY
 
