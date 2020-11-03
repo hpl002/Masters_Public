@@ -1,6 +1,8 @@
  
 **Table of contents**
 - [Process reengineering by use of simulation](#process-reengineering-by-use-of-simulation)
+  - [Contributions](#contributions)
+  - [Tags](#tags)
   - [Method](#method)
   - [Research questions](#research-questions)
 - [Background](#background)
@@ -80,7 +82,15 @@ While there exits tools that cover each of these aspects individually, there are
 
 The tool also addresses the poor interoperability concern of PRoM by containerizing the entire application and submodules in docker containers. While PRoM is platform independent, it is not technology independent. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, not matter what language or technology it is built on.
 
->**Tags:**
+### Contributions  
+The project therefore has three contributions:
+1. Demonstrate how process mining and simulation can be combined by exploring practical examples.
+   - There exists works that explore these two topics, but few that detail the entire workflow. The aim is to provide a clear and accurate description of how one could conduct this and why the different workflow steps are important. This is missing from litterature.
+2. Provide a tool for conducting process mining and subsequent simulation in a single application. Current approaches demand that you jump between different applications and juggle files. This workflow can be improved.
+3. Showcase an alternative method of structuring future process mining applications. While PRoM is undoubtedly the de facto application for conducting process mining, it is not without faults. This project aims to address some of these critiques.
+
+### Tags
+Tags and keywords:  
 1. Process mining
 2. process simulation
 3. process enhancement
