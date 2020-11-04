@@ -437,17 +437,14 @@ inductive machine learning
 A petri net is one of several mathematical modelling languages used for describing distributed systems. Contraty to its more advanced descendants, petri nets are very basic and only model places and transitions.
 
 ### Colored petri net(CPN)
-Source: A brief introduction to Coloured Petri NEts, Kurt Jensen  
+Source: [A brief introduction to Coloured Petri Nets](./resources/literature/Jensen1997_Chapter_ABriefIntroductionToColouredPe.pdf)
 CPN is a graphical oriented language for design, specification, simulation and verification of systems. Typical examples of application areas are communication protocols, distributed systems, imbedded systems, autoamted production systems, **workflow analysis** and VLSI chips. Combined the power of petri nets with the strength of programming languages. Petri nets provide the primitieves for the description of the synchronisation of concurrent processes, while programming languages provide the primitieved for the definition of data types and the manipulation of data values.
 
 
 Petri nets have three basic components: places, transitions, and arcs. Places describe the states of the system. Transitions describe actions, and arcs describe how the state of the CP-net changes when a transition occurs. 
 
 Each place contains a set of tokens. Each of these tokens carry a data value of a given type. 
-**Coloured Petri Nets have got their name because they allow the use of tokens
-that carry data values and can hence be distinguished from each other -- in
-contrast to the tokens of low-level Petri nets, which by convention are drawn
-as black, "uncoloured" dots.**
+**Coloured Petri Nets have got their name because they allow the use of tokens that carry data values and can hence be distinguished from each other -- in contrast to the tokens of low-level Petri nets, which by convention are drawn as black, "uncoloured" dots.**
 
 
 The syntax and semantics of CP-nets have a formal definition,
@@ -460,6 +457,15 @@ In theory, the two levels have exactly the same computational power. However,
 in practice the high-level languages offer much more modelling power, because
 they have better structuring facilities, e.g., types and modules.
 
+
+**What exactly is the relation between process mining, CPN, and simulation?**
+From a process log we can generate a process model via process discovery algos. This model can be enhanced with perspectives and then exported to a CPN simulation tool.
+
+How exactly is simulation conducted in CPN?  
+What algo is working in the background?  
+What does the input file look like?  
+
+[Colored Petri Nets: A Graphical Language for FormalModeling and Validation of Concurrent Systems](./resources/literature/cpn-acm-2015.pdf)  
 
 
 
@@ -600,6 +606,7 @@ Redesigning some process by looking at process documentation
 8. [Application of Discrete-Event Simulation in Health Care Clinics: A Survey](./resources/literature/1999JoftheOperationalResearchSociety.pdf)
 9. [TUTORIAL ON THE SIMULATION OF HEALTHCARE SYSTEMS](./resources/literature/2431518.2431686.pdf)
 10. [Applications of Computer Simulation in Medical Scheduling](./resources/literature/Applications_of_Computer_Simulation_in_Medical_Sch.pdf)
+11. [Business_Process_Simulation_Revisited](./resources/literature/Business_Process_Simulation_Revisited.pdf)
 
 
 
