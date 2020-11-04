@@ -18,9 +18,10 @@
     - [Primary Aim](#primary-aim)
     - [Secondary Aim](#secondary-aim)
   - [Tooling](#tooling)
-    - [Simulation software](#simulation-software)
+    - [Simulation tools](#simulation-tools)
+      - [Process Mining 4 Python(PM4PY)](#process-mining-4-pythonpm4py)
+      - [Colored Petri-nets(CPN) & CPN Tools](#colored-petri-netscpn--cpn-tools)
       - [ABS](#abs)
-      - [Colored Petri-nets (CPN)](#colored-petri-nets-cpn)
     - [Process mining tools](#process-mining-tools)
       - [PRoM](#prom)
       - [PM4PY](#pm4py)
@@ -28,13 +29,6 @@
     - [Development tools](#development-tools)
       - [Tool for drawing and editing directed graphs](#tool-for-drawing-and-editing-directed-graphs)
   - [Related works](#related-works)
-    - [Background and current trends in process mining](#background-and-current-trends-in-process-mining)
-      - [Process mining techniques and applications – A systematic mapping study](#process-mining-techniques-and-applications--a-systematic-mapping-study)
-    - [Process simulation and verification](#process-simulation-and-verification)
-      - [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining)
-      - [A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare](#a-process-oriented-methodology-for-evaluating-the-impact-of-it-a-proposal-and-an-application-in-healthcare)
-    - [Process Repair](#process-repair)
-    - [Process metrics](#process-metrics)
   - [Novelty](#novelty)
 - [Deliverables](#deliverables)
   - [App](#app)
@@ -43,12 +37,15 @@
     - [L* life-cycle](#l-life-cycle)
     - [Process log](#process-log)
     - [Process model](#process-model)
+    - [Directly-follows graph (DFG)](#directly-follows-graph-dfg)
     - [Process reengineering](#process-reengineering)
     - [Process discovery](#process-discovery)
     - [Model validation](#model-validation)
-    - [Process repair](#process-repair-1)
+    - [Process repair](#process-repair)
   - [Petri net](#petri-net)
+  - [Colored petri net(CPN)](#colored-petri-netcpn)
   - [Simulation](#simulation)
+    - [Simulation fundamentals](#simulation-fundamentals)
     - [Types](#types)
     - [Techniques](#techniques)
       - [Available Algorithms](#available-algorithms)
@@ -56,14 +53,16 @@
   - [Process analysis](#process-analysis)
       - [Performance analysis / quality assessment](#performance-analysis--quality-assessment)
       - [Bottleneck analysis](#bottleneck-analysis)
-      - [Key performance indicators (KPI)](#key-performance-indicators-kpi)
+      - [Key performance indicators(KPI)](#key-performance-indicatorskpi)
       - [Statistical methods](#statistical-methods)
-  - [Process mining and formalisms](#process-mining-and-formalisms)
 - [Definitions](#definitions)
 - [Resources](#resources)
 
 ### Current progress and problems
 Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/projects/1)
+
+### Disclaimer
+This document is simply a structured collection of notes and resources that is intended to be used as a reference when writing the more complete document. Please excuse any erorrs or inconsistencies
 
  ----
 ## Process reengineering by use of simulation
@@ -98,9 +97,11 @@ Tags and keywords:
 4. process mining tooling
 
 
-The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and tecniques presented in [Automated simulation and verification of process models discovered by process mining](#automated-simulation-and-verification-of-process-models-discovered-by-process-mining) and the [L* life-cycle](#l-life-cycle).
+The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and techniques presented in several key papers that explore the intersection of process mining and simulation. 
 
-"Through simulation experiments various “what if” questions can be answered and redesign alternatives can be compared with respect to key performance indicators." - [Source]((https://dl.acm.org/doi/pdf/10.5555/3275382.3275386))
+Process mining and simulation is highly relevant for those who are conducting business process redesign.
+
+"Through simulation experiments various “what if” questions can be answered and redesign alternatives can be compared with respect to key performance indicators." - [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf)
 
 
 **The difficulty of process model fitness**  
@@ -152,7 +153,9 @@ Current draft:
 1. How can simulatons be used to verify the outcome of a process model?  
 2. How can simulatons be used to improve a real life process model?  
 3. What simulation algorithms exist, and what scenarios are they fit for?    
-4. What process discovery algorithms exist, and what scenarios are they fit for?  
+4. How can one use existing tools to conduct process mining and simulation, what workflows exist and what tools are popular?
+   1. How well does this work?
+   2. How can it be improved?
 
 
 ## Background
@@ -220,7 +223,7 @@ Verify or dismiss the effect of the implemented model changes by running accurat
 
 > ...the “Achilles heel of process mining” is the fact that it is backward-looking. Process mining can be used to diagnose problems (e.g., bottlenecks or non-compliance) and predict the paths taken by running process instances (i.e., cases), but it cannot be used to answer “what if” questions and explore radical redesigns. Given the above, it is very natural to combine process mining and simulation.   
 > 
-> Source: [PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)
+> Source: [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf)
 
 
 ### Tooling
@@ -231,17 +234,53 @@ mining. However, the majority of publications use the ProM frame- work, 6 a very
 6 http://www.promtools.org . 7 https://www.softwareag.com/ . 8 https://www.babcloud.org . 9 https://www.celonis.com/ .
 10 http://www.fluxicon.com/disco . 11 https://www.my-invenio.com/ . 12 https://www.hyland.com/ . 13 http://processgold.com . 14 http://www.rapidprom.org/ . 15 https://www.snp-ag.com/ . 16 https://processmining.signavio.com/ . 17
 
- - from [#process-mining-techniques-and-applications--a-systematic-mapping-study](#process-mining-techniques-and-applications--a-systematic-mapping-study)
+ - from [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
 
 An approach to acquire, exchange, and analyze event logs was pro-posed, and this standard is called Extensible Event Stream (XES)
 ( Xes, 2016 ).
 
-#### Simulation software
+#### Simulation tools
+This section will detail some popular tool choices and their underlying techniques.
+
+##### Process Mining 4 Python(PM4PY)
+Python library composes of a series of methods relevant to process mining. The library has 9 main categories: 
+1. Handling event data
+2. Filtering event data
+3. Process discovery
+4. Petri net management
+5. Conformance checking
+6. Statistics
+7. Evaluation
+8. Simulation
+9. Social network analysis
+
+This will utilize this tooling for different purposes, such as process discover, conformance checking, process analysis, and possibly simulation.
+The library offers three simulation algorithms:
+1. Playout of a Petri Net
+   "Takes as input a Petri net with initial markings, and returns a list of process executions that are allowed from the process model"  
+   We can get back a specified number of process executions, up to a number.  
+   Returns all the executions that are possible according to the model, up to a provided length of trace (may be computationally expensive)  
+   **This method might be useful if the aim is to collect a set of all unique process executions.**
+2. Monte carlo simulation
+   "A time-related simulation permits to know how probable is that a process execution is terminated after a given amount of time."  
+   Leads to better identification of the process instances that are most likely to have high throughput time.
+   Requires a DFG model, and knowledge of the case arrival ratio.
+   **This method might be useful if the aim is to determine how probable it is that a process will finish within X days**
+3. Continuous Time Markov Chain(CTMC) Simulation(DFG)
+   "A time-related simulation permits to know how probable is that a process execution is terminated after a given amount of time."
+   Requires a DFG model.
+   **This method might be useful if the aim is to determine how probable it is that a process will finish within X days**
+4. Extentive playout of a process tree
+   "An extensive playout operation permits to obtain (up to the provided limits) the entire language of the process model."
+
+##### Colored Petri-nets(CPN) & CPN Tools
+The most cited and used simulation technique in combination with PRoM. Given that PRoM is the de facto standard for process mining, it comes as no surprise that CPN tools follows suit, as PRoM has plugings for exporting to CPN.
+
+
+
 
 ##### ABS
-##### Colored Petri-nets (CPN)
-
 #### Process mining tools
 ##### PRoM
 Fundamental criticism.  
@@ -251,8 +290,14 @@ What is the basic workflow in PRoM
 How are methods and techniques combined?  
 Prom does not have a public facing library or package manager. Why are they hoarding?  
 
-conducting somulation in Prom:   
-![](./resources/simulationinprom.png)
+**conducting simulation in Prom:**  
+Discovering simulation model: 
+![](./resources/simulationinprom.png)  
+source: http://www.processmining.org/prom/miningcpntutorial
+
+Workflow Simulation Models:
+![](./resources/workflowsimulationprom.png)    
+source: http://www.processmining.org/yawltutorial
 
 ##### PM4PY
 
@@ -274,25 +319,7 @@ Options:
      - !!dont think this has the ability to edit the graph
 
 ### Related works
-#### Background and current trends in process mining
-##### Process mining techniques and applications – A systematic mapping study
-[Notes](./resources/09574174.md)
-
-#### Process simulation and verification
-##### Automated simulation and verification of process models discovered by process mining
-[Notes](./resources/00051144.md)
-##### A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare
-[Notes](./resources/00051144.md)
-[20] A. Rozinat, R.S. Mans, M. Song, W.M.P. van der Aalst, Discovering simulation models, Information Systems, 34, Elsevier305–327.
-
-#### Process Repair
-1. ##### An Approach for Repairing Process ModelsBased on Logic Petri Nets  
- - [Notes](./resources/21693536.md)
-2. ##### A Profile Clustering Based Event Logs Repairing Approach for Process Mining
- - [Notes](./resources/03064379.md)
-  
-#### Process metrics
-1. W. M. P. van der Aalst, Process Mining: Discovery, Conformance and Enhancement of Business Processes. Berlin, Germany: Springer, 2011.
+ 
 
 
 ### Novelty 
@@ -331,13 +358,13 @@ Automation possibilities?
 
 ### Process mining
 *Process mining is a growing and promising study area focused on understanding processes and to help
-capture the more significant findings during real execution rather than, those methods that, only observed idealized process model.* - [source](#process-mining-techniques-and-applications--a-systematic-mapping-study)
+capture the more significant findings during real execution rather than, those methods that, only observed idealized process model.* - [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
 Consists of three main activities: [process discovery](#process-discovery), [process conformance](#process-conformance), and [process enhancement](#process-enhancement).
 
 ![](./resources/PM_Main_areas.png)
 > Figure that showcases the main areas areas of process mining, and subsequent sub-interests. 
-> [source](#process-mining-techniques-and-applications--a-systematic-mapping-study)
+> [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
 
 #### L* life-cycle
@@ -355,6 +382,9 @@ Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from
 #### Process model
 
 Process model is a formal or semi-formal representation of underlying processes behaviour, performance and conformance - [source](van der Aalst WMP. Data science in action. New York, NY: Springer; 2016).
+
+#### Directly-follows graph (DFG)
+[A practitioner's guide to process mining: Limitations of the directly-follows graph](./resources/literature/dfg.pdf)
 
 #### Process reengineering
 *Process Reengineering (PR): improving or extending the model based on event data. Like for conformance checking, both an event log and a process model are used as input. However, now the goal is not to diagnose differences. **The goal is to change the process model.** For example, it is possible to “repair” the model to better reflect reality. **It is also possible to enrich an existing process model with additional perspectives.** For example, replay techniques can be used to show bottlenecks or resource usage. **Process reengineering yields updated models.** These models can be used to improve the actual processes.* - Wil Van der Aalst
@@ -382,25 +412,15 @@ inductive machine learning
   SPIN model checker  
   "Spin model checker is primarily used for formal verifica- tion of distributed systems, such as communication protocols. Spin can run random simulations of the process model or perform a verification of the pro- cess model by exploring all the possible execution paths. To formally describe process models, we use Spin’s Promela language (Process meta language)."
 
-  [42] Holzmann GJ. The SPIN model checker: primer and reference manual. Reading: Addison-Wesley; 2004;vol. 1003
 
+[Spin Model Checker, The: Primer and Reference Manual](./resources/literature/spinPrimer.pdf)
 
+ 
 "Model checking is a formal method for software and hardware system verification.Its goal is to check whether a model of a system satisfies given specifi-cation."
   
-Researchers have explored various ways for auto-mated checking ofprocess models, e.g. by transforming
-the process model finite state automaton to a Petri net
-[40,41] that can be dynamically simulated and checked
-for problems.
+[Workflow mining: Discovering process models from event logs](./resources/literature/01316839.pdf)
 
-[40]de Medeiros AKA, van der Aalst W, Weijters A. Work- flowmining: current status and future directions. In: On the move to meaningful internet systems 2003: CoopIS, DOA, and ODBASE, volume 2888 of LNCS; Springer- Verlag; 2003. p. 389–406.
-
-[41] van der Aalst WM, Weijters T, Maruster L. Workflow mining: Discovering process models from event logs. IEEE Trans Knowl Data Eng. 2004;16(9):1128–1142.
-
-[16] van der Aalst WMP, Beer HT, Dongen BF. Process min- ing and verification ofproperties: An approach based on temporal logic. In: On the Move to Meaningful Inter- net Systems 2005: CoopIS, DOA, and ODBASE, LNCS; Springer;
-
-different approaches are mentioned that can be used for the validation of a simulation model: 
-[32] A.M. Law, Simulation Modeling and Analysis, 4th Edition, McGraw- Hill, 2007.
-
+[Process Mining and Verification of Properties: An Approach Based on Temporal Logic](./resources/literature/2005_Book_OnTheMoveToMeaningfulInternetS.pdf)
 
 
 ![](./resources/PM-algos-overview.png)
@@ -409,20 +429,52 @@ different approaches are mentioned that can be used for the validation of a simu
 
   #### Process repair
   Process repair is primarily conserned with the repairing of the model that is generated through model discovery.  
-
-  Zhang X, Du Y, Qi L, et al. An approach for repairing process models based on logic petri nets. IEEE Access. 2018;6:29926–29939.  
-[9] Xu J, Liu J. A profile clustering based event logs repairing approach for process mining. IEEE Access. 2019;7:17872–17881  
+  [An Approach for Repairing Process Models Based on Logic Petri Nets](.resources/literature/08370624.pdf)  
+  [A Profile Clustering Based Event Logs Repairing Approach for Process Mining](./resources/literature/08625568(2).pdf)
 
 
 ### Petri net
 A petri net is one of several mathematical modelling languages used for describing distributed systems. Contraty to its more advanced descendants, petri nets are very basic and only model places and transitions.
 
+### Colored petri net(CPN)
+Source: A brief introduction to Coloured Petri NEts, Kurt Jensen  
+CPN is a graphical oriented language for design, specification, simulation and verification of systems. Typical examples of application areas are communication protocols, distributed systems, imbedded systems, autoamted production systems, **workflow analysis** and VLSI chips. Combined the power of petri nets with the strength of programming languages. Petri nets provide the primitieves for the description of the synchronisation of concurrent processes, while programming languages provide the primitieved for the definition of data types and the manipulation of data values.
+
+
+Petri nets have three basic components: places, transitions, and arcs. Places describe the states of the system. Transitions describe actions, and arcs describe how the state of the CP-net changes when a transition occurs. 
+
+Each place contains a set of tokens. Each of these tokens carry a data value of a given type. 
+**Coloured Petri Nets have got their name because they allow the use of tokens
+that carry data values and can hence be distinguished from each other -- in
+contrast to the tokens of low-level Petri nets, which by convention are drawn
+as black, "uncoloured" dots.**
+
+
+The syntax and semantics of CP-nets have a formal definition,
+which is the basis for syntax check, simulation and verification of CPN models.
+
+
+The relationship between CP-nets and ordinary Petri Nets is analogous to
+the relationship between high-level programming languages and assembly code.
+In theory, the two levels have exactly the same computational power. However,
+in practice the high-level languages offer much more modelling power, because
+they have better structuring facilities, e.g., types and modules.
+
+
+
+
+
+
 ### Simulation 
 
+#### Simulation fundamentals
+TODO: 
+1. Have yet to find a work that details how the simulation model is actually executen in CPN tools. Is it both a declaration and instruction?
 
-By means of discrete event simulation, the performance of systems can be evaluated, alternative configurations of a system can be compared, and an optimal configuration of a system can be found [7].
 
-R.S. Mans, H.A. Reijers, D. Wismeijer, M.V. Genuchten, A process- oriented methodology for evaluating the impact of IT: a proposal and an application in healthcare, BPM Center Report BPM-13-08, BPMcenter.org,
+By means of discrete event simulation, the performance of systems can be evaluated, alternative configurations of a system can be compared, and an optimal configuration of a system can be found  
+
+[A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare](./resources/literature/1-s2.0-S0306437913000951-main.pdf)
 
  
 #### Types
@@ -457,18 +509,20 @@ Good overviews of literature have been provided by Jun et al. [17], England et a
 
 With regard to healthcare clinics, Jun et al. [17] mention three different areas that impact patients in clinics. These are patient scheduling and admissions, patient routing and flow schemes, and scheduling and availability of resources.
 
-[17] J.B. Jun S.H. Jacobson, J.R. Swisher, Application of discrete-event simulation in healthcare clinics: a survey, Journal of the Operational Research Society 50, 109–123.
-[18] W. England, S. Roberts, Applications of computer simulation in health care, in: H.J. Highland, L.G. Hull, N.R. Neilsen (Eds.), Proceed- ings of the 1978 Winter Simulation Conference, Institute of Electrical and Electronics Engineers, 1978, pp. 665–676.
-[19] Y. Yang, K. Sullivan, P. Wang, K.D. Naidu, Applications of computer simulation in medical scheduling, Proceedings of the Joint Confer- ence on Information Sciences (2000).
+17. [Application of Discrete-Event Simulation in Health Care Clinics: A Survey](./resources/literature/1999JoftheOperationalResearchSociety.pdf)
 
+18. [TUTORIAL ON THE SIMULATION OF HEALTHCARE SYSTEMS](./resources/literature/2431518.2431686.pdf)
 
+19. [Applications of Computer Simulation in Medical Scheduling](./resources/literature/Applications_of_Computer_Simulation_in_Medical_Sch.pdf)
+
+ 
 However, despite the abundance of literature that exists on simulation and its application, there is hardly any literature on the intersection of process mining and discrete-event simulation.
 
-[20] A. Rozinat, R.S. Mans, M. Song, W.M.P. van der Aalst, Discovering simulation models, Information Systems, 34, Elsevier305–327.
+[Discovering simulation models](./resources/literature/discsim_is.pdf)
  
 ### Process analysis
 ##### Performance analysis / quality assessment  
-De Weerdt J, De Backer M, Vanthienen J, et al. Amulti- dimensional quality assessment of state-of-the-art pro- cess discovery algorithms using real-life event logs. Inf Syst. 2012;37(7):654–676
+[A multi-dimensional quality assessment of state-of-the-art processdiscovery algorithms using real-life event logs](./resources/literature/1-s2.0-S0306437912000464-main.pdf)
 
 Having poor process quality metrics is indicative of a process model that needs repair. There are two models in this setting. The "original" and governing model of the actual process. This model might not be available or exist at all. Then theres the process model which is generated through process discovery. 
 
@@ -499,7 +553,7 @@ concept; and
 • Simplicity: quality to be as simple as possible.
 
 Nominal work on process quality metrics:
-W. M. P. van der Aalst, Process Mining: Discovery, Conformance and Enhancement of Business Processes. Berlin, Germany: Springer, 2011.
+[Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf)
 
 1. model fitness 
    1. used to ensure the occurence of behaviors in event logs. Fitness is considered good if the process model supports the events in the process log. Poor if it does not support it. This can presumably be measured
@@ -512,11 +566,8 @@ W. M. P. van der Aalst, Process Mining: Discovery, Conformance and Enhancement o
 
    
 ##### Bottleneck analysis
-##### Key performance indicators (KPI)
+##### Key performance indicators(KPI)
 ##### Statistical methods
-
-### Process mining and formalisms  
-Elgammal A, Turetken O, van den Heuvel W-J, et al. Formalizing and applying compliance patterns for business process compliance. Software Syst Model. 2016;15(1):119–146.
 
  
 ## Definitions  
@@ -527,14 +578,53 @@ Redesigning some process by looking at process data
 Redesigning some process by looking at process documentation            
 
 ## Resources
-**Literature:**
-1. [PROCESS MINING AND SIMULATION: A MATCH MADE IN HEAVEN!](https://dl.acm.org/doi/pdf/10.5555/3275382.3275386)  
-2. [A Generic Framework for Context-AwareProcess Performance Analysis](https://www.researchgate.net/publication/309228794_A_Generic_Framework_for_Context-Aware_Process_Performance_Analysis)  
+**Background and current trends in process mining**
+1. [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
+2. [A Brief Introduction to Coloured Petri Nets](./resources/literature/Jensen1997_Chapter_ABriefIntroductionToColouredPe.pdf)
+3. [Model-Driven Software Engineering in Practice](./resources/literature/Model-Driven%20Software%20Engineering%20in%20Practice.pdf)
+4. [Redesigning business processes: A methodology based on simulation and process mining techniques](./resources/literature/Măruşter-Beest2009_Article_RedesigningBusinessProcessesAM.pdf)
+5. [An introduction to systems modeling and simulation with colored petri nets](./resources/literature/012.pdf)
+6. [Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf)
+
+
+
+**Process mining and simulation**
+1. [Discovering simulation models](./resources/literature/discsim_is.pdf)
+2. [Business Process Simulation: How to get it right?](./resources/literature/BPM-08-07.pdf)
+3. [Combination of Process Mining and Simulation Techniques for Business Process Redesign: A Methodological Approach](./resources/literature/2013_Book_Data-DrivenProcessDiscoveryAnd.pdf)
+4. [A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare](./resources/literature/1-s2.0-S0306437913000951-main.pdf)
+5. [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf)
+6. [Automated simulation and verification of process models discovered by process mining](./resources/literature/Automated%20simulation%20and%20verification%20of%20process%20models%20discovered%20by%20process%20mining.pdf)
+7. [Spin Model Checker, The: Primer and Reference Manual](./resources/literature/spinPrimer.pdf)
+> can be used for model checking and simulation. Used in [Automated simulation and verification of process models discovered by process mining](./resources/literature/Automated%20simulation%20and%20verification%20of%20process%20models%20discovered%20by%20process%20mining.pdf)
+8. [Application of Discrete-Event Simulation in Health Care Clinics: A Survey](./resources/literature/1999JoftheOperationalResearchSociety.pdf)
+9. [TUTORIAL ON THE SIMULATION OF HEALTHCARE SYSTEMS](./resources/literature/2431518.2431686.pdf)
+10. [Applications of Computer Simulation in Medical Scheduling](./resources/literature/Applications_of_Computer_Simulation_in_Medical_Sch.pdf)
+
+
+
+**Process repair**
+1. [A Profile Clustering Based Event Logs Repairing Approach for Process Mining](./resources/literature/08625568(2).pdf)
+2. [An Approach for Repairing Process Models Based on Logic Petri Nets](.resources/literature/08370624.pdf)
+
+
+**Performance analysis**
+1. [A generic framework for context-aware process performance analysis](./resources/literature/AGenericFrameworkforContext-AwareProcessPerformanceAnalysis.pdf)
+2. [A multi-dimensional quality assessment of state-of-the-art processdiscovery algorithms using real-life event logs](./resources/literature/1-s2.0-S0306437912000464-main.pdf)
+
+> Directly follow graph
+1. [A practitioner's guide to process mining: Limitations of the directly-follows graph](./resources/literature/dfg.pdf)
+
+**Process discovery**
+1. [Workflow mining: Discovering process models from event logs](./resources/literature/01316839.pdf)s
+
+**Verification**
+[Process Mining and Verification of Properties: An Approach Based on Temporal Logic](./resources/literature/2005_Book_OnTheMoveToMeaningfulInternetS.pdf)
    
-**Other:**  
-1. [ProcessMining.org](<https://[github.com/camunda](http://processmining.org/)>)  
-2. [PM4PY](https://pm4py.fit.fraunhofer.de/)  
-3. [BPMN Miner](https://github.com/hpl002/BPMN-Miner)
+**Other**
+2. [ProcessMining.org](<https://[github.com/camunda](http://processmining.org/)>)  
+3. [PM4PY](https://pm4py.fit.fraunhofer.de/)  
+4. [BPMN Miner](https://github.com/hpl002/BPMN-Miner)
 
  
 
