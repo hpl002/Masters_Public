@@ -5,6 +5,7 @@
   - [Paper structure](#paper-structure)
 - [Background](#background)
   - [Process mining](#process-mining)
+    - [Manifesto](#manifesto)
   - [Process design](#process-design)
   - [Process analysis](#process-analysis)
   - [Simulation](#simulation)
@@ -117,6 +118,86 @@ Initially i will present a detailing of necessary background on the concepts of 
 > Other areas and concepts that are more secondary are detailed in the [concepts section](#concepts).  
 
 ### Process mining
+>The idea of process mining is to discover, monitor and improve real processes (i.e., not assumed processes) by extracting knowledge from event logs readily available in today’s (information) systems - [Manifesto](./resources/literature/2012_Book_.pdf)  
+
+Process mining is a still a very new research field. Initially conceived by Prof&#46;dr&#46;ir&#46; Wil van der Aalst and with its earliest publications dating to the 1990s. The official date is perhaps 2009, as this was when the Task Force on Process Mining was originaly founded. The task force published a [process mining manifesto](./resources/literature/2012_Book_.pdf) in 2011 that detailed the state of the art at the time of publishing. Prof&#46;dr&#46;ir&#46; Wil van der Aalst has an extensive reputation and has either published, coauthored, or edited almost 900 works on the topics of process mining, petri nets, business process management, workflow managmeent, process modeling, and process analysis. He is with no exception considered the *godfater* of process mining. - [source](http://www.padsweb.rwth-aachen.de/wvdaalst/)
+
+The published manifesto is therefore a good starting point for interested parties as it is published by and with the help of the most reputable sources in the field. It details its intentions, core concepts, the appointed task force, and core issues. 
+
+#### Manifesto 
+[Manifesto](./resources/literature/2012_Book_.pdf)  
+*A manifesto is a public declaration of principles and intentions*  [Manifesto](./resources/literature/2012_Book_.pdf)
+Process mining is a set of techniques used for extracting knowledge from event logs. Such logs are produced by modern infromation systems. Process mining technoques are intended to be used as a means to *discover, monitor, and improve processes in a variety of application domains*[Manifesto](./resources/literature/2012_Book_.pdf). The main forces behind the increased interest and relevance is data abundance and complexity. More and more data is being produced, and more complex systems are being developed. 
+
+*Process mining is a relatively young research discipline that sits between computational intelligence and data mining on the one hand, and process modeling and analysis on the other hand. **The idea of process mining is to discover, monitor and improve real processes (i.e., not assumed processes) by extracting knowledge from event logs readily available in today’s (information) systems***
+
+Process mining is composed of a series of smaller activities which all address different needs and purposes. Some activities are atomic, while others have strict dependencies on other activities. The main activities and their relevanve for this project are:
+1. process discovery (Relevant)
+2. conformance checking (Relevant)
+3. simulation models (Relevant)
+4. model extension (Relevant)
+5. model repair (Relevant)
+6. social network/organizational mining
+7. case prediction
+8. history-based recommendations
+
+Process mining is perhaps best understood as an enabler of other well known business intelligence(BI) activities. Within BI we have for example:
+1. Business Acivity Monitoring
+2. Complex Event Processing
+3. Corporate Performance Management
+4. Continious Process Improvement
+5. Business Process Improvement
+6. Total Quality Management
+7. Sig sigma 
+
+
+##### Event logs <!-- omit in toc -->
+For all intents and purposes, a process can be understood as a complex set of activities and relations. A case can be understood as a process instance that has traversed a particulat path of the desribed process. A process can have many paths, but a case can only traverse one. This traversal is recorded in event logs. An event log is a collection of occurances. These occurances or entries can be described using any number of fields, but process mining mandates that each entry has a trace identifier, activity identifier, and timestamp. A case can therefore be understood as a series of sequential occurances, and a process log most commonly contains multiples of these traces.
+
+![](./resources/manifestofigure.png)
+> Figure from [Manifesto](./resources/literature/2012_Book_.pdf) that show the three main activities of process mining.
+Process discovery takes an event log as input and produces some process model. The model can be any number of formats, but most commonly as a petri net. Conformance checking takes an event log and process model as input and produces diagnostics. Most commonly used check if the event log aligns with some pre-existing process model. Can for example be used to locate traces that perform some actions that the underlying process does not support. Activitie that do not follow the proposed model can be an indicator of many things. The process model might be too generic and does not map reality, or be too strict and inaccurate and therfore forces alternate activities, and so forth. Lastly, process enhancement is about extending or improving some existing process model using information from the process event log and a process model. Enhancement through simulation falls within this last activity. The simulation approch is particularly interested in answering that which is coined "what if" question, such as: 
+1. what happends if i restucture the process in *this* manner
+2. what happends if a run a simulation that describes *this* scenario
+3. what happend if i alter the resource capacity if *this* activity and run *this* simulation scenario
+  
+The relevance of simulation for process mining will be detailed in the following [simulation ](#simulation) section.  
+ ##### Perspectives <!-- omit in toc -->
+Literature often describes the mining of different *perspectives*. The notion of perspectives is intended to highlight a focus area. For example, the *control flow perspective* is interested in the ordering of activities and intends to find a good characterization of all possible paths. The *organizational perspective* focuses on information about resources hidden in the log, e.g what people, systems, roles, or departments are involved, to what extent, and how these relate each other. The *time perspective* focuses on the timing and frequency of events. It should also be noted that when an event has a timestamp, it is possible to discover bottlenecks, measure service levels, monitor the utilization or resources, and predict the remaining processing time of runnin cases.
+
+##### Lifecycle of process mining project <!-- omit in toc -->
+![](./resources/manifestofigure.png)
+> Figure from [Manifesto](./resources/literature/2012_Book_.pdf) that show the traditional lifecycle of a process mining project.
+*[The L* life-cycle](#l-life-cycle)* describes the core steps in a traditional process mining project. As seen in figure above, it consists of five steps, these are.
+0. Step 0: Plan and justify
+- here we might answer fundamental questions about the project aim, purpose, success criteria, etc.
+1. Step 1: Extract
+- At this stage we need to extract different types of data from the involved parties, such as the information system, stakeholders, domain experts, questions, models, and objectives. Requires an understanding of the available data and which parts are suitable for analysis. It required domain knowledge to have a understanding of fundamental and important questions. This step results in a different artefacts, such as handmand data, models, objectives or KPIs, and questions.
+2. Step 2: Create control-flow model and connect event log  
+- The control flow modle is constructed and linked to the event log. The control flow model can be generated via one of the available [process discovery methods](#process-discovery). 
+3. Step 3: Create integrated process model
+- Once the process is relatively structured, the control-flow model may be extended with other perspectives, such as data, time, adn resources.
+- The relation between the event log and the model created in stag 2 is used to extend the model. 
+4. Step 4: Operational support
+- The models created in stage 3 may be used for operational support.
+- Knowledge extracted from historical event data is combined with information about running cases. This again can be used to intervene, predict, and recommend. 
+- > * Staged 3 and 4 can only be reacehd if the process is sufficiently stable and structured
+  
+More about the L* life-cycle can be found [here](#l-life-cycle). 
+
+
+
+
+
+
+
+
+
+-----
+
+
+
+
 The main goal of process mining is to process event data and other process related information in a manner that allows for further resoning and extraction. In process mining this is primarily done via [process discovery](#process-discovery), which generates a process model from an [event log or process log](#process-log). 
 
 > *Process mining is a growing and promising study area focused on understanding processes and to help
