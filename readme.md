@@ -185,18 +185,75 @@ Literature often describes the mining of different *perspectives*. The notion of
   
 More about the L* life-cycle can be found [here](#l-life-cycle). 
 
+##### Guiding principles <!-- omit in toc -->
+> Intended to combat common mistakes that one might encounter when emplring this new technology.
+1. Event data should be treated as First Class citizens
+  - The quality of a process mining result is heavily impacted by the input data. 
+  - Event data should be viewed as a first class sitizen, as opposed to second tier. One should strive to create good high quality event logs, as opposed to this being some secondary activity. 
+  - The quality of an event log can be gauged according to five levels of maturity. The quality metrics being:
+  - 1. Trustworthyness
+  - 2. Completeness
+  - 3. Safeness
+  - 4. Semantics
+2. Log extraction should be driven by questions
+   - Process mining activities need to be driven by questions.
+   - Without concrete questions it is very difficult to extract meaningful event data.
+   - Consider for example a ERP system with thousands of tables.
+3. Concurrency, choice and other basic control-flow constructs should be supported
+    - The control-flow description is the back-bone of any process model. 
+    - *The control-flow description is the back- bone of any process model. Basic workflow constructs (also known as patterns) supported by all mainstream languages are sequence, parallel routing (AND- splits/joins), choice (XOR-splits/joins), and loops. [Manifesto](./resources/literature/2012_Book_.pdf)*
+    - The aforementioned should be supported by process mining techniques. However, some technniques are not able to deal with concurrency and support only Markov chais/transition systems.
+    - *It has been show that for real-life models having dozens of potentially concurrent activities the resulting models are severely underfitting (i.e., allow for too much behavior) and/or extremely complex if concurrency is not supported. [Manifesto](./resources/literature/2012_Book_.pdf)*
+    - The effect of using some process mining technique that is unable to discover concurrency can lead to models that are severely underfitting, and/or extremely complex.
+4. Events should be related to model elements
+   - There needs to be a clear relation between the process model and the events in the event log. Several techniques *replay* the events from the log on top of the process model and therefore demand that there is no ambiguity. If there are any ambiguities then these need to be removed. The mapping problem is not just limited to events in the process log and modeled events, but also in relating events to process instances or cases. 
+5. Model should be treated as a purposeful abstraction of reality
+   - In reality we use different maps to orient ourselves in some environment. We have for example hiking maps, road maps, topological maps, etc. The importance here being that these reflect some abstraction of reality, and abstract away and ignore the information that is irrelevant. The same notion should be applied ot process mining models. There is no single model that fits all usecases. Some stakeholders might require some detailing that reflect a particular perspective, while others might want a high level overview. A single model cannot serve these two purposes successfully at the same time, they are contradictory. We therefore create multiple models that each serve a single purpose well, instead of creating a single model that serves multiple purposes poorly.
+6. Process mining should be a continuous process
+  - Given the dynamic nature of processes, it is not advisable to see process mining as a one-time activity.
+  - The goal should not be to create a fixed model, but to breathe life into process models so that users and analysts are encouraged to look at them on a daily basis.
+  - Millions of people use google maps on a daily basis and there exists thousands of tools that use their maps and project their own information on top of them. Their maps can be used for navigating to a destination, getting real time updated on traffic jams and delays, etc. What if we could apply the same analogy to process mining tools. We could use these tools to zoom in in a process activity to view its smaller sub activities. We could view delays and blockages. We could navigate through a process, and lastly provide predictions as to when the process would arrive at its end stop or "destination". 
 
+##### Challenges <!-- omit in toc -->
+> The manifesto lists a total of 11 challenges. Only those relevant will be presented in detail.
+1. Finding, Merging, and Cleaning Event data
+2. Dealing with Complex Event Logs Having Diverse Characteristics
+3. Creating representative benchmarks
+4. Dealing with concept drift
+5. Improving the representational bias used for process discovery
+6. Balancing between quality criteria such as fitness, simplicity, precision, and generalization
+   - Events logs are seldom complete, only example behaviour is given. Process models allow for exponential or even infinite number of different races, and these traces can all have different probabilities of occuring. It is therefore unrealistic to assume that every possible trace is present in the event log. 
+   - E.g: Given a process model with 10 activities that can be executed in paralell, the total number of possible interleavings is 10!=3628800. Given a process model with, say 100000 entries it would be impossible that all unique traces were present. Some traces are less frequent and may therefore be accounted as noise. It is impossible to build a model that also accounts for these infrequent traces, the discovered model needs to abstract these. Noise and incompleteness makes process discovery a challenging problem.
+   - We have four competing quality metrics:
+     - Fitness
+       - The higher the fitness the more of the traces in the log the model can account for. Perfect fitness can account fro all traces in the event log.
+     - Simplicity
+       - With high fitness often comes high complexity, which is naturally unwanted. The simplest model that can explain the behaviour seen in the log is the best model, i.e Occams razor
+     - Precision
+       - a model is precise if it does not allow for too much behaviour. It would likely be possible to construct a simple petri net that had great fitness and is very simple, but this would have terrible precision as it would in essence allow for too much behaviour. A model that is not precise is underfitting, which is when the model over-generalizes the example behaviour in the log, i.e allows for behaviour that are very different from those present in the log. 
+     - Generalization
+       - A model should generalize and not just be limited to the behaviour seen in the log. A model that does not generalize is overfitting, which is the problem that occurs when the model is tailored to the behaviour seen in the log, when it is obvious that this is just example behaviour. 
+      > Balancing fitness, simplicity, precision and generalization is challenging. This
+is the reason that most of the more powerful process discovery techniques provide various parameters. Improved algorithms need to be developed to better balance the four competing quality dimensions. Moreover, any parameters used should be understandable by end-users.
+7. Cross-organizational mining
+8. Providing operational support
+9.  Combining process mining with other types of analysis
+    - There exists ample oportunities in the intersection of process mining and other research fields. For example, operational management and data mining provide valuable analysis techniques. The challenge being to combine the available techniques from these fields with those of process mining.
+    - Process mining can be used in conjunction with simulation. It can be used to learn simulation models based on historical data. The simulation model can then be used to provide operational support, because of the close connection between the event log and the model, the model can be used to replay history and one can start simulations from teh current sate, thus providing a *fast forward button* into the future based on live data.
+    - Process mining can be combined with visual analytics to further take advantage of humans visual analytics skills. VA exploits the amazing capabilities of humans to see patterns in unstructured data. 
+10. Improving usability for non-experts
+    - One of the great promises of process mining is the value it can add to workflows. Instead or process mining being a one stop activity or single occurance, it can be addd to existing workflows and produce results on a more frequent basis, often noted as a "living process model" because it changes more frequently. The current problem being that the available tooling is not intuitive for non-experts. The complexities of the different techniques and algorithms need to be abstracted out and hidden behind user friendly interfaces. 
+    - > Creating more loosely coupled tooling with simple interfaces makes it easier to combine process mining into real life workflows.
+11. Improving understandability for non-experts
+    - Even if it is easy to generate process mining results, this does not mean that the results are actually useful. 
+    - The user can have problems with understanding the output or is tempted to infer incorrect conclusions.
+    - To avoid such probles the results should be presented using suitable representations (ref. guiding principle 5)
+    - The trustworthyness should be clearly indicated
+    - Existing process discovery techniques typically do not warn for a low fitness or for overfitting. They always show a model, even when it might be clear that there is too little data to justify any conclusions.
 
+> Lastly, the manifesto also has a list of terminology which might be a useful reference for novices.
 
-
-
-
-
-
------
-
-
-
+---
 
 The main goal of process mining is to process event data and other process related information in a manner that allows for further resoning and extraction. In process mining this is primarily done via [process discovery](#process-discovery), which generates a process model from an [event log or process log](#process-log). 
 
