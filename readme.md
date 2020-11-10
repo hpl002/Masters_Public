@@ -7,9 +7,10 @@
   - [Process mining](#process-mining)
     - [Manifesto](#manifesto)
   - [Process mining and simulation](#process-mining-and-simulation)
-  - [Process design](#process-design)
   - [Process analysis](#process-analysis)
-  - [Simulation](#simulation)
+  - [Process design](#process-design)
+  - [Simulation fundamentals](#simulation-fundamentals)
+  - [Related works on process mining and simulation](#related-works-on-process-mining-and-simulation)
   - [Tooling](#tooling)
     - [Simulation tools](#simulation-tools)
     - [Process mining tools](#process-mining-tools)
@@ -26,15 +27,15 @@
   - [Process log](#process-log)
   - [Process model](#process-model)
   - [Directly-follows graph (DFG)](#directly-follows-graph-dfg)
-    - [Process reengineering](#process-reengineering)
+  - [Process reengineering](#process-reengineering)
   - [Process discovery](#process-discovery)
   - [Model validation](#model-validation)
   - [Process repair](#process-repair)
   - [Petri net](#petri-net)
   - [Colored petri net(CPN)](#colored-petri-netcpn)
-      - [Bottleneck analysis](#bottleneck-analysis)
-      - [Key performance indicators(KPI)](#key-performance-indicatorskpi)
-      - [Statistical methods](#statistical-methods)
+  - [Bottleneck analysis](#bottleneck-analysis)
+  - [Key performance indicators(KPI)](#key-performance-indicatorskpi)
+  - [Statistical methods](#statistical-methods)
 - [Definitions](#definitions)
 - [Resources](#resources)
 
@@ -226,7 +227,7 @@ More about the L* life-cycle can be found [here](#l-life-cycle).
    - Events logs are seldom complete, only example behaviour is given. Process models allow for exponential or even infinite number of different races, and these traces can all have different probabilities of occuring. It is therefore unrealistic to assume that every possible trace is present in the event log. 
    - E.g: Given a process model with 10 activities that can be executed in paralell, the total number of possible interleavings is 10!=3628800. Given a process model with, say 100000 entries it would be impossible that all unique traces were present. Some traces are less frequent and may therefore be accounted as noise. It is impossible to build a model that also accounts for these infrequent traces, the discovered model needs to abstract these. Noise and incompleteness makes process discovery a challenging problem.
    - We have four competing quality metrics:
-     - Fitness
+     - Fitness or Recall
        - The higher the fitness the more of the traces in the log the model can account for. Perfect fitness can account fro all traces in the event log.
      - Simplicity
        - With high fitness often comes high complexity, which is naturally unwanted. The simplest model that can explain the behaviour seen in the log is the best model, i.e Occams razor
@@ -280,32 +281,13 @@ By use of DES we can generate new events via *play-out*. A singel simulation run
 
  *Steady-state* analysis is perhaps the more common use of simulation in process mining, and follows the aforementioned workflow. That it, we have an event log that is used to produce a process model via discovery. We then replay the event log ontop of the discovered model to assign probability distributions and and waiting times. We can run simulations of this resulting model and perform analysis on the resulting log. This allows us to capture traces that we would otherwise not have had, as well explore new model alterations. *Fast-forward* or *transient* analysis concerns itself with performing simulations on the remainder of some ongoing trace. This is accomplished by creating new simulations models on the fly using real time and historical data. We can then load a ongoing trace into the simulation model and map its state. This then allows us to explore different futures for that ongoing case. Due to probability distributions this can result in accurate predictions. 
 
- 
- 
-### Process design
-
-Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i do not focus on a specific notation, but rather [petri nets](#petri-net).  
-
-#### Granular process <!-- omit in toc -->
-*Also known as a narrow process.*  
-Process with smaller pieces. Not flexible, but detailed.
-
-#### Coarse process <!-- omit in toc -->
-*Also known as a wide process.*  
-Process with many large chunks. Not detailed, but flexible.
-
-#### Fallacy of granular process <!-- omit in toc -->
-*Narrow, detailed, rigid, strict.*  
-Process is so granular (detailed) that it allows for no flexibility. This hampers all efficiency the second some unaccounted event occurs. If one single activity stops then this can causes delays in all dependent activities.
-
-#### Fallacy of coarse process <!-- omit in toc -->
-*Wide, flexible.*  
-Process is so coarse (generic) that it allows for too much flexibility. This leads to unceirtanty and can make the process difficult to follow. Also leads to many altering process flows which then results in poor event logs. Having a ill defined process can have the same results as having no process definition at all.
- 
-#### The "sweetspot" <!-- omit in toc -->
-A perfect combination of granularity and coarseness is perhaps unobtainable, but the sweetspot is having granularity and flexibility where they are needed. Some activities need to be very detailed, while others rely on there being some flexibility. This knowledge is obtained through domain experience,trial, and error.
-
 ### Process analysis
+
+Types of analysis:
+1. Model analysis: Determening the quality of some discovered model
+2. Performance analysis: How to extract or calculate performance metrics such as KPI from a process model and logs
+   1. Bottleneck analysis 
+
 ##### Performance analysis / quality assessment  <!-- omit in toc -->
 [A multi-dimensional quality assessment of state-of-the-art processdiscovery algorithms using real-life event logs](./resources/literature/1-s2.0-S0306437912000464-main.pdf)
 
@@ -349,7 +331,32 @@ Nominal work on process quality metrics:
    1. requires that a process model with a simple structure can execute the behaviours in the event logs. 
    2. The simpler the model the better, i pressume..
 
-### Simulation 
+ 
+### Process design
+
+Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i do not focus on a specific notation, but rather [petri nets](#petri-net).  
+
+#### Granular process <!-- omit in toc -->
+*Also known as a narrow process.*  
+Process with smaller pieces. Not flexible, but detailed.
+
+#### Coarse process <!-- omit in toc -->
+*Also known as a wide process.*  
+Process with many large chunks. Not detailed, but flexible.
+
+#### Fallacy of granular process <!-- omit in toc -->
+*Narrow, detailed, rigid, strict.*  
+Process is so granular (detailed) that it allows for no flexibility. This hampers all efficiency the second some unaccounted event occurs. If one single activity stops then this can causes delays in all dependent activities.
+
+#### Fallacy of coarse process <!-- omit in toc -->
+*Wide, flexible.*  
+Process is so coarse (generic) that it allows for too much flexibility. This leads to unceirtanty and can make the process difficult to follow. Also leads to many altering process flows which then results in poor event logs. Having a ill defined process can have the same results as having no process definition at all.
+ 
+#### The "sweetspot" <!-- omit in toc -->
+A perfect combination of granularity and coarseness is perhaps unobtainable, but the sweetspot is having granularity and flexibility where they are needed. Some activities need to be very detailed, while others rely on there being some flexibility. This knowledge is obtained through domain experience,trial, and error.
+
+
+### Simulation fundamentals
  
 Process mining is about extracting knowledge from the logs of real world processes. These logs describe event occurances and typically have fields such as timestamps for event start and stop, event identifier, trace identifier, and event name. This allows us to discover complex process models through process discovery. These resulting models can then describe the traces or paths that exist in the log. We can therefore describe a process log as a collection of traces that all contain discrete event occurances. A single trace is a series of discrete events. The concept of discrete events can be described with the analogy of a queue of people waiting to be served by a single teller at a bank. The teller can only serve a single customer at a time and the 
 
@@ -412,6 +419,8 @@ With regard to healthcare clinics, Jun et al. [17] mention three different areas
 However, despite the abundance of literature that exists on simulation and its application, there is hardly any literature on the intersection of process mining and discrete-event simulation.
 
 [Discovering simulation models](./resources/literature/discsim_is.pdf)
+
+### Related works on process mining and simulation
 
 ### Tooling
 
@@ -629,7 +638,7 @@ Process model is a formal or semi-formal representation of underlying processes 
 ### Directly-follows graph (DFG)
 [A practitioner's guide to process mining: Limitations of the directly-follows graph](./resources/literature/dfg.pdf)
 
-#### Process reengineering
+### Process reengineering
 *Process Reengineering (PR): improving or extending the model based on event data. Like for conformance checking, both an event log and a process model are used as input. However, now the goal is not to diagnose differences. **The goal is to change the process model.** For example, it is possible to “repair” the model to better reflect reality. **It is also possible to enrich an existing process model with additional perspectives.** For example, replay techniques can be used to show bottlenecks or resource usage. **Process reengineering yields updated models.** These models can be used to improve the actual processes.* - Wil Van der Aalst
 [Source](https://www.researchgate.net/project/Responsible-Event-Driven-Process-Improvement-REDPI)
 
@@ -710,9 +719,9 @@ What does the input file look like?
 
 [Colored Petri Nets: A Graphical Language for FormalModeling and Validation of Concurrent Systems](./resources/literature/cpn-acm-2015.pdf)  
    
-##### Bottleneck analysis
-##### Key performance indicators(KPI)
-##### Statistical methods
+### Bottleneck analysis
+### Key performance indicators(KPI)
+### Statistical methods
 
  
 ## Definitions  
