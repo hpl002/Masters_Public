@@ -7,10 +7,10 @@
   - [Process mining](#process-mining)
     - [Manifesto](#manifesto)
   - [Process mining and simulation](#process-mining-and-simulation)
-  - [Process analysis](#process-analysis)
+  - [Analysis](#analysis)
   - [Process design](#process-design)
   - [Simulation fundamentals](#simulation-fundamentals)
-  - [Related works on process mining and simulation](#related-works-on-process-mining-and-simulation)
+      - [Process Mining and Simulation: A Match Made in Heaven!](#process-mining-and-simulation-a-match-made-in-heaven)
   - [Tooling](#tooling)
     - [Simulation tools](#simulation-tools)
     - [Process mining tools](#process-mining-tools)
@@ -266,6 +266,7 @@ is the reason that most of the more powerful process discovery techniques provid
 
 
 ### Process mining and simulation
+TODO: write about short-term simulation, transient and steady state analysis.
 As stated in the previous section, proces mining can be used to *discover, monitor and improve real processes (i.e., not assumed processes) by extracting knowledge from event logs readily available in today’s (information) systems* - [Manifesto](./resources/literature/2012_Book_.pdf). The importance of process logs cannot be underestimated, and they are considered *first-class citizens.* However, event logs, as with all other logs, are recordings of events that have happened. They can tell us about the past, but nothing about the future. *
 Simulation can be used to make process mining more forward-looking and explore different process changes. [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf)*
 
@@ -277,18 +278,56 @@ By use of DES we can generate new events via *play-out*. A singel simulation run
  
  [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf) mentiones two major limitations of simulation approaches. Firstly, creating a good simulation model is very time consuming, and secondly, it is very difficult to create a model that accurately mimics reality. Simulation results are therefore often questiones as being unrealistic and simply a modeled reality. Simulation starts from a process model and produces behaviour and performance diagnostics. To create a simulation model we can invision the following workflow. Firstly, we generate a process model via a process discovery technique. We then replay the process log ontop of the generated model to analyze for bottlenecks and add temporal and stochastic behaviour to the model. This results in a process model that can be used to simualte a process. 
 
- Simulation models are usually exchanged via the extensible event stream(XES) standard, approved by IEEE and published as of November 11, 2016 [XES](https://xes-standard.org/). It defines a *tag-based language* that is based on XML. Specifically designed for describing event logs and event streams. Simulation and process mining can be used in a manner that allows for the simulation of transitive behaviour, also noted as a "fast forward button" into the future. We therefore distinguish between steady-state and transient analysis.
+ Simulation models are usually exchanged via the extensible event stream(XES) standard, approved by IEEE and published as of November 11, 2016 [XES](https://xes-standard.org/). It defines a *tag-based language* that is based on XML. Specifically designed for describing event logs and event streams. 
+ 
+ ##### Steady state and transient analysis <!-- omit in toc -->
+Simulation and process mining can be combined to produce two analytical techniques. 
+1. *Steady-state* analysis is perhaps the more common use of simulation in process mining, and follows the aforementioned workflow. That it, we have an event log that is used to produce a process model via discovery. We then replay the event log ontop of the discovered model to assign probability distributions and waiting times. We can run simulations of this resulting model and perform analysis on the resulting log. This allows us to capture traces that we would otherwise not have had, as well explore new model alterations.
+2. Transient analysis or short-term simulation is often described as a *fast-forward button* into the future [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf),[Process mining: Data science in action](./resources/literature/Process_Mining_Wil_van_der_Aalst_Data_Sc.pdf). 
+This technique concerns itself with performing simulations on the remainder of some ongoing trace. This is accomplished by creating new simulations models on the fly using real time and historical data. We can then load a ongoing trace into the simulation model and map its state. This then allows us to explore different futures for that ongoing case. Due to probability distributions this can result in accurate predictions. 
 
- *Steady-state* analysis is perhaps the more common use of simulation in process mining, and follows the aforementioned workflow. That it, we have an event log that is used to produce a process model via discovery. We then replay the event log ontop of the discovered model to assign probability distributions and and waiting times. We can run simulations of this resulting model and perform analysis on the resulting log. This allows us to capture traces that we would otherwise not have had, as well explore new model alterations. *Fast-forward* or *transient* analysis concerns itself with performing simulations on the remainder of some ongoing trace. This is accomplished by creating new simulations models on the fly using real time and historical data. We can then load a ongoing trace into the simulation model and map its state. This then allows us to explore different futures for that ongoing case. Due to probability distributions this can result in accurate predictions. 
+### Analysis
+There are a wide assortment of analysis methods that can be employed in combination with process mining. Here we firstly separate them based on scope and subject of concern. We can outline three categories:
+1. Model analysis. Concerned with discovering and quantifying the quality of some discovered process model. Here we are interested in the aforementioned quality measures, namely fitness, simplicity, precision, and generalization.
+2. Performance analysis. Concerned with providing answers to performance oriented questions, such as the efficiency of a control flow, bottlenecks, and so forth.
 
-### Process analysis
+When working with a process model it is always wise to ensure that the discovered model is of the necessary quality, as this model will serve as the foundation for the simulation model. Gathering and inspecting performance metrics is of upmost interest for this project as the questions of interest will be answered here. 
 
-Types of analysis:
-1. Model analysis: Determening the quality of some discovered model
-2. Performance analysis: How to extract or calculate performance metrics such as KPI from a process model and logs
-   1. Bottleneck analysis 
+##### Model analysis  <!-- omit in toc -->
 
-##### Performance analysis / quality assessment  <!-- omit in toc -->
+##### Performance analysis  <!-- omit in toc -->
+The performance of a process can typically be defined by three dimension: time, cost, and quality. For every dimension there are different key performance indicators(KPIs) that can be defined [Process mining: Data science in action](./resources/literature/Process_Mining_Wil_van_der_Aalst_Data_Sc.pdf). 
+[Process mining: Data science in action](./resources/literature/Process_Mining_Wil_van_der_Aalst_Data_Sc.pdf) describes performance indicators for the aforementioned dimensions. This being indicators for the time dimension:  
+
+###### Time  <!-- omit in toc --> 
+1. Lead time / flow time  
+   Total time from the creation of a case until its termination. One might be interested in gathering the averages of all cases and then filtering out any cases that use more time then the average. Perhaps more importantly, is the lead time variance. Having some cases that finish in hours and others that take weeks can be indicative of odd behaviour.
+2. Service level  
+   The percentage of cases that have a lead time lower than a set threshold, e.g the percentage of cases that take longer than 2 weeks.
+3. Service time  
+   Time used on actual work. One can measure the service time on a case and activity basis. The service time often being jsut a fraction of the lead time.
+4. Waiting time  
+   The time a case is waiting for a resource to become available. Can be measured on a case or activity basis. E.g the time a customer has to wait before being served by a teller at the bank, or the time a patient has to wait before having needed surgery. 
+5. Synchronization time  
+   The time an activity is not yet fully enabled and waiting for an external trigger or another parallel branch. Unlike waiting time the activity is not fully enabled. 
+   
+###### Cost  <!-- omit in toc --> 
+Here we might be interested in looking at what the actual cost of executing an activity or case is, what resources are being used, and to what capacity they are being used. Different costing models can be used, e.g: 
+1. Activity Based Costing(ABC)
+2. Time-driven ABC
+3. Resource Consumption Accounting(RCA)
+
+###### Quality  <!-- omit in toc --> 
+Focuses on the product or service that is being delivered. Here we might look at customer satisfaction, reported complaints, reported defects, etc.
+
+##### Performance analysis critiques  <!-- omit in toc -->
+
+
+
+
+----
+
+
 [A multi-dimensional quality assessment of state-of-the-art processdiscovery algorithms using real-life event logs](./resources/literature/1-s2.0-S0306437912000464-main.pdf)
 
 Having poor process quality metrics is indicative of a process model that needs repair. There are two models in this setting. The "original" and governing model of the actual process. This model might not be available or exist at all. Then theres the process model which is generated through process discovery. 
@@ -420,7 +459,12 @@ However, despite the abundance of literature that exists on simulation and its a
 
 [Discovering simulation models](./resources/literature/discsim_is.pdf)
 
-### Related works on process mining and simulation
+### Related works on process mining and simulation <!-- omit in toc -->
+##### Process Mining and Simulation: A Match Made in Heaven!
+> [Process Mining and Simulation: A Match Made in Heaven!](./resources/literature/p1002(1).pdf)
+Paper written by Wil Van der Aalst and published in 2018. 
+###### Abstract(Shortened) <!-- omit in toc -->
+Process mining provides the means to discover the real processes, to detect deviations from normative processes, and to analyze bottlenecks and waste from such events. However, process mining tends to be backward-looking. Fortunately, simulation can be used to explore different design alternatives and to anticipate future performance problems. This keynote paper discusses the link between both types of analysis and elaborates on the challenges process discovery techniques are facing. Quality notions such as recall, precision, and generalization are discussed. Rather than introducing a specific process discovery or conformance checking algorithm, the paper provides a comprehensive set of conformance propositions. These conformance propositions serve two purposes: (1) introducing the essence of process mining by discussing the relation between event logs and process models, and (2) discussing possible requirements for the quantification of quality notions related to recall, precision, and generalization.
 
 ### Tooling
 
@@ -433,7 +477,7 @@ mining. However, the majority of publications use the ProM frame- work, 6 a very
  - from [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
 
-An approach to acquire, exchange, and analyze event logs was pro-posed, and this standard is called Extensible Event Stream (XES)
+An approach to acquire, exchange, and analyze event logs was proposed, and this standard is called Extensible Event Stream (XES)
 ( Xes, 2016 ).
 
 #### Simulation tools
