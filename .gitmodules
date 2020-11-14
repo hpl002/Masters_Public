@@ -1,0 +1,3 @@
+[submodule "resources/literature"]
+	path = resources/literature
+	url = git@github.com:hpl002/Masters_Literature
