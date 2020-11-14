@@ -43,7 +43,8 @@
 Todos and otherwise are tracked [here](https://github.com/hpl002/Masters_Public/projects/1)
 
 ### Disclaimer
-This document is simply a structured collection of notes and resources that is intended to be used as a reference when writing the more complete document. Please excuse any erorrs or inconsistencies
+This document is simply a structured collection of notes and resources that is intended to be used as a reference when writing the more complete document. Please excuse any erorrs or inconsistencies. 
+Due to copyright i have moved literature to a private repo, which is available at https://github.com/hpl002/Masters_Literature. Feel free to ask for read permissions if this is of interest.
 
  ----
 ## Process reengineering by use of simulation
