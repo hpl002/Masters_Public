@@ -1,6 +1,6 @@
  
 **Table of contents**
-- [Process reengineering by use of simulation](#process-reengineering-by-use-of-simulation)
+- [Process reengineering by use of model simulation](#process-reengineering-by-use-of-model-simulation)
   - [Contributions](#contributions)
   - [Paper structure](#paper-structure)
 - [Background](#background)
@@ -47,21 +47,16 @@ This document is simply a structured collection of notes and resources that is i
 Due to copyright i have moved literature to a private repo, which is available at https://github.com/hpl002/Masters_Literature. Feel free to ask for read permissions if this is of interest.
 
  ----
-## Process reengineering by use of simulation
+## Process reengineering by use of model simulation
  
-**Demonstrate how one can use process mining and model simulation to enhance process models by use of a simple web application, while also proposing an alternative application architecture.** By running simulations on the generated process model we are able generate new event logs which can then be analyzed for [key performance indicators](#key-performance-indicators-kpi). The application is based on the concepts of containerization and addresses some critiques of current tooling.
-
-These KPI metrics are used to indicate if a process is in need of improvement. The tool serves two primary purposes:
+**Demonstrate how one can use process mining and model simulation to enhance process models by use of examples, while also proposing an alternative application architecture to the process mining framework ProM.** By running simulations of the generated process model we are able to generate new event logs which can then be analyzed for [key performance indicators](#key-performance-indicators-kpi). These KPI metrics are used to indicate if a process is in need of improvement. The tool serves two primary purposes:
 1. used to conduct process enhancement
 2. used to test the impact of some model alteration
 
-This is accomplished by combining methods from process discovery, conformance, and enhancement. These are combined in a modular fashion which allows the user to combine different techniques from these main areas. 
+The project builds on the method detailed in [Discovering simulation models](./resources/literature/discsim_is.pdf) where they employ a series of plugins available in the ProM framework and then export the simulation model to be used in the CPN Tools simulation application. While this is a fully functional approach i argue that it can be made easier and shorter by abstracting out the needed functionality from each of these applications and orchestrating them in separate docker containers. I present a simple application that is used to structure this workflow, pass arguments to each container, and pass data in-between containers.
 
-The tool also supports direct alteration of the generated process model, meaning that the user can add or delete nodes at will, and then have this model simulated.
+While the ProM tool is undoubtedly the defacto process mining tool used in academia it is arguably difficult to use, difficult to expand on, and difficult to incorporate into other tooling and workflows. The scientific fundamentals, techniques, and methods that are made available by the tool are not disputed in this work and considered to be of high quality. I argue that process mining can benefit from inheriting the side effects or containerization, such as availability, scalability, and a clearly defined interface. While ProM is platform independent, it is not technology independent. Containers would allow for new plugins to be written in any language. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, no matter what language or technology it is built on.
 
-While there exits tools that cover each of these aspects individually, there are none that combined them in a single application. Performing simulation in popular tools such as PRoM forces the user to conduct part of the analysis in PRoM and run the simulaton in CPN Tools. This forces the user to jump between applications and juggle different files. This workflow can be improved by combining techniques in a single application.
-
-The tool also addresses the poor interoperability concern of PRoM by containerizing the entire application and submodules in docker containers. While PRoM is platform independent, it is not technology independent. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, not matter what language or technology it is built on.
 
 ### Contributions  
 The project therefore has three contributions:
