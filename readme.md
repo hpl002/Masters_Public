@@ -6,11 +6,14 @@
 - [Background](#background)
   - [Process mining](#process-mining)
     - [Manifesto](#manifesto)
+  - [Process mining fundamentals](#process-mining-fundamentals)
   - [Process mining and simulation](#process-mining-and-simulation)
   - [Analysis](#analysis)
-  - [Process design](#process-design)
   - [Simulation fundamentals](#simulation-fundamentals)
+    - [Related works](#related-works)
+      - [Creating simulation models](#creating-simulation-models)
       - [Process Mining and Simulation: A Match Made in Heaven!](#process-mining-and-simulation-a-match-made-in-heaven)
+  - [Process design](#process-design)
   - [Tooling](#tooling)
     - [Simulation tools](#simulation-tools)
     - [Process mining tools](#process-mining-tools)
@@ -55,16 +58,17 @@ Due to copyright i have moved literature to a private repo, which is available a
 
 The project builds on the method detailed in [Discovering simulation models](./resources/literature/discsim_is.pdf) where they employ a series of plugins available in the ProM framework and then export the simulation model to be used in the CPN Tools simulation application. While this is a fully functional approach i argue that it can be made easier and shorter by abstracting out the needed functionality from each of these applications and orchestrating them in separate docker containers. I present a simple application that is used to structure this workflow, pass arguments to each container, and pass data in-between containers.
 
-While the ProM tool is undoubtedly the defacto process mining tool used in academia it is arguably difficult to use, difficult to expand on, and difficult to incorporate into other tooling and workflows. The scientific fundamentals, techniques, and methods that are made available by the tool are not disputed in this work and considered to be of high quality. I argue that process mining can benefit from inheriting the side effects or containerization, such as availability, scalability, and a clearly defined interface. While ProM is platform independent, it is not technology independent. Containers would allow for new plugins to be written in any language. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, no matter what language or technology it is built on.
+While the ProM tool is undoubtedly the defacto process mining tool used in academia it is arguably difficult to use, difficult to expand on, and difficult to incorporate into other tooling and workflows. The scientific fundamentals, techniques, and methods that are made available by the tool are not disputed in this work and considered to be of high quality. I argue that process mining can benefit from inheriting the side effects or containerization, such as availability, scalability, and a clearly defined interface. 
+
+While ProM is platform independent, it is not technology independent. Containers would allow for new plugins to be written in any language. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, no matter what language or technology it is built on.
 
 
 ### Contributions  
 The project therefore has three contributions:
 1. Demonstrate how process mining and simulation can be combined by exploring practical examples.
-   - There exists works that explore these two topics, but few that detail the entire workflow. The aim is to provide a clear and accurate description of how one could conduct this and why the different workflow steps are important. This is missing from litterature.
-   - Demonstrate usefullness via examples.
+   - There exists works that explore these two topics, but few that detail the entire workflow. The aim is to provide a clear and accurate description of how one could conduct this and why the different workflow steps are important. 
    - Current literature often demands that the user is well versed in process mining and process engineering. This paper addresses these concepts from the outset that the reader has little to no prior knowledge.
-2. Showcase an alternative method of structuring future process mining applications. While PRoM is undoubtedly the de facto application for conducting process mining, it is not without faults. This project aims to address some of these critiques.
+2. Showcase an alternative method of structuring future process mining applications. While ProM is undoubtedly the de facto application for conducting process mining, it is not without faults. This project aims to address some of these critiques.
 3. Provide a tool for conducting process mining and subsequent simulation in a single application. Current approaches demand that you jump between different applications and juggle files. This workflow can be improved.
 
 **Tags**
@@ -92,12 +96,10 @@ By use of model simulation it is possible to finesse the model compositon until 
 
 The fundamental problem being that we create process models with the expectation that we always have the required resources to execute the modeled activities. In the event where these are not available then there will be delays and halts, and in the event where these are always available then there will be wastage. When processes become large and complex it can become very expensive to keep throwing resources at them to ensure uptime. 
 
-In this project i will address this problem via a web application. More about this [here](#app)
-
 
 **Main artefact**   
 
-The main artefact of this project will be a web based tool that is used to bridge this gap between process mining and simulation. By making it easy to simulate a given process model we can gather performance metrics and get insights into potential issues before the model is deployed. 
+The main artefact of this project will be a tool that is used to bridge this gap between process mining and simulation. By making it easy to simulate a given process model we can gather performance metrics and get insights into potential issues before the model is deployed. 
 
 **Problemspace:**  
 Rigid and dependale process models are unvaluable tools in critical environments. They allow for strict planning and act as a source of reference for stakeholders and give structure to complex activities. However, they can also lead to inefficiencies and lost profits due to this exact rigidness. 
@@ -164,7 +166,7 @@ The relevance of simulation for process mining will be detailed in the following
 Literature often describes the mining of different *perspectives*. The notion of perspectives is intended to highlight a focus area. For example, the *control flow perspective* is interested in the ordering of activities and intends to find a good characterization of all possible paths. The *organizational perspective* focuses on information about resources hidden in the log, e.g what people, systems, roles, or departments are involved, to what extent, and how these relate each other. The *time perspective* focuses on the timing and frequency of events. It should also be noted that when an event has a timestamp, it is possible to discover bottlenecks, measure service levels, monitor the utilization or resources, and predict the remaining processing time of runnin cases.
 
 ##### Lifecycle of process mining project <!-- omit in toc -->
-![](./resources/manifestofigure.png)
+![](./resources/manifestolifecycle.png)
 > Figure from [Manifesto](./resources/literature/2012_Book_.pdf) that show the traditional lifecycle of a process mining project.
 *[The L* life-cycle](#l-life-cycle)* describes the core steps in a traditional process mining project. As seen in figure above, it consists of five steps, these are.
 0. Step 0: Plan and justify
@@ -240,7 +242,7 @@ is the reason that most of the more powerful process discovery techniques provid
     - Process mining can be used in conjunction with simulation. It can be used to learn simulation models based on historical data. The simulation model can then be used to provide operational support, because of the close connection between the event log and the model, the model can be used to replay history and one can start simulations from teh current sate, thus providing a *fast forward button* into the future based on live data.
     - Process mining can be combined with visual analytics to further take advantage of humans visual analytics skills. VA exploits the amazing capabilities of humans to see patterns in unstructured data. 
 10. Improving usability for non-experts
-    - One of the great promises of process mining is the value it can add to workflows. Instead or process mining being a one stop activity or single occurance, it can be addd to existing workflows and produce results on a more frequent basis, often noted as a "living process model" because it changes more frequently. The current problem being that the available tooling is not intuitive for non-experts. The complexities of the different techniques and algorithms need to be abstracted out and hidden behind user friendly interfaces. 
+    - One of the great ProMises of process mining is the value it can add to workflows. Instead or process mining being a one stop activity or single occurance, it can be addd to existing workflows and produce results on a more frequent basis, often noted as a "living process model" because it changes more frequently. The current problem being that the available tooling is not intuitive for non-experts. The complexities of the different techniques and algorithms need to be abstracted out and hidden behind user friendly interfaces. 
     - > Creating more loosely coupled tooling with simple interfaces makes it easier to combine process mining into real life workflows.
 11. Improving understandability for non-experts
     - Even if it is easy to generate process mining results, this does not mean that the results are actually useful. 
@@ -257,9 +259,14 @@ is the reason that most of the more powerful process discovery techniques provid
  
 
 ![](./resources/PM_Main_areas.png)
-> Figure that showcases the main areas areas of process mining, and subsequent sub-interests. 
+> Figure that showcases the main areas areas of process mining, and subsequent sub-interests.   
 > [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
+### Process mining fundamentals
+
+*A **Petri net** is a dynamic structure that consists of a set of transitions, which are indicated by boxes and relate to some activity/task, or action that can be executed, a set of places, which are indicated by circles and may hold one or more tokens (indicated as black dots), and a set of directed arcs that connect these transitions and places with each other in a bipartite manner. Transitions are enabled as soon as all of their input places (places connected to this transition via an incoming arc) contain a token. If a transition is enabled, it may fire whereas it consumes a token from each of its input places and produces a token for each of its output places (places connected to this transition via an outgoing arc). In this way, the firing of a transition may change the marking of a net, and therefore the state of the process, which is defined by the distribution of tokens over the places.* - [Discovering simulation models](./resources/literature/discsim_is.pdf)
+
+A decision point in a petri net is a place with multiple outgoing archs. A token can only be consumed by one of the transitions connected to these arcs. Each decision point is converted into a classification problem.
 
 ### Process mining and simulation
 TODO: write about short-term simulation, transient and steady state analysis.
@@ -270,7 +277,7 @@ The promise of process mining and simulation is that it allows us to *explore di
 
 Discrete event simulation(DES) is a widely used approach to *play-out* process models. In process mining we have the *play-in, play-out, and replay* terminology that is used to describe the relationship between a process model and reality. As described in [Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf). *Play-out* refers to the traditional use of process models, where we generate behaviour given a petri-net. *Play-in* is the opposite of *play-out*, where example behaviour is taken as input and the goal is to construct a model, i.e inference. *Replay* uses both an event log and a process model as input. The log is then played on top of the model. *Whereas simulation focuses on play-out, process mining focuses on play-in and replay.* 
 
-By use of DES we can generate new events via *play-out*. A singel simulation run produces a trace, and each trace has events that occur at a particular time. Paths and splits can be determined by assigning probabilities or via a random number generator. The waiting and service times for particular actions can be sampled from previous logs. All of this combined allows us to explore alternative model designs and compare them for key performance indicators. However, creating a accurate simulation model is difficult and time consuming. There are plugins for tools such as PRoM and other existing techniques that can be used to swiftly create simulation models that can be run in CPN tools.  
+By use of DES we can generate new events via *play-out*. A singel simulation run produces a trace, and each trace has events that occur at a particular time. Paths and splits can be determined by assigning probabilities or via a random number generator. The waiting and service times for particular actions can be sampled from previous logs. All of this combined allows us to explore alternative model designs and compare them for key performance indicators. However, creating a accurate simulation model is difficult and time consuming. There are plugins for tools such as ProM and other existing techniques that can be used to swiftly create simulation models that can be run in CPN tools.  
  
  [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf) mentiones two major limitations of simulation approaches. Firstly, creating a good simulation model is very time consuming, and secondly, it is very difficult to create a model that accurately mimics reality. Simulation results are therefore often questiones as being unrealistic and simply a modeled reality. Simulation starts from a process model and produces behaviour and performance diagnostics. To create a simulation model we can invision the following workflow. Firstly, we generate a process model via a process discovery technique. We then replay the process log ontop of the generated model to analyze for bottlenecks and add temporal and stochastic behaviour to the model. This results in a process model that can be used to simualte a process. 
 
@@ -366,48 +373,11 @@ Nominal work on process quality metrics:
    1. requires that a process model with a simple structure can execute the behaviours in the event logs. 
    2. The simpler the model the better, i pressume..
 
- 
-### Process design
 
-Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i do not focus on a specific notation, but rather [petri nets](#petri-net).  
+### Simulation fundamentals 
+Simulation as a technnique and simulation models are commonly used in most sciences, and have been a vital contributor to solving some of science's major problems. While these models come in all shapes and sizes we can characterize them by the fact that they highlight some specific traits of a subject matter and place this subject in a natural or artificial environment. Based on the registered behaviour we are able to deduce the relationships between cause and effect. 
 
-#### Granular process <!-- omit in toc -->
-*Also known as a narrow process.*  
-Process with smaller pieces. Not flexible, but detailed.
-
-#### Coarse process <!-- omit in toc -->
-*Also known as a wide process.*  
-Process with many large chunks. Not detailed, but flexible.
-
-#### Fallacy of granular process <!-- omit in toc -->
-*Narrow, detailed, rigid, strict.*  
-Process is so granular (detailed) that it allows for no flexibility. This hampers all efficiency the second some unaccounted event occurs. If one single activity stops then this can causes delays in all dependent activities.
-
-#### Fallacy of coarse process <!-- omit in toc -->
-*Wide, flexible.*  
-Process is so coarse (generic) that it allows for too much flexibility. This leads to unceirtanty and can make the process difficult to follow. Also leads to many altering process flows which then results in poor event logs. Having a ill defined process can have the same results as having no process definition at all.
- 
-#### The "sweetspot" <!-- omit in toc -->
-A perfect combination of granularity and coarseness is perhaps unobtainable, but the sweetspot is having granularity and flexibility where they are needed. Some activities need to be very detailed, while others rely on there being some flexibility. This knowledge is obtained through domain experience,trial, and error.
-
-
-### Simulation fundamentals
- 
-Process mining is about extracting knowledge from the logs of real world processes. These logs describe event occurances and typically have fields such as timestamps for event start and stop, event identifier, trace identifier, and event name. This allows us to discover complex process models through process discovery. These resulting models can then describe the traces or paths that exist in the log. We can therefore describe a process log as a collection of traces that all contain discrete event occurances. A single trace is a series of discrete events. The concept of discrete events can be described with the analogy of a queue of people waiting to be served by a single teller at a bank. The teller can only serve a single customer at a time and the 
-
- what about async events?
- can a person perform two actions at the same time? wash clothes and dry clothes ?  
-
-
-
-Some processes will allow for multiples of the same event to occur at the same time. While these occurances are similar they can be distinguished by their trace identifier. 
-
-
-TODO: 
-1. Have yet to find a work that details how the simulation model is actually executen in CPN tools. Is it both a declaration and instruction?
-
-
-By means of discrete event simulation, the performance of systems can be evaluated, alternative configurations of a system can be compared, and an optimal configuration of a system can be found  
+Luckliy, the concept of processes and workflows are easy to comprehend and therefore make a excellent candidate for demonstrating how simulation might be used to solve a real world issue. [Creating simulation model](./resources/literature/discsim_is.pdf) details the nature of simlation models in the context or process mining and process design. They state that simulation models are an enabler of *what if* analysis and allows for a glimpse into the future under certain assumptions. The paper further details how simulation models are built and demonstrate their usefulnes by providing a running example. They look at the operational processes of two municipalities in the Netherlands and showcase how simulation can be used to estimate the benefit of some process redesign, and predict flow times for given states and other scenarios such as a reduced resource availability.
 
 [A process-oriented methodology for evaluating the impact of IT: A proposal and an application in healthcare](./resources/literature/1-s2.0-S0306437913000951-main.pdf)
 
@@ -454,21 +424,87 @@ With regard to healthcare clinics, Jun et al. [17] mention three different areas
 However, despite the abundance of literature that exists on simulation and its application, there is hardly any literature on the intersection of process mining and discrete-event simulation.
 
 [Discovering simulation models](./resources/literature/discsim_is.pdf)
+#### Related works 
+##### Creating simulation models 
+The method and techniques demonstrated in the [Creating simulation models paper](./resources/literature/discsim_is.pdf) serve as the primary inspiration for this project. This thesis demonstrates the feasability of a more modular process mining approach by employing the described method, techniques, and plugins.
 
-### Related works on process mining and simulation <!-- omit in toc -->
+By use of process mining tools we are able to extract different perspectives. These perspectives focus on specific aspects of the process log and extract information which is then used to create simulation model. While there are likely many flavors of simulation models and accompanying tool suites, the most abundant model and tool used to conduct model simulation within the process mining space is Colored Petri nets(CPN) and CPN tools. 
+
+![](./resources/method_simulation_model.png)   
+>Figure from [Creating simulation model](./resources/literature/discsim_is.pdf) that showcases the employed method.
+
+By use of multiple ProM plugins, the authors were first able to create models for each of the perspectives and then combine them into a single coloured petri net which can then run in CPN Tools. 
+
+##### Process mining from different perspectives <!-- omit in toc -->
+By applying different process mining algorithms we are able to extract key characteristics from the different perspectives, which are then combined to create the simulation model. The perspectives being:
+1. **Control flow**  
+   Discover process model by use of one of the many available process discovery algorithms. This perspective captures the causal relations between the log activities. *Aims at the automatic extraction of a process model from an event log, i.e inference of a structureal representation of the underlying process based on historic data.* The authors decided to use the a-algorithm, but there are of course other options. The algorithm outputs the underlying business process in the form of a petri net. 
+2. **Decision point analysis**
+   The aim of this multipart analysis it to discover what data dependencies influence the routing of a case, i.e discover rules. In other words, what characteristics of a case determine its routing. Based on these characteristics we can turn every decision point into a classification problem and use the available process log as the training set since we allready know what paths these traces have traversed. 
+   
+   From this we learn a series of rules which are then used to classify future cases. Example characteristics can be age, diagnosis, condition, and more. These characteristics determine what path the trace will traverse once it arrives at a choice point. A choice point is considered synonymous with decision points in petri nets, which is a point with multiple outgoing arcs. 
+
+
+   Firstly we need to identify all choice points in the business process. Then we need to build our training set. The training set is built by classifying all log entries according to what branch they have traversed. This can be inferred by looking at the first event of in the case after the decision point.
+
+   We can imagine a scenario where we have two patients that have been submitted to the hospital, as depicted in the figure below.  
+   ![](./resources/discovery-diagram.svg)
+   > Simple figure displaying how classification rules that are used at decision points can be inferred from patient attributes.
+
+   The simple process contains a sigle decision step where it is determined wether the patient is in need of a MRI or not. The decision point is easy to discover because it has multiple outgoing archs. We can create two classes (A,B) that represent the two arcs. In the event log we have two cases, with each case having two log entries. These entries log that the patient has been submitted and the preceding event after the discovered decision point. Based on this last log event we can classify the case as either A or B, depending on what arc it traversed. Now that we have groups of cases we can attempt to determine whether the decision might be influenced by case data, i.e whether cases with certain attriutes follow certain routes. From this simple example and limited samlpe size we can infer a binary classification, which is that if the subject is 60 years old or younger then they do not need an MRI and vice versa.
+
+
+ Real world process models and logs are of course far more complex than the given example. There exists a number of algorithms that can help with solving these classification problems. The algorithms used in this paper was based on decision trees, more specifically the *C4.5 algorithm.*
+   
+3. **Performance analysis**
+   Gather information about the execution times, waiting times, probability distribution, and case generation schemes. The execution time is the timespan from activity start to end. Waiting time it the timespan from the end of some activity A1 that preceeds the start of A2. In effect the timespan between the end and start of two activities in a queue. The probability distribution indicates how likely it is that an arch or path is traversed. This is not to be confused with the classification rules discussed in the previous section. While both focus on decision points and their preceding activities, they differ in that the classification rule is what determines what path the case will traverse, while the probability is simply a handy statistic showing how likely it is that the path is traversed given all traversals in the log going through that decision point. The case generation scheme determines the process arrival interval, so how many cases arrive at the process every time unit. Gathering these statistics is pretty trivial. Some information can be gathered by simply looking at the process log, while other information such as execution time, waiting time, and probabilities can be gathered by replaying the process log on the discovered process model. The gather data is then used to enhance the process model. 
+
+   During replay we can also gather statistical values such as minimum, maximum, mean, variance, etc, for each of the aforementoned metrics. *While we do not know the underlying distribution for the obtained execution and waiting times, we assume that these follow a normal distribution.* Likewise, we do not know the distribution of the case generation scheme and assume a negative exponential distribution for the interarrival process or *Poisson arrival process.*
+   
+   
+   
+
+4. **Role discovery**
+   Group resources into roles and associate the discovered roles with the activities in the process 
+
+
+ 
 ##### Process Mining and Simulation: A Match Made in Heaven!
 > [Process Mining and Simulation: A Match Made in Heaven!](./resources/literature/p1002(1).pdf)
 Paper written by Wil Van der Aalst and published in 2018. 
 ###### Abstract(Shortened) <!-- omit in toc -->
 Process mining provides the means to discover the real processes, to detect deviations from normative processes, and to analyze bottlenecks and waste from such events. However, process mining tends to be backward-looking. Fortunately, simulation can be used to explore different design alternatives and to anticipate future performance problems. This keynote paper discusses the link between both types of analysis and elaborates on the challenges process discovery techniques are facing. Quality notions such as recall, precision, and generalization are discussed. Rather than introducing a specific process discovery or conformance checking algorithm, the paper provides a comprehensive set of conformance propositions. These conformance propositions serve two purposes: (1) introducing the essence of process mining by discussing the relation between event logs and process models, and (2) discussing possible requirements for the quantification of quality notions related to recall, precision, and generalization.
 
+### Process design
+
+Process design and modeling is widespread and used in both business and academia. We therefore have techniques and specifications that are unique to their respective domain. In this project i do not focus on a specific notation, but rather [petri nets](#petri-net).  
+
+#### Granular process <!-- omit in toc -->
+*Also known as a narrow process.*  
+Process with smaller pieces. Not flexible, but detailed.
+
+#### Coarse process <!-- omit in toc -->
+*Also known as a wide process.*  
+Process with many large chunks. Not detailed, but flexible.
+
+#### Fallacy of granular process <!-- omit in toc -->
+*Narrow, detailed, rigid, strict.*  
+Process is so granular (detailed) that it allows for no flexibility. This hampers all efficiency the second some unaccounted event occurs. If one single activity stops then this can causes delays in all dependent activities.
+
+#### Fallacy of coarse process <!-- omit in toc -->
+*Wide, flexible.*  
+Process is so coarse (generic) that it allows for too much flexibility. This leads to unceirtanty and can make the process difficult to follow. Also leads to many altering process flows which then results in poor event logs. Having a ill defined process can have the same results as having no process definition at all.
+ 
+#### The "sweetspot" <!-- omit in toc -->
+A perfect combination of granularity and coarseness is perhaps unobtainable, but the sweetspot is having granularity and flexibility where they are needed. Some activities need to be very detailed, while others rely on there being some flexibility. This knowledge is obtained through domain experience,trial, and error.
+
 ### Tooling
 
 In the last decade, many tools have emerged to support process
 mining. However, the majority of publications use the ProM frame- work, 6 a very powerful and open source framework ( van Don- gen, de Medeiros, Verbeek, Weijters, & van der Aalst, 2005 ). ProM offers a pluggable architecture and is one reason why research communities embrace this framework. ProM allows flexibility in developing new algorithm (plug-ins), extending and combining them with standardized input and output formats. However, there are other options, such as Aris Process Performance Manager from Software AG, 7 BAB Framework 8 (Best Analytics of Big Data), Celo- nis Discovery, 9 Disco from Fluxicon, 10 Myivenio from Cognitive Technology, 11 Perceptive Process Mining from Lexmark (acquired by Hyland Software 12 and previously started by Pallas Athena as FLOWer)), Process Gold, 13 QPR ProcessAnalyzer, RapidProM, 14 SNP Business Process Analysis, 15 Signavio Process Intelligence, 16 Up- Flux, 17 and others.
 
-6 http://www.promtools.org . 7 https://www.softwareag.com/ . 8 https://www.babcloud.org . 9 https://www.celonis.com/ .
-10 http://www.fluxicon.com/disco . 11 https://www.my-invenio.com/ . 12 https://www.hyland.com/ . 13 http://processgold.com . 14 http://www.rapidprom.org/ . 15 https://www.snp-ag.com/ . 16 https://processmining.signavio.com/ . 17
+6 http://www.ProMtools.org . 7 https://www.softwareag.com/ . 8 https://www.babcloud.org . 9 https://www.celonis.com/ .
+10 http://www.fluxicon.com/disco . 11 https://www.my-invenio.com/ . 12 https://www.hyland.com/ . 13 http://processgold.com . 14 http://www.rapidProM.org/ . 15 https://www.snp-ag.com/ . 16 https://processmining.signavio.com/ . 17
 
  - from [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
@@ -511,28 +547,28 @@ The library offers three simulation algorithms:
    "An extensive playout operation permits to obtain (up to the provided limits) the entire language of the process model."
 
 ##### Colored Petri-nets(CPN) & CPN Tools <!-- omit in toc -->
-The most cited and used simulation technique in combination with PRoM. Given that PRoM is the de facto standard for process mining, it comes as no surprise that CPN tools follows suit, as PRoM has plugings for exporting to CPN.
+The most cited and used simulation technique in combination with ProM. Given that ProM is the de facto standard for process mining, it comes as no surprise that CPN tools follows suit, as ProM has plugings for exporting to CPN.
 
 ##### ABS <!-- omit in toc -->
 
 
 
 #### Process mining tools
-##### PRoM <!-- omit in toc -->
+##### ProM <!-- omit in toc -->
 Fundamental criticism.  
 There are likely opinionated works that comment on this.  
 
-What is the basic workflow in PRoM  
+What is the basic workflow in ProM  
 How are methods and techniques combined?  
-Prom does not have a public facing library or package manager. Why are they hoarding?  
+ProM does not have a public facing library or package manager. Why are they hoarding?  
 
-**conducting simulation in Prom:**  
+**conducting simulation in ProM:**  
 Discovering simulation model: 
-![](./resources/simulationinprom.png)  
-source: http://www.processmining.org/prom/miningcpntutorial
+![](./resources/simulationinProM.png)  
+source: http://www.processmining.org/ProM/miningcpntutorial
 
 Workflow Simulation Models:
-![](./resources/workflowsimulationprom.png)    
+![](./resources/workflowsimulationProM.png)    
 source: http://www.processmining.org/yawltutorial
 
 ##### PM4PY <!-- omit in toc -->
@@ -607,7 +643,7 @@ Current draft:
    2. by creating a web based tool that uses async http requests in the process we are also making it easier for new developers and researchers to introduce their techniques into this process flow
       1. say you have a new model checking technique then you can simply craete a dockerized application of it and substitute your method instead of using the default
 2. transition from research to production is difficult?
-   1. use prom for research and then use what for production?
+   1. use ProM for research and then use what for production?
 3. process mining and modularization of software is non-existent
    1. there are some ad-hoc docker images of commonly used applications
 4. Does curretly not exist a tool with the described [feature set](#app).  
@@ -620,7 +656,7 @@ Automation possibilities?
 
 **Extract from initial proposal:**
 
-> We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without compromising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
+> We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without comProMising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
 
 We can simplify this process into the following basic [petri net](#petri-net):
 
@@ -633,7 +669,7 @@ This process could be resolved by adding a two new actions. A classification act
 
 > Provided that the process has been given a new a path we can expect improvements in the time spent in place P3 and P4. However, we now have to also consider the time spent to diagnose the patient in P2.
 
-TODO: reference process mining and simulation paper, a match made in heaven for the usefullness and promise of combining these two techniques.
+TODO: reference process mining and simulation paper, a match made in heaven for the usefullness and ProMise of combining these two techniques.
 
 #### Yet another tool? <!-- omit in toc -->
 1. Why do we need another tool?
@@ -665,7 +701,7 @@ A well know paper published by van der Aalst (2011) proposed the L ∗ life-cycl
 - Plan and justify phase-focus is data-driven to explore and answer curiosities and gain insights; or, question-driven focused on explaining a specific situation e.g., why determined issues occur; or, goal-driven focused on improving the KPI, response time performance, explain deviations, reduce costs.
 - Extract-explore the knowledge system data domain for recover- ing relevant events. Sometimes it can be very time-consuming owing to system complexity, e.g., with thousands of repositories spread among many tables.
 - Discover a process model based on event logs-process miner algorithms are used to obtain a process model. When an un- derstandable model is acquired, it is possible to start confor- mance checks, analyzing activities and deviations to the discov- ered process model.
-- Create integrated process model-enhancements and added in- formation are integrated in the model, promoting new perspec- tives related to time replayed, organization, resource utilization, case comparisons, and simulation, among other possibilities.
+- Create integrated process model-enhancements and added in- formation are integrated in the model, ProMoting new perspec- tives related to time replayed, organization, resource utilization, case comparisons, and simulation, among other possibilities.
 - Operational support-involves detecting, predicting, and recom- mending. This is the most advanced level of computational sup- port, for example, the process mining tool should be capable to alert (email) on deviation cases, provide advice about bottle- necks, recommend resource setup or reallocation, etc
 
 ### Process log
@@ -702,7 +738,7 @@ inductive machine learning
 
   ### Model validation
   SPIN model checker  
-  "Spin model checker is primarily used for formal verifica- tion of distributed systems, such as communication protocols. Spin can run random simulations of the process model or perform a verification of the pro- cess model by exploring all the possible execution paths. To formally describe process models, we use Spin’s Promela language (Process meta language)."
+  "Spin model checker is primarily used for formal verifica- tion of distributed systems, such as communication protocols. Spin can run random simulations of the process model or perform a verification of the pro- cess model by exploring all the possible execution paths. To formally describe process models, we use Spin’s ProMela language (Process meta language)."
 
 
 [Spin Model Checker, The: Primer and Reference Manual](./resources/literature/spinPrimer.pdf)
