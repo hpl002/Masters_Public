@@ -26,6 +26,8 @@
   - [Deliverables](#deliverables)
     - [App](#app)
 - [Concepts:](#concepts)
+  - [Fundamental statistical concepts:](#fundamental-statistical-concepts)
+    - [Measures of dispersion](#measures-of-dispersion)
   - [L* life-cycle](#l-life-cycle)
   - [Process log](#process-log)
   - [Process model](#process-model)
@@ -457,9 +459,9 @@ By applying different process mining algorithms we are able to extract key chara
  Real world process models and logs are of course far more complex than the given example. There exists a number of algorithms that can help with solving these classification problems. The algorithms used in this paper was based on decision trees, more specifically the *C4.5 algorithm.*
    
 3. **Performance analysis**
-   Gather information about the execution times, waiting times, probability distribution, and case generation schemes. The execution time is the timespan from activity start to end. Waiting time it the timespan from the end of some activity A1 that preceeds the start of A2. In effect the timespan between the end and start of two activities in a queue. The probability distribution indicates how likely it is that an arch or path is traversed. This is not to be confused with the classification rules discussed in the previous section. While both focus on decision points and their preceding activities, they differ in that the classification rule is what determines what path the case will traverse, while the probability is simply a handy statistic showing how likely it is that the path is traversed given all traversals in the log going through that decision point. The case generation scheme determines the process arrival interval, so how many cases arrive at the process every time unit. Gathering these statistics is pretty trivial. Some information can be gathered by simply looking at the process log, while other information such as execution time, waiting time, and probabilities can be gathered by replaying the process log on the discovered process model. The gather data is then used to enhance the process model. 
+   Gather informationa bout the performance perspective,i.e the execution times, waiting times, probability distribution, and case generation schemes. The execution time is the timespan from activity start to end. Waiting time it the timespan from the end of some activity A1 that preceeds the start of A2. In effect the timespan between the end and start of two activities in a queue. The probability distribution indicates how likely it is that an arch or path is traversed. This is not to be confused with the classification rules discussed in the previous section. While both focus on decision points and their preceding activities, they differ in that the classification rule is what determines what path the case will traverse, while the probability is simply a handy statistic showing how likely it is that the path is traversed given all traversals in the log going through that decision point. The case generation scheme determines the process arrival interval, so how many cases arrive at the process every time unit. Gathering these statistics is pretty trivial. Some information can be gathered by simply looking at the process log, while other information such as execution time, waiting time, and probabilities can be gathered by replaying the process log on the discovered process model. The gather data is then used to enhance the process model. 
 
-   During replay we can also gather statistical values such as minimum, maximum, mean, variance, etc, for each of the aforementoned metrics. *While we do not know the underlying distribution for the obtained execution and waiting times, we assume that these follow a normal distribution.* Likewise, we do not know the distribution of the case generation scheme and assume a negative exponential distribution for the interarrival process or *Poisson arrival process.*
+   During replay we can also gather statistical values such as minimum, maximum, mean, variance, etc, for each of the aforementoned metrics. *While we do not know the underlying distribution for the obtained execution and waiting times, we assume that these follow a normal distribution.* Likewise, we do not know the distribution of the case generation scheme and assume a negative exponential distribution for the interarrival process or *Poisson arrival process.* To specify the execution and waiting times in terms of a normal distribution, we need to calculate their mean and variance values for each activity.
    
    
    
@@ -694,6 +696,43 @@ TODO: reference process mining and simulation paper, a match made in heaven for 
 > The web application is packaged in a easy to use interface that is designed for quick iteration. This again allows us to explore model alternatives with quick succession. While the app does return some performance indicators, it does not try to make intelligent observations about its results. It is the responsibility of the process mining expert and domain experts to reason over the results. 
 
 ## Concepts:
+### Fundamental statistical concepts:
+#### Minimum <!-- omit in toc -->
+The smallest value of some set.
+#### Maximum <!-- omit in toc -->
+The largest value of some set.
+#### Mean or average -  <span>&mu;</span><!-- omit in toc -->
+The average value of some set, also called the expected value.
+Given set S = {3,4,5,6}  
+The sum of all entries = 18  
+Number of entries or |S| = 4  
+Mean = sum / |S| == 4.5
+#### Measures of dispersion
+##### Range <!-- omit in toc -->
+Indicator of spread in the set.   
+Maximum subtracted by Minimum
+##### Variance - <span>&sigma;</span><sup>2</sup> <!-- omit in toc -->
+It measures how far a set of numbers is spread out from their average value.  
+Get the difference of every entry in your set and the mean value and square this.
+Then get the mean of this new set of values.
+
+##### Standard deviation - <span>&sigma;</span> <!-- omit in toc -->
+A single measure of the amount of **variation or dispersion of a set of values.** A low SD signifies that all values lie close to the mean, while a high SD indicate that the values are spread out wider. Represented as the greek letter <sub>&sigma;</sub> and calculated as the square root of its variance or <span>&radic;<span>&sigma;<sup>2</sup></span></span>.
+##### Normal distribution <!-- omit in toc -->
+Probability function that describes how the values of a variable are distributed.   
+The normal distribution is the pattern of data, whenever you measure a population or a set of scores with some randomness. Also known as Gaussian distribuiton or the "bell" shaped curve. Used to show the mean value and standard deviation. 
+![](./resources/normal-distribution.png)
+
+To draw a normal distribution we need:
+1. **mean**  
+   Defienes the location of the peak
+2. **Standard deviation**  
+   Measure of variability and determines the width of the normal distribution. Represents the typical distance between the observations and the mean. Chancing the SD either tightens or spread out the width. Larger SDs create a graph with more spread. When we have narrow distributions, the probabilities of values falling closer to the man are higher. When we have wider distributions then the probabilities of values falling further from the mean are greater. 
+
+All normal distributions have the following properties:
+1. Symmetric
+2. Mean, mode, and median are the same
+3. Half of the populaton is greater than the mean and half is less.
  
 ### L* life-cycle
 A well know paper published by van der Aalst (2011) proposed the L ∗ life-cycle model consisting of five phases for conducting a process mining application.
