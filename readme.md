@@ -20,6 +20,7 @@
     - [Development tools](#development-tools)
 - [Method](#method)
   - [Aim:](#aim)
+  - [Approach](#approach)
   - [Research questions](#research-questions)
   - [Novelty](#novelty)
   - [Why (Project usefulness)](#why-project-usefulness)
@@ -459,17 +460,19 @@ By applying different process mining algorithms we are able to extract key chara
  Real world process models and logs are of course far more complex than the given example. There exists a number of algorithms that can help with solving these classification problems. The algorithms used in this paper was based on decision trees, more specifically the *C4.5 algorithm.*
    
 3. **Performance analysis**
-   Gather informationa bout the performance perspective,i.e the execution times, waiting times, probability distribution, and case generation schemes. The execution time is the timespan from activity start to end. Waiting time it the timespan from the end of some activity A1 that preceeds the start of A2. In effect the timespan between the end and start of two activities in a queue. The probability distribution indicates how likely it is that an arch or path is traversed. This is not to be confused with the classification rules discussed in the previous section. While both focus on decision points and their preceding activities, they differ in that the classification rule is what determines what path the case will traverse, while the probability is simply a handy statistic showing how likely it is that the path is traversed given all traversals in the log going through that decision point. The case generation scheme determines the process arrival interval, so how many cases arrive at the process every time unit. Gathering these statistics is pretty trivial. Some information can be gathered by simply looking at the process log, while other information such as execution time, waiting time, and probabilities can be gathered by replaying the process log on the discovered process model. The gather data is then used to enhance the process model. 
+   Gather information about the performance perspective, i.e the execution times, waiting times, probability distribution, and case generation schemes. The execution time is the timespan from activity start to end. Waiting time it the timespan from the end of some activity A1 that preceeds the start of A2. In effect the timespan between the end and start of two activities in a queue. The probability distribution indicates how likely it is that an arch or path is traversed. This is not to be confused with the classification rules discussed in the previous section. While both focus on decision points and their preceding activities, they differ in that the classification rule is what determines what path the case will traverse, while the probability is simply a handy statistic showing how likely it is that the path is traversed given all traversals in the log going through that decision point. The case generation scheme determines the process arrival interval, so how many cases arrive at the process every time unit. Gathering these statistics is pretty trivial. Some information can be gathered by simply looking at the process log, while other information such as execution time, waiting time, and probabilities can be gathered by replaying the process log on the discovered process model. The gathered data is then used to enhance the process model. 
 
    During replay we can also gather statistical values such as minimum, maximum, mean, variance, etc, for each of the aforementoned metrics. *While we do not know the underlying distribution for the obtained execution and waiting times, we assume that these follow a normal distribution.* Likewise, we do not know the distribution of the case generation scheme and assume a negative exponential distribution for the interarrival process or *Poisson arrival process.* To specify the execution and waiting times in terms of a normal distribution, we need to calculate their mean and variance values for each activity.
-   
-   
-   
 
 4. **Role discovery**
-   Group resources into roles and associate the discovered roles with the activities in the process 
+   Focuses on the organizational perspective of the process. Aims at discovering the organizational model and assignment rules. The **organizational model** contains a representation of the relationships between resources and their roles, or functional units. The **assignment rules** are the relatonships between the roles and and activities.
 
+![](./resources/orgmodelandrules.svg)
 
+   *A organizational model usually contains organizational units, roles. resources, and their relationships.* Within such a model there can be hierarchies and complex mapping. Deducing these relationships from a event log can be difficult. However, it is possible to deduce **resource groups** in which the people execute similar activities. These groups often correspond to a organizaional unit, which can be a specific role or a set of roles that perfrom similar activities. 
+
+##### Merging perspectives <!-- omit in toc -->
+The aforementioned perspectives are merged into one single model to help get a better and more holistic view of the detailing process. The merging is easy as long as the discovered perspectives have no conflicting information. We can imagine a layering of perspectives which then ultimately result in a single model. While this model has detail, it is not executable. The holisitc model is transformed into a executable Coloured petri net via the method described in [Discovering colored Petri nets from event logs](./resources/literature/Rozinat2008_Article_DiscoveringColoredPetriNetsFro.pdf).
  
 ##### Process Mining and Simulation: A Match Made in Heaven!
 > [Process Mining and Simulation: A Match Made in Heaven!](./resources/literature/p1002(1).pdf)
@@ -624,6 +627,20 @@ Verify or dismiss the effect of the implemented model changes by running accurat
 6. The resulting model is then simulated by use of one of the [simulation techniques](#simulation).
 7. The simulation will yield a new event log. This is then analysed by of appropriate [techniques](#process-analysis).
 8. Lastly, the user has to reason over the resulting metrics. If the metrics are not are not as expected then this issue needs to be resolved by altering the model composition. The user jumpts back to step 4.
+
+
+### Approach
+As described, the fundamental method employed in this paper builds on the method used to build executable simulation models in [Discovering simulaton models](/resources/literature/discsim_is.pdf). This paper explores how one can build a detailed simulation model by creating individual models that focus on some perspective of the event log, and turn these into a single holistic model. This model is then translated into a executable simulation model that can run in CPN Tools. The described method is executed by a series of plugins in ProM, as well as the completely separate CPN Tool. While ProM can run on any system that has Java, CPN Tools it not as flexible and has much more restrictive system requirements, e.g it cannot run on any unix based system. Prom plugins are used for translating model formats, creating a model that focuses on a specific perspective, and lastly to combine and translate the holistic model into an executable model. The CPN Tool is used to execute the simulatio model and generate new event logs.
+
+Some plugins are fully automatic and require no arguments other than the process log, while others require several parameters and generally more finesse. Given that one has to go through a series of steps,plugins, and tools in order to end up with the resulting process log, i think that this could be made easier by stripping away some of the inherent complexitites of these plugins, but also the complexities of using ProM. While ProM is the defacto tooling and has a track record spanning over a decade, it is not very intuitive and is bound to the local Java Runtime. Other tooling such as fluxicon's Disco have managed to create a tool that is easy and intuitive to use, but lack the same featureset that is available in ProM. ProM's plugin system is a clever way of allowing new methods and techniques created by the community to be introduced to the process mining space, but these plugins are naturally bound to the same requirements as ProM. While this approach is fully functional, it is arguably far from ideal as it forces researchers and developers to write new plugins in java. Reusing these plugins elsewhere would then require that they are reimpemented or ported to a more flexible format.
+
+There exists other projects that have addressed this interoperability concern, such as the process mining library for python - PM4PY. However, this does not offer the same "no-code" approach as Prom plugins, but it is more flexible.
+
+I argue that using docker containers might be a more feasible approach to orchestrating a ecosystem that is fundamentally built on plugins. These containers do not share resources with the underlying host and communicate over networking protocols. This creates a much clearer separation of concerns and comes with other benefits:
+1. Plugins can have separate front and backends. This is possible by creating two completely separate applications within the same container.
+2. Flexibility: Plugins can be written in any language and use any runtime. Given the abstraction layer that comes with containers, the developer is no longer bound by creating a plugin that integrates witht the existing plugin system i ProM.
+3. Flexibility. Given that containers are completely independent, this would allow for them to be incorporated other systems. 
+
 
     
 ### Research questions
