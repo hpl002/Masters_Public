@@ -447,18 +447,36 @@ Once the first pass has been completed we are left with a log of all executions 
 
 
 ##### Second pass <!-- omit in toc -->
-Given that the simulation model is intended to represent the reality that has been recorded in the event logs, it is important that it is accurate. We can therefore run this simulation log through the same exact process mining algoritms used to discover the perspectives  
+Given that the simulation model is intended to represent the reality that has been recorded in the event logs, it is important that it is accurate. We can therefore record events from the execution of the simulation model in the simulation log. This log is then passed through the same perspective discovery mechanism to generate generate information for each of the perspectives, just as we have done with the original process log.
 
+The discovered perspective informaiton from the two logs are then compared as a measure of fitness. If we can rediscover the same information from the simulation log then we have created a simulation model that accurately repreents the reality as recorded in the originial process log. This serves as a trustworthy foundation for further model exploration.
 
-During model execution in CPN Tools we are able to create a execution log, which is similar to the original event log. This execution log is then fed back into prom and through all the process mining algorithms used to discover the different model perspectices. By comparing information from the first and second pass we are able to measure the fitness of our simulation model.  
+This process is illustrated in the following figure:  
 ![](./resources/process-second-pass.svg)   
 
+[Creating simulation model](./resources/literature/discsim_is.pdf) provies a useful example where they compare the execution and waiting times of each log in a graph by overlaying the data points. In their example the datapoints are almost indistinguishable, thus indicating a simulation log with a high accuracy. Details on the different mined perspectives and the information that is gathered by each of these methods is presented in the following section. 
 
+TODO: What measures are we comparing
 ##### Third pass <!-- omit in toc -->
+The paper presents two case studies that are based on process logs from two different municipalities in the Netherlands. The resulting simulation models were not used to solve any problem, but rather served as proof of concept.
 
+Gathered logs from a workflow system built to handle complaints. Based on the process log they created three simulation models, each having its own unique configuration. 
+![](./resources/simulation-model-configurations.png)
+> Table from [Creating simulation model](./resources/literature/discsim_is.pdf) showing the different simulation model configurations.  
+The models differ in what decision rules they've utilizied and the waiting time, this in turn forms models that behave quite differently. M0 and M1 have combined the results from all perspectives and only differ in waiting time. M2 has the same waiting time as M1, but uses probabilities(stochastic approximation) as opposed to data attribute. 
+
+
+**Performance info: 0% vs 95% wating time**
+The process log contains some measure of waiting time for each activity. This waiting time is the product of resource availability and other external factors. Through process mining we are able to determine what resoures an activity requires. The waiting time of an activity is therefore partly a result of the resource availability, but not just. There are many nuances of the process execution and its resources that are not captured in the log. One shortcoming of simulation models is that they often make assumptions that are not representatve of a real life scenario. For example that resources are passive and always available, thus indicating that the waiting time for some activity is only governed by its execution time, this is a notion that is too simplistic. In this case study they have focused on a specific subprocess and therefore have to mimic the unavailability that would result when the resource is utilized in some other neighbouring process. Adding waiting time is necessay when investigating a process in isolation.
+
+To combat this shortcoming we can add additional waiting time or timeouts. This added waiting time is a percentage of the waiting time recorded in the process log and is intended to mimick the behaviour of real resources. The effective waiting time time for some activity in the simulation model is then product of resource availability and the added waiting time. 
+**Decision Rule: Data attribute vs Probability**  
+From the process log we can learn decision rules based on the frequency of its branches or from the data properties of its subjects. The employed technique can have vast impacts on each case. If decison rules based on data attributes are employed then we must ensure that the generated case subjects are representative of the original set that the original process log was based on. I.e the subjects or people who have been logged in the original process log all have some specific attributes. The simulation model must accurately create a new set of subjects with attributes within the same bounds in order for the simulation to be representative. If the original process only had subjects who were female and had made decision rules based on qualities about females, then the subject set used in the simulation must also be of females.
+
+Probabilities can be used whenever we do not have a specific subject set. The benefit of using decision rules is that one can create scenarios consisting of subjects with specific attributes and simulate how they would traverse the process.
 
 ##### Process mining from different perspectives <!-- omit in toc -->
-By applying different process mining algorithms we are able to extract key characteristics from the different perspectives, which are then combined to create the simulation model. The perspectives being:
+By applying different process mining algorithms we are able to extract key characteristics from the different perspectives, which are then combined to create the simulation model. The perspectives are first described and later detailed with implementation details such as what ProM plugins and algorithms theseuse. The perspectives being:
 1. **Control flow**  
    Discover process model by use of one of the many available process discovery algorithms. This perspective captures the causal relations between the log activities. *Aims at the automatic extraction of a process model from an event log, i.e inference of a structureal representation of the underlying process based on historic data.* The authors decided to use the a-algorithm, but there are of course other options. The algorithm outputs the underlying business process in the form of a petri net. 
 2. **Role discovery**
@@ -492,6 +510,11 @@ By applying different process mining algorithms we are able to extract key chara
 
 ##### Merging perspectives <!-- omit in toc -->
 The aforementioned perspectives are merged into one single model to help get a better and more holistic view of the detailing process. The merging is easy as long as the discovered perspectives have no conflicting information. We can imagine a layering of perspectives which then ultimately result in a single model. While this model has detail, it is not executable. The holisitc model is transformed into a executable Coloured petri net via the method described in [Discovering colored Petri nets from event logs](./resources/literature/Rozinat2008_Article_DiscoveringColoredPetriNetsFro.pdf).
+> TODO: see section 5.0, 5.1 from apper
+
+##### Creating a executable simulation model <!-- omit in toc -->
+> TODO: see section 5.3 from paper
+> The simulation log is created by adding "monitors" to the execution engine. See section 5.2
  
 ##### Process Mining and Simulation: A Match Made in Heaven!
 > [Process Mining and Simulation: A Match Made in Heaven!](./resources/literature/p1002(1).pdf)
