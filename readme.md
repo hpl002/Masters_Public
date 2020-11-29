@@ -476,7 +476,7 @@ From the process log we can learn decision rules based on the frequency of its b
 Probabilities can be used whenever we do not have a specific subject set. The benefit of using decision rules is that one can create scenarios consisting of subjects with specific attributes and simulate how they would traverse the process.
 
 ##### Process mining from different perspectives <!-- omit in toc -->
-By applying different process mining algorithms we are able to extract key characteristics from the different perspectives, which are then combined to create the simulation model. The perspectives are first described and later detailed with implementation details such as what ProM plugins and algorithms theseuse. The perspectives being:
+By applying different process mining algorithms we are able to extract key characteristics from the different perspectives, which are then combined to create the simulation model. The perspectives are first described and later detailed with implementation technicalities such as what ProM plugins fall within the perspectives. The simulation model is comprised of the following perspectives:
 1. **Control flow**  
    Discover process model by use of one of the many available process discovery algorithms. This perspective captures the causal relations between the log activities. *Aims at the automatic extraction of a process model from an event log, i.e inference of a structureal representation of the underlying process based on historic data.* The authors decided to use the a-algorithm, but there are of course other options. The algorithm outputs the underlying business process in the form of a petri net. 
 2. **Role discovery**
@@ -508,9 +508,124 @@ By applying different process mining algorithms we are able to extract key chara
 
    *A organizational model usually contains organizational units, roles. resources, and their relationships.* Within such a model there can be hierarchies and complex mapping. Deducing these relationships from a event log can be difficult. However, it is possible to deduce **resource groups** in which the people execute similar activities. These groups often correspond to a organizaional unit, which can be a specific role or a set of roles that perfrom similar activities. 
 
+##### Plugins and revitalized implementation  <!-- omit in toc -->
+> https://svn.win.tue.nl/repos/prom/Packages/  
+> https://svn.win.tue.nl/trac/prom/browser/Packages
+
+The previously illustrated method and the aforementioned perspectives are all implemented using a series of plugins and other functionality that is native to Prom. The fact that the paper was first published in 2008 presents a few issues in regards to the specifics of the detailed method. While it is not mentioned expicitly, we can infer that the authors might have used some version of ProM which predates version 5.2, which is the ealiest ProM release that is still publically available. This has the implication that there has most likely been changes in the toolsset used to implement the method inbetween these versions. Repruducing results using the exact same techniques migh therefore not be possible. Through communication on the ProM forum it has been advised to only work with the latest major release, as this is the only version which is still supported. At the time of writing the current major version is 6.x. This implies that the method will have to be reimplemented in ProM 6.x and the results confirmed. Through other discussions on the forum it has been confirmed that CPN Tools is still the de facto simulation tool to be used in conjunction with ProM, even though there has likely been many other advancements in simulation tools. The simulaiton model will therefore be run in CPN Tools by use of a virtual machine.
+###### Process log input -  MXML & XES <!-- omit in toc -->
+As of ProM 6.x the tool has moved on from the MXML to extensible event stream(XES) log format, which was officially adopted by IEEE 2016. In ealier versions of ProM MXML was used as the input format ([XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)). This also implies that the input data used in the paper is no longer supported by current tooling. We therefore need to find a new dataset. XES is intended to be used with ProM 6 and XESame. XESame is a tool for domain experts and is intended to help them specify how an event log can be extracted from some existing system and converted to XES. While XES addresses some discovered issues with MXML, such as concept ambiguity in advanced scenarios. MXML has a series of predefined attributes which have well defined semantics, but lacks a mechnism for describing advanced concepts. It is whenever one tries to expand on any of these well defined attributes or introduce new ones that problems may arise. The semantic meaning of these non-standard attributes is not well defined. XES inherits many of the same attributes from MXML, but implement them  differently. XES is built on SA-MXML which is the semantic extension of MXML. XES therefore has a well defined mechanism for describing complex concepts as one can link to ontologies. Understanding the differences of these formats is not paramount as we are only interested XES. However, the main featureset of XES can be described and demonstrated by presenting the main differences. 
+
+Here is a simple MXML file from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf). 
+```
+<WorkflowLog xmlns:xsi= ”http: www.w3.org 2001 XMLSchema−instance” xsi:noNamespaceSchemaLocation= ”http: is.ieis.tue.nl research processmining WorkflowLog.xsd” description= ”Example log”>
+    <Process id= ”Order”>
+        <ProcessInstance id= ”Order 1” description= ”instance with Order 1”>
+            <Data>
+                <Attribute name= ”TotalValue”>2142.38<Attribute>
+            </Data>
+            <AuditTrailEntry>
+                <WorkflowModelElement>Create</WorkflowModelElement>
+                <EventType>complete</EventType>
+                <Originator>Wil<Originator>
+                        <Timestamp>2009−01−03T15:30:00.000+01:00</Timestamp>
+                        <Data>
+                            <Attribute name= ”currentValue”>2142.38</Attribute>
+                            <Attribute name= ”requestedBy”>Eric</Attribute>
+                            <Attribute name= ”supplier”>Fluxi Inc.</Attribute>
+                            <Attribute name= ”expectedDelivery”> 2009−01−12T12:00:00.000+01:00</Attribute>
+                        </Data>
+            </AuditTrailEntry>
+        </ProcessInstance>
+    </Process>
+</WorkflowLog>
+```
+
+In this simple MXML log we see a number of elements and attributes. These are:  
+| Term MXML            | Term XES | Meaning                                                                             |
+| -------------------- | -------- | ----------------------------------------------------------------------------------- |
+| WorkflowLog          | Log      | Captures an entire log. Outermost element.                                          |
+| ProcessInstance      | Trace    | Captures a single process instance                                                  |
+| AuditTrailEntry      | Event    | Captures a single event                                                             |
+| Data                 | X        | Wrapper for attribute elements                                                      |
+| Attribute            | X        | Elements that describe some aspect of its parent.                                   |
+| WorkflowModelElement | X        | Captures the name of the activity that triggered the event                          |
+| EventType            | X        | Captures the type of the event, like start, complete, suspend, and resume           |
+| Originator           | X        | captures the name of the resource (human or not) who actually executed the activity |
+| Timestamp            | X        | captures the time at which the event occurred in the system                         |
+ > Table crated based on descriptions from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)
+
+The corresponding log in XES is:  
+```
+<log>
+    <extension name= ”Lifecycle” prefix= ”lifecycle” uri= ”http: www.xes−standard.org lifecycle.xesext” />
+    <extension name= ”Time” prefix= ”time” uri= ”http: www.xes−standard.org time.xesext” />
+    <extension name= ”Concept” prefix= ”concept” uri= ”http: www.xes−standard.org concept.xesext” />
+    <extension name= ”Semantic” prefix= ”semantic” uri= ”http: www.xes−standard.org semantic.xesext” />
+    <extension name= ”Organizational” prefix= ”org” uri= ”http: www.xes−standard.org org.xesext” />
+    <extension name= ”Order” prefix= ”order” uri= ”http: my.company.com xes order.xesext” />
+    <global scope= ”trace”>
+        <string key= ”concept:name” value= ”unknown” />
+    </global>
+    <global scope= ”event”>
+        <string key= ”concept:name” value= ”unknown” />
+        <string key= ”lifecycle:transition” value= ”unknown” />
+        <string key= ”org:resource” value= ”unknown” />
+    </global>
+    <classifier name= ”Activity classifier” keys= ”concept:name lifecycle:transition” />
+    <string key= ”concept:name” value= ”Example log” />
+    <trace>
+        <string key= ”concept:name” value= ”Order 1” />
+        <float key= ”order:totalValue” value= ”2142.38” />
+        <event>
+            <string key= ”concept:name” value= ”Create” />
+            <string key= ”lifecycle:transition” value= ”complete” />
+            <string key= ”org:resource” value= ”Wil” />
+            <date key= ”time:timestamp” value= ”2009−01−03T15:30:00.000+01:00” />
+            <float key= ”order:currentValue” value= ”2142.38” />
+            <string key= ”details” value= ”Order creation details”>
+                <string key= ”requestedBy” value= ”Eric” />
+                <string key= ”supplier” value= ”Fluxi Inc.” />
+                <date key= ”expectedDelivery” value= ”2009−01−12T12:00:00.000+01:00” />
+            </string>
+        </event>
+    </trace>
+</log>
+```
+
+Based on the table we can see that there is not a one to one relationship between MXML and XES. The XES elements *Log, Trace, Event* are purely used to describe the structure of the document and do not contain any information themselves. Attributes are used to describe and store data in XES. Every attribute has a key, value, and type. The types being *string, interger, boolean, float, and date.* Attributes can be deeply nested, thus making it possible to describe attributes with attributes.
+
+![](./resources/XEs_metamodel.png)
+> Figure taken from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that described the XES metamodel.
+
+
+| Extension      | Key            | Level           | Type   | Description                                                                                                 |
+| -------------- | -------------- | --------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+| Concept        | name           | log,trace,event | string | Generally understood name                                                                                   |
+| Concept        | instance       | event           | string | Identifier of the activity whose execution generated the event                                              |
+| Lifecycle      | model          | log             | string | The transactional model used for the lifecycle transition for all events in the log                         |
+| Lifecycle      | transition     | event           | string | The lifecycle transition represented by each event (e.g. start, complete, etc.)                             |
+| Organizational | resource       | event           | string | The name, or identifier of the resource having triggered the event, within the organizational structure     |
+| Organizational | role           | event           | string | The role of the resource having triggered the event, within the organizational structure                    |
+| Organizational | group          | event           | string | The group within the organizational structure, of which the resource having triggered the event is a member |
+| Time           | timestamp      | event           | date   | The date and time, at which the event has occurred                                                          |
+| Semantic       | modelReference | all             | string | Reference to model concepts in an ontology                                                                  |
+
+The semantics of an attribute is described by its extension. We differ between standard and custom extensions. The standard extensions are the contepts described in the table above.
+
+
+From the paper we can extract the following plugins:
+1. Alpha algorithm 
+   Source: https://svn.win.tue.nl/trac/prom/browser/Packages/AlphaMiner
+2. Performance Analysis with Petri net
+   Source: 
+3. Decision Point Analysis 
+4. Organizational Miner
+
+
 ##### Merging perspectives <!-- omit in toc -->
 The aforementioned perspectives are merged into one single model to help get a better and more holistic view of the detailing process. The merging is easy as long as the discovered perspectives have no conflicting information. We can imagine a layering of perspectives which then ultimately result in a single model. While this model has detail, it is not executable. The holisitc model is transformed into a executable Coloured petri net via the method described in [Discovering colored Petri nets from event logs](./resources/literature/Rozinat2008_Article_DiscoveringColoredPetriNetsFro.pdf).
-> TODO: see section 5.0, 5.1 from apper
+> TODO: see section 5.0, 5.1 from paper
 
 ##### Creating a executable simulation model <!-- omit in toc -->
 > TODO: see section 5.3 from paper
