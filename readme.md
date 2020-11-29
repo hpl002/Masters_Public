@@ -610,8 +610,10 @@ Based on the table we can see that there is not a one to one relationship betwee
 | Organizational | group          | event           | string | The group within the organizational structure, of which the resource having triggered the event is a member |
 | Time           | timestamp      | event           | date   | The date and time, at which the event has occurred                                                          |
 | Semantic       | modelReference | all             | string | Reference to model concepts in an ontology                                                                  |
+ > Table from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that shows the standard XES extensions.
 
-The semantics of an attribute is described by its extension. We differ between standard and custom extensions. The standard extensions are the contepts described in the table above.
+The semantics of an attribute is described by its extension. Extensions are not mandatory as exemplified in the XES example log above. We differ between **standard** and **custom** extensions. The standard extensions are the contepts described in the table above, while custom extensions can be user defined or point to some ontology. **Event classifiers** are specified in the log element and are used to assign some identity to an event. The identity is a product of its containing attributes, thus making it possible to compare similar events by looking purely at their identity. The global element is used to declare well defined values for every trace or event in the log. This can be compared to declaring and initializing attributes on a class in object oriented programming. This is very useful for plugins as they can be certain that every trace or event instance has the declared attributes. The globally defined value being the fallback if it is not overwritten.
+
 
 
 From the paper we can extract the following plugins:
