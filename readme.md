@@ -6,9 +6,22 @@
 - [Background](#background)
   - [Process mining](#process-mining)
     - [Manifesto](#manifesto)
-  - [Process mining fundamentals](#process-mining-fundamentals)
+      - [Event logs](#event-logs)
+      - [Main activities of process mining](#main-activities-of-process-mining)
+      - [Perspectives](#perspectives)
+      - [Lifecycle of process mining project](#lifecycle-of-process-mining-project)
+  - [More Process Mining fundamentals](#more-process-mining-fundamentals)
+    - [Petri nets](#petri-nets)
   - [Process mining and simulation](#process-mining-and-simulation)
   - [Analysis](#analysis)
+- [Method](#method)
+  - [Aim:](#aim)
+  - [Approach](#approach)
+  - [Research questions](#research-questions)
+  - [Novelty](#novelty)
+  - [Why (Project usefulness)](#why-project-usefulness)
+  - [Deliverables](#deliverables)
+    - [App](#app)
   - [Simulation fundamentals](#simulation-fundamentals)
     - [Related works](#related-works)
       - [Creating simulation models](#creating-simulation-models)
@@ -18,18 +31,9 @@
     - [Simulation tools](#simulation-tools)
     - [Process mining tools](#process-mining-tools)
     - [Development tools](#development-tools)
-- [Method](#method)
-  - [Aim:](#aim)
-  - [Approach](#approach)
-  - [Research questions](#research-questions)
-  - [Novelty](#novelty)
-  - [Why (Project usefulness)](#why-project-usefulness)
-  - [Deliverables](#deliverables)
-    - [App](#app)
 - [Concepts:](#concepts)
   - [Fundamental statistical concepts:](#fundamental-statistical-concepts)
     - [Measures of dispersion](#measures-of-dispersion)
-  - [L* life-cycle](#l-life-cycle)
   - [Process log](#process-log)
   - [Process model](#process-model)
   - [Directly-follows graph (DFG)](#directly-follows-graph-dfg)
@@ -55,34 +59,38 @@ Due to copyright i have moved literature to a private repo, which is available a
  ----
 ## Process reengineering by use of model simulation
  
-**Demonstrate how one can use process mining and model simulation to enhance process models by use of examples, while also proposing an alternative application architecture to the process mining framework ProM.** By running simulations of the generated process model we are able to generate new event logs which can then be analyzed for [key performance indicators](#key-performance-indicators-kpi). These KPI metrics are used to indicate if a process is in need of improvement. The tool serves two primary purposes:
+**Demonstrate how one can use process mining and model simulation to enhance process models by use of examples, and propose an alternative approach to process mining applications.** By running simulations of the generated process model we are able to generate new event logs which can then be analyzed for [key performance indicators](#key-performance-indicators-kpi). These KPI metrics are used to indicate if a process is in need of improvement. The tool serves two primary purposes:
 1. used to conduct process enhancement
 2. used to test the impact of some model alteration
 
-The project builds on the method detailed in [Discovering simulation models](./resources/literature/discsim_is.pdf) where they employ a series of plugins available in the ProM framework and then export the simulation model to be used in the CPN Tools simulation application. While this is a fully functional approach i argue that it can be made easier and shorter by abstracting out the needed functionality from each of these applications and orchestrating them in separate docker containers. I present a simple application that is used to structure this workflow, pass arguments to each container, and pass data in-between containers.
+The project builds on the method detailed in [Discovering simulation models](./resources/literature/discsim_is.pdf) where they employ a series of plugins available in the ProM framework and then export the simulation model to be used in the CPN Tools simulation application. While this was a fully functional approach i argue that it can be made easier and shorter by abstracting out the needed functionality from each of these applications and orchestrating them in separate docker containers. I will first present a revitalized version of the method presented in this paper that builds on the latest release of Prom (Major release 6). This revitalized version is then used as the starting point for the containerization process. The result being a series of independent docker containers and a simple application that is used to structure this workflow, pass arguments to each container, and pass data in-between containers.
 
-While the ProM tool is undoubtedly the defacto process mining tool used in academia it is arguably difficult to use, difficult to expand on, and difficult to incorporate into other tooling and workflows. The scientific fundamentals, techniques, and methods that are made available by the tool are not disputed in this work and considered to be of high quality. I argue that process mining can benefit from inheriting the side effects or containerization, such as availability, scalability, and a clearly defined interface. 
+While the ProM tool is undoubtedly the defacto process mining tool used in academia it is arguably difficult to use, difficult to expand on, and difficult to incorporate into other tooling and workflows. The scientific fundamentals, techniques, and methods that are made available by the tool are not disputed in this work and considered to be of very high quality. I argue that process mining can benefit from inheriting the side effects or containerization, such as availability, scalability, and a clearly defined interface. 
 
-While ProM is platform independent, it is not technology independent. Containers would allow for new plugins to be written in any language. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, no matter what language or technology it is built on.
+While ProM is platform independent, it is not technology independent and requires a local java runtime environment. Containers would allow for new plugins to be written in any language and also package all dependencies locally, this in turn makes it easier to get get started with process mining without interfering the setup on the host machine. The aim being that it should be easy to introduce and combine new techniques into the process mining ecosystem, no matter what language or technology it is built on.
 
 
 ### Contributions  
-The project therefore has three contributions:
-1. Demonstrate how process mining and simulation can be combined by exploring practical examples.
-   - There exists works that explore these two topics, but few that detail the entire workflow. The aim is to provide a clear and accurate description of how one could conduct this and why the different workflow steps are important. 
-   - Current literature often demands that the user is well versed in process mining and process engineering. This paper addresses these concepts from the outset that the reader has little to no prior knowledge.
-2. Showcase an alternative method of structuring future process mining applications. While ProM is undoubtedly the de facto application for conducting process mining, it is not without faults. This project aims to address some of these critiques.
-3. Provide a tool for conducting process mining and subsequent simulation in a single application. Current approaches demand that you jump between different applications and juggle files. This workflow can be improved.
+The project has several contributions:
+1. Propose and showcase a new way of structuring a process mining application.
+2. Offer ready to use and freely available docker containers of the utilized plugins.
+3. Offer ready to use and freely available docker container of the simulation engine from CPN Tools which currently requires a virtual machine to run.
+4. Revitalize the method described in [Discovering simulation models](./resources/literature/discsim_is.pdf) by reimplementing it in ProM 6.x
+5. Offer a simple web application that can be used to perform the actual process improvement. 
+6. Apply the aforemntioned on a real world case.
 
 **Tags**
 Tags and keywords:  
 1. Process mining
-2. process simulation
-3. process enhancement
-4. process mining tooling
+2. Process simulation
+3. Process enhancement
+4. CPN Tools
+5. ProM 6
+6. Docker
+7. Containerization
 
 
-The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and techniques presented in several key papers that explore the intersection of process mining and simulation. 
+The project builds on the concept of [process reengineering](#process-reengineering) as put forth by Prof&#46;dr&#46;ir&#46; Wil van der Aalst, which uses the event log to enhance the process model. It has also taken strong influence from the method and techniques presented in several key papers that explore the intersection of process mining and simulation, primarily [Discovering simulation models](./resources/literature/discsim_is.pdf) by A. Rozinat, R. Mans, M. Song et al.
 
 Process mining and simulation is highly relevant for those who are conducting business process redesign.
 
@@ -90,19 +98,16 @@ Process mining and simulation is highly relevant for those who are conducting bu
 
 
 **The difficulty of process model fitness**  
-TODO: find definition and reference of model fitness from conformance paper.  
 Designing a process model without taking into account the dynamics of the environment in which it is deployed might lead to unforseen consequences. A process can be understood as a sequence of activities. An activity can be atomic or composed of multiple other activities. These activities often have strict depencencies on resources that are subject to change, such as human capital or machinery. Any change in the availability of one of these resources might lead to unwanted consequences such as delays and complete halts. Alternatively, having abundant resources will prevent the aforementioned, but lead to greater costs for the same throughput, i.e lower efficiencies. 
 
-The ideal process lies within these two outer limits, ensuring the most amount of uptime and the least amount of wastage. This problem is addressed differently depending on how critial the throughput time is. 
+The ideal process lies within these two outer limits, ensuring the most amount of uptime and the least amount of wastage. This problem is addressed differently depending on how critial the throughput time is. By use of model simulation it is possible to finesse the model compositon until it meets the required performance metrics.
 
-By use of model simulation it is possible to finesse the model compositon until it meets the required performance metrics.
-
-The fundamental problem being that we create process models with the expectation that we always have the required resources to execute the modeled activities. In the event where these are not available then there will be delays and halts, and in the event where these are always available then there will be wastage. When processes become large and complex it can become very expensive to keep throwing resources at them to ensure uptime. 
+The fundamental problem being that we create process models with the expectation that we always have the required resources to execute the modeled activities. In the event where these are not available then there will be delays and halts, and in the event where these are always available then there will be wastage. When processes become large and complex it can become very expensive to keep throwing resources at them to ensure uptime. There are simulation approches that accurately mock this resrouce availability attribute.
 
 
 **Main artefact**   
 
-The main artefact of this project will be a tool that is used to bridge this gap between process mining and simulation. By making it easy to simulate a given process model we can gather performance metrics and get insights into potential issues before the model is deployed. 
+The main artefact of this project will be a web based interface and underlying docker containers that can be used to conduct necessary process mining and model simulation. By making it easy to simulate a given process model we can gather performance metrics and get insights into potential issues before the model is deployed. 
 
 **Problemspace:**  
 Rigid and dependale process models are unvaluable tools in critical environments. They allow for strict planning and act as a source of reference for stakeholders and give structure to complex activities. However, they can also lead to inefficiencies and lost profits due to this exact rigidness. 
@@ -125,7 +130,7 @@ Initially i will present a detailing of necessary background on the concepts of 
 
 Process mining is a still a very new research field. Initially conceived by Prof&#46;dr&#46;ir&#46; Wil van der Aalst and with its earliest publications dating to the 1990s. The official date is perhaps 2009, as this was when the Task Force on Process Mining was originaly founded. The task force published a [process mining manifesto](./resources/literature/2012_Book_.pdf) in 2011 that detailed the state of the art at the time of publishing. Prof&#46;dr&#46;ir&#46; Wil van der Aalst has an extensive reputation and has either published, coauthored, or edited almost 900 works on the topics of process mining, petri nets, business process management, workflow managmeent, process modeling, and process analysis. He is with no exception considered the *godfater* of process mining. - [source](http://www.padsweb.rwth-aachen.de/wvdaalst/)
 
-The published manifesto is therefore a good starting point for interested parties as it is published by and with the help of the most reputable sources in the field. It details its intentions, core concepts, the appointed task force, and core issues. 
+The published manifesto is therefore a good starting point for interested parties as it is published by and with the help of the most reputable sources in the field. It details its intentions, core concepts, the appointed task force, and core issues. The following sections details the core of the manifestoa and supplements with additional information where there have been advancements.
 
 #### Manifesto 
 [Manifesto](./resources/literature/2012_Book_.pdf)  
@@ -134,44 +139,136 @@ Process mining is a set of techniques used for extracting knowledge from event l
 
 *Process mining is a relatively young research discipline that sits between computational intelligence and data mining on the one hand, and process modeling and analysis on the other hand. **The idea of process mining is to discover, monitor and improve real processes (i.e., not assumed processes) by extracting knowledge from event logs readily available in today’s (information) systems***
 
-Process mining is composed of a series of smaller activities which all address different needs and purposes. Some activities are atomic, while others have strict dependencies on other activities. The main activities and their relevanve for this project are:
+Process mining is composed of a series of smaller activities which all address different needs and purposes. Some activities are atomic, while others have strict dependencies on other activities. The main activities and their relevance for this project are:
 1. process discovery (Relevant)
 2. conformance checking (Relevant)
 3. simulation models (Relevant)
 4. model extension (Relevant)
 5. model repair (Relevant)
-6. social network/organizational mining
+6. social network/organizational mining (Relevant)
 7. case prediction
 8. history-based recommendations
 
-Process mining is perhaps best understood as an enabler of other well known business intelligence(BI) activities. Within BI we have for example:
-1. Business Acivity Monitoring
-2. Complex Event Processing
-3. Corporate Performance Management
-4. Continious Process Improvement
-5. Business Process Improvement
-6. Total Quality Management
-7. Sig sigma 
+##### Event logs 
+For all intents and purposes, a process can be understood as a complex set of activities and relations. A case can be understood as a process instance that has traversed a particular path of the described process. A process can have many paths, but a case can only traverse one. This traversal is recorded in event logs. Readers are advised to pay attention to nomenclature. Events are discrete activity occurances and are therefore in their purest form very simple. While event logs can be vastly complex with numerous fields and hundreds of thousands of entries, their purest form has minimal requirements. These being that every discrete event has to be related to a case and activity, and that all events within a case are listed in ordered format [Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf). However, it should be mentioned that these are not the minimal requirements necessary to perform any and all process mining techniques. Each technique has its strict and obvious requirements. It would for example be impossible to calculate the mean case duration for all cases in a log if the entries did not have timestamps. It should also be noted that when an event has a timestamp, it is possible to discover bottlenecks, measure service levels, monitor the utilization or resources, and predict the remaining processing time of running cases. Given that process logs reflect real world processes and are a product of the events recorded in real world systems we can expect logs that are messy, incomplete, and inconsistent. These logs will often have to be cleaned and finessed before being used in a process mining method. Tradtionally MXML has been the standard file format used for describing event logs. This eventuelly evolved into the extensible event stream(XES) format. XES was approved by IEEE and published as of November 11, 2016 [XES](https://xes-standard.org/). It defines a *tag-based language* that is based on XML. Specifically designed for describing event logs and event streams. 
+
+XES is designed to resolve some of the discovered issues with MXML, such as concept ambiguity in advanced scenarios. MXML has a series of predefined attributes which have well defined semantics, but lacks a mechanism for describing advanced concepts. It is whenever one tries to expand on any of these well defined attributes or introduce new ones that problems may arise. These concepts do not have to be only domain specific, it could just as well be generic concepts with ambiguity. The semantic meaning of these non-standard attributes are difficult to define in MXML. XES inherits many of the same attributes from MXML, but implement them  differently. XES is built on SA-MXML which is the semantic extension of MXML. XES therefore has a well defined mechanism for describing these complex concepts as one can link to ontologies. Understanding the differences of these formats is not paramount as we are only interested XES. However, the main featureset of XES can be described and demonstrated by presenting the main differences. 
+
+Here is a simple MXML file from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf). 
+```
+<WorkflowLog xmlns:xsi= ”http: www.w3.org 2001 XMLSchema−instance” xsi:noNamespaceSchemaLocation= ”http: is.ieis.tue.nl research processmining WorkflowLog.xsd” description= ”Example log”>
+    <Process id= ”Order”>
+        <ProcessInstance id= ”Order 1” description= ”instance with Order 1”>
+            <Data>
+                <Attribute name= ”TotalValue”>2142.38<Attribute>
+            </Data>
+            <AuditTrailEntry>
+                <WorkflowModelElement>Create</WorkflowModelElement>
+                <EventType>complete</EventType>
+                <Originator>Wil<Originator>
+                        <Timestamp>2009−01−03T15:30:00.000+01:00</Timestamp>
+                        <Data>
+                            <Attribute name= ”currentValue”>2142.38</Attribute>
+                            <Attribute name= ”requestedBy”>Eric</Attribute>
+                            <Attribute name= ”supplier”>Fluxi Inc.</Attribute>
+                            <Attribute name= ”expectedDelivery”> 2009−01−12T12:00:00.000+01:00</Attribute>
+                        </Data>
+            </AuditTrailEntry>
+        </ProcessInstance>
+    </Process>
+</WorkflowLog>
+```
+
+In this simple MXML log we see a number of elements and attributes. These are:  
+| Term MXML            | Term XES | Meaning                                                                             |
+| -------------------- | -------- | ----------------------------------------------------------------------------------- |
+| WorkflowLog          | Log      | Captures an entire log. Outermost element.                                          |
+| ProcessInstance      | Trace    | Captures a single process instance                                                  |
+| AuditTrailEntry      | Event    | Captures a single event                                                             |
+| Data                 | X        | Wrapper for attribute elements                                                      |
+| Attribute            | X        | Elements that describe some aspect of its parent.                                   |
+| WorkflowModelElement | X        | Captures the name of the activity that triggered the event                          |
+| EventType            | X        | Captures the type of the event, like start, complete, suspend, and resume           |
+| Originator           | X        | Captures the name of the resource (human or not) who actually executed the activity |
+| Timestamp            | X        | Captures the time at which the event occurred in the system                         |
+ > Table crated based on descriptions from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)
+
+The corresponding log in XES is:  
+```
+<log>
+    <extension name= ”Lifecycle” prefix= ”lifecycle” uri= ”http: www.xes−standard.org lifecycle.xesext” />
+    <extension name= ”Time” prefix= ”time” uri= ”http: www.xes−standard.org time.xesext” />
+    <extension name= ”Concept” prefix= ”concept” uri= ”http: www.xes−standard.org concept.xesext” />
+    <extension name= ”Semantic” prefix= ”semantic” uri= ”http: www.xes−standard.org semantic.xesext” />
+    <extension name= ”Organizational” prefix= ”org” uri= ”http: www.xes−standard.org org.xesext” />
+    <extension name= ”Order” prefix= ”order” uri= ”http: my.company.com xes order.xesext” />
+    <global scope= ”trace”>
+        <string key= ”concept:name” value= ”unknown” />
+    </global>
+    <global scope= ”event”>
+        <string key= ”concept:name” value= ”unknown” />
+        <string key= ”lifecycle:transition” value= ”unknown” />
+        <string key= ”org:resource” value= ”unknown” />
+    </global>
+    <classifier name= ”Activity classifier” keys= ”concept:name lifecycle:transition” />
+    <string key= ”concept:name” value= ”Example log” />
+    <trace>
+        <string key= ”concept:name” value= ”Order 1” />
+        <float key= ”order:totalValue” value= ”2142.38” />
+        <event>
+            <string key= ”concept:name” value= ”Create” />
+            <string key= ”lifecycle:transition” value= ”complete” />
+            <string key= ”org:resource” value= ”Wil” />
+            <date key= ”time:timestamp” value= ”2009−01−03T15:30:00.000+01:00” />
+            <float key= ”order:currentValue” value= ”2142.38” />
+            <string key= ”details” value= ”Order creation details”>
+                <string key= ”requestedBy” value= ”Eric” />
+                <string key= ”supplier” value= ”Fluxi Inc.” />
+                <date key= ”expectedDelivery” value= ”2009−01−12T12:00:00.000+01:00” />
+            </string>
+        </event>
+    </trace>
+</log>
+```
+
+Based on the table we can see that there is not a one to one relationship between MXML and XES. The XES elements *Log, Trace, Event* are purely used to describe the structure of the document and do not contain any information themselves. Attributes are used to describe and store data in XES. Every attribute has a key, value, and type. The types being *string, interger, boolean, float, and date.* Attributes can be deeply nested, thus making it possible to describe attributes with attributes.
+
+![](./resources/XEs_metamodel.png)
+> Figure taken from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that described the XES metamodel.
 
 
-##### Event logs <!-- omit in toc -->
-For all intents and purposes, a process can be understood as a complex set of activities and relations. A case can be understood as a process instance that has traversed a particulat path of the desribed process. A process can have many paths, but a case can only traverse one. This traversal is recorded in event logs. An event log is a collection of occurances. These occurances or entries can be described using any number of fields, but process mining mandates that each entry has a trace identifier, activity identifier, and timestamp. A case can therefore be understood as a series of sequential occurances, and a process log most commonly contains multiples of these traces.
+| Extension      | Key            | Level           | Type   | Description                                                                                                 |
+| -------------- | -------------- | --------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+| Concept        | name           | log,trace,event | string | Generally understood name                                                                                   |
+| Concept        | instance       | event           | string | Identifier of the activity whose execution generated the event                                              |
+| Lifecycle      | model          | log             | string | The transactional model used for the lifecycle transition for all events in the log                         |
+| Lifecycle      | transition     | event           | string | The lifecycle transition represented by each event (e.g. start, complete, etc.)                             |
+| Organizational | resource       | event           | string | The name, or identifier of the resource having triggered the event, within the organizational structure     |
+| Organizational | role           | event           | string | The role of the resource having triggered the event, within the organizational structure                    |
+| Organizational | group          | event           | string | The group within the organizational structure, of which the resource having triggered the event is a member |
+| Time           | timestamp      | event           | date   | The date and time, at which the event has occurred                                                          |
+| Semantic       | modelReference | all             | string | Reference to model concepts in an ontology                                                                  |
+ > Table from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that shows the standard XES extensions.
+
+The semantics of an attribute is described by its extension. Extensions are not mandatory as exemplified in the XES example log above. We differ between **standard** and **custom** extensions. The standard extensions are the contepts described in the table above, while custom extensions can be user defined or point to some ontology. **Event classifiers** are specified in the log element and are used to assign some identity to an event. The identity is a product of its containing attributes, thus making it possible to compare similar events by looking purely at their identity. The global element is used to declare well defined values for every trace or event in the log. This can be compared to declaring and initializing attributes on a class in object oriented programming. This is very useful for plugins as they can be certain that every trace or event instance has the declared attributes. The globally defined value being the fallback if it is not overwritten.
+
+##### Main activities of process mining
 
 ![](./resources/manifestofigure.png)
-> Figure from [Manifesto](./resources/literature/2012_Book_.pdf) that show the three main activities of process mining.
+> Figure from [Manifesto](./resources/literature/2012_Book_.pdf) that shows the three main activities of process mining.
 Process discovery takes an event log as input and produces some process model. The model can be any number of formats, but most commonly as a petri net. Conformance checking takes an event log and process model as input and produces diagnostics. Most commonly used check if the event log aligns with some pre-existing process model. Can for example be used to locate traces that perform some actions that the underlying process does not support. Activitie that do not follow the proposed model can be an indicator of many things. The process model might be too generic and does not map reality, or be too strict and inaccurate and therfore forces alternate activities, and so forth. Lastly, process enhancement is about extending or improving some existing process model using information from the process event log and a process model. Enhancement through simulation falls within this last activity. The simulation approch is particularly interested in answering that which is coined "what if" question, such as: 
 1. what happends if i restucture the process in *this* manner
 2. what happends if a run a simulation that describes *this* scenario
 3. what happend if i alter the resource capacity if *this* activity and run *this* simulation scenario
   
 The relevance of simulation for process mining will be detailed in the following [simulation ](#simulation) section.  
- ##### Perspectives <!-- omit in toc -->
-Literature often describes the mining of different *perspectives*. The notion of perspectives is intended to highlight a focus area. For example, the *control flow perspective* is interested in the ordering of activities and intends to find a good characterization of all possible paths. The *organizational perspective* focuses on information about resources hidden in the log, e.g what people, systems, roles, or departments are involved, to what extent, and how these relate each other. The *time perspective* focuses on the timing and frequency of events. It should also be noted that when an event has a timestamp, it is possible to discover bottlenecks, measure service levels, monitor the utilization or resources, and predict the remaining processing time of runnin cases.
+ ##### Perspectives 
+Literature often describes the mining of different *perspectives*. The notion of perspectives is intended to highlight a focus area. For example, the *control flow perspective* is interested in the ordering of activities and intends to find a good characterization of all possible paths. The *organizational perspective* focuses on information about resources hidden in the log, e.g what people, systems, roles, or departments are involved, to what extent, and how these relate each other. The *time perspective* focuses on the timing and frequency of events.
 
-##### Lifecycle of process mining project <!-- omit in toc -->
+##### Lifecycle of process mining project 
 ![](./resources/manifestolifecycle.png)
 > Figure from [Manifesto](./resources/literature/2012_Book_.pdf) that show the traditional lifecycle of a process mining project.
-*[The L* life-cycle](#l-life-cycle)* describes the core steps in a traditional process mining project. As seen in figure above, it consists of five steps, these are.
+The L* life-cycle describes the core steps in a traditional process mining project. As seen in figure above, it consists of five steps, these are.
 0. Step 0: Plan and justify
 - here we might answer fundamental questions about the project aim, purpose, success criteria, etc.
 1. Step 1: Extract
@@ -185,8 +282,6 @@ Literature often describes the mining of different *perspectives*. The notion of
 - The models created in stage 3 may be used for operational support.
 - Knowledge extracted from historical event data is combined with information about running cases. This again can be used to intervene, predict, and recommend. 
 - > * Staged 3 and 4 can only be reacehd if the process is sufficiently stable and structured
-  
-More about the L* life-cycle can be found [here](#l-life-cycle). 
 
 ##### Guiding principles <!-- omit in toc -->
 > Intended to combat common mistakes that one might encounter when emplring this new technology.
@@ -265,11 +360,42 @@ is the reason that most of the more powerful process discovery techniques provid
 > Figure that showcases the main areas areas of process mining, and subsequent sub-interests.   
 > [Process mining techniques and applications – A systematic mapping study](./resources/literature/1-s2.0-S0957417419303161-main.pdf)
 
-### Process mining fundamentals
+### More Process Mining fundamentals
+#### Petri nets
+*A **Petri net** is a dynamic structure and a simple process modeling language that allow for the modeling of concurrency [Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf). Concurrency is a fundamental problem within computer science can be understood as a system containing multiple processes that are all executing at the same time, this is not to be confused with paralellism. Given a number of processes that all need to execute some computation and given a system with a single computational unit then theres is a natural contention for this resource. Who and what gets to access the resource, and what determines the ordering? Through complex scheduling and concurrency these processes are allowed access to the computational unit to perform their operation. This also implies nondeterministic exexution unless a specific policy has been defined. 
 
-*A **Petri net** is a dynamic structure that consists of a set of transitions, which are indicated by boxes and relate to some activity/task, or action that can be executed, a set of places, which are indicated by circles and may hold one or more tokens (indicated as black dots), and a set of directed arcs that connect these transitions and places with each other in a bipartite manner. Transitions are enabled as soon as all of their input places (places connected to this transition via an incoming arc) contain a token. If a transition is enabled, it may fire whereas it consumes a token from each of its input places and produces a token for each of its output places (places connected to this transition via an outgoing arc). In this way, the firing of a transition may change the marking of a net, and therefore the state of the process, which is defined by the distribution of tokens over the places.* - [Discovering simulation models](./resources/literature/discsim_is.pdf)
+While petri nets are visually simple they are executable and can be used in many analytical techniques. Petri nets have exact mathematical semantics and a well developed methemetical theory for process analysis, this inturn has led to the development of different extensions that enhance the standard petri net to solve some specific problem such as the colored petri net and the workflow net. However, standard petri nets or closely related derivatices such as the workflow net are commonly used to describe processes and therby also common artefacts in process mining projects and research. A petri net can formally be described as a *biparte graph* consisting of *places* and *transitions* [Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf). Petri nets are static in that their structure is constant, but dynamic in that they allow for everchanging markings. A marking is a term used to describe the current state of all tokens on the graph, otherwise known as a multi-set. *Tokens* are used to mark the current state and can traverse along the arcs in the graph from place to place. Tokens are passed purely from a place to the next via transitions. Transitions are purely intermediaries and cannot hold tokens, i.e states. However, transitions can employ rules that govern wether a token can flow through it or not, this is often described as *firing rules*. A transitions is said to fire a token when it consumes a token from each its inputs and produces one for each of its outputs.
 
-A decision point in a petri net is a place with multiple outgoing archs. A token can only be consumed by one of the transitions connected to these arcs. Each decision point is converted into a classification problem.
+![](./resources/simpleSplitsAndJoins.svg)
+>Simple petri net illustrating the different splits and firing rules.
+
+
+**Splits and joins**   
+Using this simple petri net as a description we can quickly illustrate how firing rules work. A transition or place cannot fire out new token(s) until its firing condition is met. Firstly we differentiate between splits and joins. splits are outgoing arches, whille joins are incoming arches. This naturally excludes cases where there are singular outgoing or incoming arches, a single outgoing arch is not a split. We also differentiate between AND and XOR(exclusive-OR) which are expressions borrowed from formal logic. Joining these two concepts together creates the following combinations:
+1. XOR-split: token coming from a place and exclusively going to one of the many outgoing arches, it cannot go to more than one.
+2. XOR-join: token coming from one of the many input transitions. Can exlusively consume a singular token coming from a singular transition.
+3. AND-split: token coming from a transition and going to every outgoing place.
+4. AND-join: tokens coming from all incoming places and going to 
+
+Transitions can also be described in terms of how many tokens they consume and how many they produce. This adds another layer of complexity and allows for the modeling of specific behaviour.
+
+![](./resources/petri_net_book.png)
+> figure taken from [Process Mining: Discovery, Conformance and Enhancement of Business Processes](./resources/literature/2011_Book_ProcessMining.pdf) showing a basic petri net  
+
+**Definitions**  
+A petri net is a triplet $N = (P,T,F)$.   
+$P$ is a finite set of **places**.   
+$T$ is a finite set of **transitions**, such that $P ∩ T = Ø$, thus meaning that all places and transitions are completely distinct.   
+$F$ is a **set of directed arcs**, otherwise known as the **flow relation**, and is defined as $F ⊆ (P×T)∪ (T×P)$. Thus meaning that the directed arcs are a subset of the union of the cartisan product of P&T and T&P, i.e the directed arcs are a subset of all possible directed arcs that the graph allows.  
+A **marked petri net** is a pair $(N,M)$, where $N$ is the aforementioned triple and $M$ is the markings.  
+**$M$ is the set of markings** and is an element of the multiset of places. The multiset of places being denoted as $B(P)$. Given that tokens can fill places this again means that $M$ is an element of the multiset of places, otherwise denoted as $M ∈ B(P)$. 
+
+Multisets differentiate themselves from ordinary sets in that they allow for multiple instances for each of its containing elements. For example, a simple set can be denoted as {$a,b$}. This is also a valid mutiset given that each element is multiplied by one. Therefore {$a,b$} is the same as {$a^1,b^1$}. This again also means that {$a,b,a$} is a valid multiset and can be also be denoted as {$a^2, b^1$}. The ordering of elements within these sets is insignificant as opposed to their multiplicity. Multisets are also used to model event logs as these often have multiple occurances of the same trace. 
+
+ Applying the aforementioned to the figure above we get the following:   
+ $P =${$start,c1,c2,c3,c4,c5, end$}  
+ $T =${$a, b, c,d, e, f,g, h$}  
+ $F =${$(start, a), (a, c1), (a, c2), (c1,b), (c1, c), (c2, d), (b, c3), (c, c3), (d, c4), (c3, e), (c4, e), (e, c5), (c5,f), (f, c1), (f, c2), (c5, g), (c5, h), (g, end), (h, end)$}
 
 ### Process mining and simulation
 TODO: write about short-term simulation, transient and steady state analysis.
@@ -329,11 +455,6 @@ Focuses on the product or service that is being delivered. Here we might look at
 ##### Performance analysis critiques  <!-- omit in toc -->
 
 
-
-
-----
-
-
 [A multi-dimensional quality assessment of state-of-the-art processdiscovery algorithms using real-life event logs](./resources/literature/1-s2.0-S0306437912000464-main.pdf)
 
 Having poor process quality metrics is indicative of a process model that needs repair. There are two models in this setting. The "original" and governing model of the actual process. This model might not be available or exist at all. Then theres the process model which is generated through process discovery. 
@@ -376,6 +497,121 @@ Nominal work on process quality metrics:
    1. requires that a process model with a simple structure can execute the behaviours in the event logs. 
    2. The simpler the model the better, i pressume..
 
+## Method
+
+### Aim:
+The project has two aims, these are:
+#### Primary Aim <!-- omit in toc -->
+Create a web based tool that allows for quick and easy simulation of process models in a interative manner.
+
+#### Secondary Aim <!-- omit in toc -->
+Demonstrate how existing process models can be improved by use of the tool.  
+
+Verify or dismiss the effect of the implemented model changes by running accurate simulations on the enhanced models.  
+
+> ...the “Achilles heel of process mining” is the fact that it is backward-looking. Process mining can be used to diagnose problems (e.g., bottlenecks or non-compliance) and predict the paths taken by running process instances (i.e., cases), but it cannot be used to answer “what if” questions and explore radical redesigns. Given the above, it is very natural to combine process mining and simulation.   
+> 
+> Source: [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf)
+
+> A high level overview.   
+> The resulting application will be a detailed instance of this exact model.
+
+![](./resources/method-overview.svg)
+
+**Steps:**
+1. The event log will have to be prepared by the user. This includes filtering, grouping, and cleaning.
+2. The event log is then uploaded.
+3. Envent log is transformed to a process model by use of on of the [process discovery algorithms](#process-discovery).
+4. The model will then have to be checked for [validity](#model-validation). 
+   1. Process discovery will often not yield a perfect model. There might be need to intercept and edit.
+   2. There are techniques for both manual and automatic model checking.
+6. The resulting model is then simulated by use of one of the [simulation techniques](#simulation).
+7. The simulation will yield a new event log. This is then analysed by of appropriate [techniques](#process-analysis).
+8. Lastly, the user has to reason over the resulting metrics. If the metrics are not are not as expected then this issue needs to be resolved by altering the model composition. The user jumpts back to step 4.
+
+
+### Approach
+As described, the fundamental method employed in this paper builds on the method used to build executable simulation models in [Discovering simulaton models](/resources/literature/discsim_is.pdf). This paper explores how one can build a detailed simulation model by creating individual models that focus on some perspective of the event log, and then combine these into a single holistic model. This model is then translated into a executable simulation model that can run in CPN Tools. The described method is executed by a series of plugins in ProM, as well as the completely separate CPN Tool application. While ProM can run on any system that has Java, CPN Tools it not as flexible and has much more restrictive system requirements, e.g its gui application cannot run on any unix based system. However, the simulator on which CPN Tools is built on can be compiled to run on unix. Prom plugins are used for translating model formats, creating a model that focuses on a specific perspective, and lastly to combine and translate the holistic model into an executable model. The CPN Tool is used to execute the simulatio model and generate new event logs.
+
+Some plugins are fully automatic and require no arguments other than the process log, while others require several parameters and generally more finesse. Given that one has to go through a series of steps, plugins, and tools in order to end up with the resulting process log, i think that this could be made easier by stripping away some of the inherent complexitites of these plugins, but also the complexities of using ProM. While ProM is the defacto tooling and has a track record spanning over a decade, it is not very intuitive and is bound to the local Java Runtime. Other tooling such as fluxicon's Disco have managed to create a tool that is easy and intuitive to use, but lack the same featureset that is available in ProM. ProM's plugin system is a clever way of allowing new methods and techniques created by the community to be introduced to the process mining space, but these plugins are naturally bound to the same requirements as ProM. While this approach is fully functional, it is arguably far from ideal as it forces researchers and developers to write new plugins in java. Reusing these plugins elsewhere would then require that they are reimpemented or ported to a more flexible format.
+
+There exists other projects that have addressed this interoperability concern, such as the process mining library for python - PM4PY. However, this does not offer the same "no-code" approach as Prom plugins, but it is more flexible.
+
+I argue that using docker containers might be a more feasible approach to orchestrating a ecosystem that is fundamentally built on plugins. These containers do not share resources with the underlying host and communicate over networking protocols. This creates a much clearer separation of concerns and comes with other benefits:
+1. Plugins can have separate front and backends. This is possible by creating two completely separate applications within the same container.
+2. Flexibility: Plugins can be written in any language and use any runtime. Given the abstraction layer that comes with containers the developer is no longer bound by creating a plugin that integrates with the existing plugin system i ProM.
+3. Flexibility. Given that containers are completely independent, this would allow for them to be incorporated other systems. 
+
+
+    
+### Research questions
+   > Current RQs are subject to change..  
+Current draft:  
+1. How can simulatons be used to verify the outcome of a process model?  
+2. How can simulatons be used to improve a real life process model?  
+3. What simulation algorithms exist, and what scenarios are they fit for?    
+4. How can one use existing tools to conduct process mining and simulation, what workflows exist and what tools are popular?
+   1. How well does this work?
+   2. How can it be improved?
+
+
+### Novelty 
+> Overlaps with [#yet-another-tool](#yet-another-tool)   
+
+1. issues with current tooling and perhaps academic tooling in general
+   1. describe current trends and existent tooling
+   2. by creating a web based tool that uses async http requests in the process we are also making it easier for new developers and researchers to introduce their techniques into this process flow
+      1. say you have a new model checking technique then you can simply craete a dockerized application of it and substitute your method instead of using the default
+2. transition from research to production is difficult?
+   1. use ProM for research and then use what for production?
+3. process mining and modularization of software is non-existent
+   1. there are some ad-hoc docker images of commonly used applications
+4. Does curretly not exist a tool with the described [feature set](#app).  
+
+The general technique describes is not unique. Process mining and simulation is not unique. Creating an app that allows for different methods to be combined is unique.
+
+Automation possibilities? 
+
+### Why (Project usefulness)
+
+**Extract from initial proposal:**
+
+> We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without comProMising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
+
+We can simplify this process into the following basic [petri net](#petri-net):
+
+![](./resources/PN-1.svg)
+
+This process could be resolved by adding a two new actions. A classification action where it is determined if the patient is a demanding or a easy case. And secondly a treatment step where the easy cases can be handled. 
+
+![](./resources/PN-2.svg)
+ 
+
+> Provided that the process has been given a new a path we can expect improvements in the time spent in place P3 and P4. However, we now have to also consider the time spent to diagnose the patient in P2.
+
+TODO: reference process mining and simulation paper, a match made in heaven for the usefullness and ProMise of combining these two techniques.
+
+#### Yet another tool? <!-- omit in toc -->
+1. Why do we need another tool?
+2. find work that details existing tooling
+3. what is the problem with the tools that exist
+4. what is it that this tool is trying to solve that other tools do not have
+
+ 
+ 
+
+### Deliverables  
+#### App
+**Feature set:**  
+- Upload event log and translate this into a process model.
+    - Allows for the user to select the process discovery algorithm to be used
+  - Upload process model directly
+- View the resulting petri net
+- Edit the resulting petri net by adding or removing places or transitions
+- Run simulation by selecting one of the available simulation methods
+- Run process analysis that fetches key performance indicators (KPI)
+
+> The web application is packaged in a easy to use interface that is designed for quick iteration. This again allows us to explore model alternatives with quick succession. While the app does return some performance indicators, it does not try to make intelligent observations about its results. It is the responsibility of the process mining expert and domain experts to reason over the results. 
 
 ### Simulation fundamentals 
 Simulation as a technnique and simulation models are commonly used in most sciences, and have been a vital contributor to solving some of science's major problems. While these models come in all shapes and sizes we can characterize them by the fact that they highlight some specific traits of a subject matter and place this subject in a natural or artificial environment. Based on the registered behaviour we are able to deduce the relationships between cause and effect. 
@@ -512,117 +748,31 @@ By applying different process mining algorithms we are able to extract key chara
 > https://svn.win.tue.nl/repos/prom/Packages/  
 > https://svn.win.tue.nl/trac/prom/browser/Packages
 
-The previously illustrated method and the aforementioned perspectives are all implemented using a series of plugins and other functionality that is native to Prom. The fact that the paper was first published in 2008 presents a few issues in regards to the specifics of the detailed method. While it is not mentioned expicitly, we can infer that the authors might have used some version of ProM which predates version 5.2, which is the ealiest ProM release that is still publically available. This has the implication that there has most likely been changes in the toolsset used to implement the method inbetween these versions. Repruducing results using the exact same techniques migh therefore not be possible. Through communication on the ProM forum it has been advised to only work with the latest major release, as this is the only version which is still supported. At the time of writing the current major version is 6.x. This implies that the method will have to be reimplemented in ProM 6.x and the results confirmed. Through other discussions on the forum it has been confirmed that CPN Tools is still the de facto simulation tool to be used in conjunction with ProM, even though there has likely been many other advancements in simulation tools. The simulaiton model will therefore be run in CPN Tools by use of a virtual machine.
+The previously illustrated method and the aforementioned perspectives are all implemented using a series of plugins and other functionality that is native to Prom. The fact that the paper was first published in 2008 presents a few issues in regards to the specifics of the detailed method. While it is not mentioned expicitly, we can confidently infer that the authors have used some version of ProM which predates version 5.2, which is the ealiest ProM release that is still publically available. The authors explicitly refer to the release of Prom 5 in future tense, thus indicating that the prom version used in the paper predates even this. This earlier verison is no longer supported and also has other technical implications that hinder the use of that exact version in this project. There have been dramatic changes in the ProM tool suite from version 5.2 to the initial version 6.0, the latter of which has even had 10 years to mature. The architecture of ProM plugins that predate version 6.x are built in a manner that do not separate the gui from application logic. This would inhibit us from running these plugins in a *headless* mode as they were designed to only work via GUI. They could of course be reimplemented in a manner that did not demand a GUI, but this would require rewriting much of the implementation code. Reimplememting code that is likely  outdated and may also have been improves in release 6.x is a waste of resoruces. The transition to version 6.x also marked a big change in the file formats of process logs, which are used as input for many of the available plugins. MXML had previously been the standard file format for describing process logs, but as of 2016 the IEEE, ProM, and the process mining community has moved on to the extensible event stream or XES standard. Due to limitations in plugin architecture that predate version 6.0 the method will have to be reimplemented using the latest plugins in Prom 6.x. 
+
+The described method will have to be revitalized in the latest release of ProM and tested in CPN Tools. CPN Tools has strict system requirements and the GUI application can only run in a virtual machine. However, the simulation engine is reported to work indepdendently of system architecture. For testing and initial development of the containerized plugins i will use a VM. Once the plugins are completed and tested then i will containerize the CPN Tools simulation engine.
+
+
 ###### Process log input -  MXML & XES <!-- omit in toc -->
-As of ProM 6.x the tool has moved on from the MXML to extensible event stream(XES) log format, which was officially adopted by IEEE 2016. In ealier versions of ProM MXML was used as the input format ([XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)). This also implies that the input data used in the paper is no longer supported by current tooling. We therefore need to find a new dataset. XES is intended to be used with ProM 6 and XESame. XESame is a tool for domain experts and is intended to help them specify how an event log can be extracted from some existing system and converted to XES. While XES addresses some discovered issues with MXML, such as concept ambiguity in advanced scenarios. MXML has a series of predefined attributes which have well defined semantics, but lacks a mechnism for describing advanced concepts. It is whenever one tries to expand on any of these well defined attributes or introduce new ones that problems may arise. The semantic meaning of these non-standard attributes is not well defined. XES inherits many of the same attributes from MXML, but implement them  differently. XES is built on SA-MXML which is the semantic extension of MXML. XES therefore has a well defined mechanism for describing complex concepts as one can link to ontologies. Understanding the differences of these formats is not paramount as we are only interested XES. However, the main featureset of XES can be described and demonstrated by presenting the main differences. 
-
-Here is a simple MXML file from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf). 
-```
-<WorkflowLog xmlns:xsi= ”http: www.w3.org 2001 XMLSchema−instance” xsi:noNamespaceSchemaLocation= ”http: is.ieis.tue.nl research processmining WorkflowLog.xsd” description= ”Example log”>
-    <Process id= ”Order”>
-        <ProcessInstance id= ”Order 1” description= ”instance with Order 1”>
-            <Data>
-                <Attribute name= ”TotalValue”>2142.38<Attribute>
-            </Data>
-            <AuditTrailEntry>
-                <WorkflowModelElement>Create</WorkflowModelElement>
-                <EventType>complete</EventType>
-                <Originator>Wil<Originator>
-                        <Timestamp>2009−01−03T15:30:00.000+01:00</Timestamp>
-                        <Data>
-                            <Attribute name= ”currentValue”>2142.38</Attribute>
-                            <Attribute name= ”requestedBy”>Eric</Attribute>
-                            <Attribute name= ”supplier”>Fluxi Inc.</Attribute>
-                            <Attribute name= ”expectedDelivery”> 2009−01−12T12:00:00.000+01:00</Attribute>
-                        </Data>
-            </AuditTrailEntry>
-        </ProcessInstance>
-    </Process>
-</WorkflowLog>
-```
-
-In this simple MXML log we see a number of elements and attributes. These are:  
-| Term MXML            | Term XES | Meaning                                                                             |
-| -------------------- | -------- | ----------------------------------------------------------------------------------- |
-| WorkflowLog          | Log      | Captures an entire log. Outermost element.                                          |
-| ProcessInstance      | Trace    | Captures a single process instance                                                  |
-| AuditTrailEntry      | Event    | Captures a single event                                                             |
-| Data                 | X        | Wrapper for attribute elements                                                      |
-| Attribute            | X        | Elements that describe some aspect of its parent.                                   |
-| WorkflowModelElement | X        | Captures the name of the activity that triggered the event                          |
-| EventType            | X        | Captures the type of the event, like start, complete, suspend, and resume           |
-| Originator           | X        | captures the name of the resource (human or not) who actually executed the activity |
-| Timestamp            | X        | captures the time at which the event occurred in the system                         |
- > Table crated based on descriptions from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)
-
-The corresponding log in XES is:  
-```
-<log>
-    <extension name= ”Lifecycle” prefix= ”lifecycle” uri= ”http: www.xes−standard.org lifecycle.xesext” />
-    <extension name= ”Time” prefix= ”time” uri= ”http: www.xes−standard.org time.xesext” />
-    <extension name= ”Concept” prefix= ”concept” uri= ”http: www.xes−standard.org concept.xesext” />
-    <extension name= ”Semantic” prefix= ”semantic” uri= ”http: www.xes−standard.org semantic.xesext” />
-    <extension name= ”Organizational” prefix= ”org” uri= ”http: www.xes−standard.org org.xesext” />
-    <extension name= ”Order” prefix= ”order” uri= ”http: my.company.com xes order.xesext” />
-    <global scope= ”trace”>
-        <string key= ”concept:name” value= ”unknown” />
-    </global>
-    <global scope= ”event”>
-        <string key= ”concept:name” value= ”unknown” />
-        <string key= ”lifecycle:transition” value= ”unknown” />
-        <string key= ”org:resource” value= ”unknown” />
-    </global>
-    <classifier name= ”Activity classifier” keys= ”concept:name lifecycle:transition” />
-    <string key= ”concept:name” value= ”Example log” />
-    <trace>
-        <string key= ”concept:name” value= ”Order 1” />
-        <float key= ”order:totalValue” value= ”2142.38” />
-        <event>
-            <string key= ”concept:name” value= ”Create” />
-            <string key= ”lifecycle:transition” value= ”complete” />
-            <string key= ”org:resource” value= ”Wil” />
-            <date key= ”time:timestamp” value= ”2009−01−03T15:30:00.000+01:00” />
-            <float key= ”order:currentValue” value= ”2142.38” />
-            <string key= ”details” value= ”Order creation details”>
-                <string key= ”requestedBy” value= ”Eric” />
-                <string key= ”supplier” value= ”Fluxi Inc.” />
-                <date key= ”expectedDelivery” value= ”2009−01−12T12:00:00.000+01:00” />
-            </string>
-        </event>
-    </trace>
-</log>
-```
-
-Based on the table we can see that there is not a one to one relationship between MXML and XES. The XES elements *Log, Trace, Event* are purely used to describe the structure of the document and do not contain any information themselves. Attributes are used to describe and store data in XES. Every attribute has a key, value, and type. The types being *string, interger, boolean, float, and date.* Attributes can be deeply nested, thus making it possible to describe attributes with attributes.
-
-![](./resources/XEs_metamodel.png)
-> Figure taken from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that described the XES metamodel.
+As of ProM 6.x the tool has moved on from the MXML to extensible event stream(XES) log format, which was officially adopted by IEEE 2016. In ealier versions of ProM MXML was used as the input format ([XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)). This also implies that the input data used in the paper is no longer supported by current tooling. We therefore need to find a new dataset. XES is intended to be used with ProM 6 and XESame. XESame is a tool for domain experts and is intended to help them specify how an event log can be extracted from some existing system and converted to XES. 
 
 
-| Extension      | Key            | Level           | Type   | Description                                                                                                 |
-| -------------- | -------------- | --------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
-| Concept        | name           | log,trace,event | string | Generally understood name                                                                                   |
-| Concept        | instance       | event           | string | Identifier of the activity whose execution generated the event                                              |
-| Lifecycle      | model          | log             | string | The transactional model used for the lifecycle transition for all events in the log                         |
-| Lifecycle      | transition     | event           | string | The lifecycle transition represented by each event (e.g. start, complete, etc.)                             |
-| Organizational | resource       | event           | string | The name, or identifier of the resource having triggered the event, within the organizational structure     |
-| Organizational | role           | event           | string | The role of the resource having triggered the event, within the organizational structure                    |
-| Organizational | group          | event           | string | The group within the organizational structure, of which the resource having triggered the event is a member |
-| Time           | timestamp      | event           | date   | The date and time, at which the event has occurred                                                          |
-| Semantic       | modelReference | all             | string | Reference to model concepts in an ontology                                                                  |
- > Table from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that shows the standard XES extensions.
-
-The semantics of an attribute is described by its extension. Extensions are not mandatory as exemplified in the XES example log above. We differ between **standard** and **custom** extensions. The standard extensions are the contepts described in the table above, while custom extensions can be user defined or point to some ontology. **Event classifiers** are specified in the log element and are used to assign some identity to an event. The identity is a product of its containing attributes, thus making it possible to compare similar events by looking purely at their identity. The global element is used to declare well defined values for every trace or event in the log. This can be compared to declaring and initializing attributes on a class in object oriented programming. This is very useful for plugins as they can be certain that every trace or event instance has the declared attributes. The globally defined value being the fallback if it is not overwritten.
 
 
 
 From the paper we can extract the following plugins:
-1. Alpha algorithm 
-   Source: https://svn.win.tue.nl/trac/prom/browser/Packages/AlphaMiner
+1. Alpha algorithm     
 2. Performance Analysis with Petri net
-   Source: 
 3. Decision Point Analysis 
 4. Organizational Miner
+
+Aditionally there is some native ProM functionality that also needs to be extracted. 
+
+
+This revitalized implementation in ProM 6.x will need a new dataset in XES format. I had initially hoped to locate the dataset used in the paper and then transform this from MXML to XES, but the data cannot be sourced. However, there is a online repository at https://data.4tu.nl where most data from published process mining projects is stored. Here i was able to find datasets from real world processes,as well as symthetic logs. These resources allowed me to create a new synthetic log that fit my exact usecase. The creation of this log is performed in parallel to exploring the different plugins.
+
+ 
+
 
 
 ##### Merging perspectives <!-- omit in toc -->
@@ -759,122 +909,6 @@ Options:
    - Graphviz - Graph Visualization Software (as used in "Automated simulation and verification of process models discovered by process mining")
      - !!dont think this has the ability to edit the graph
      - 
- 
-## Method
-
-### Aim:
-The project has two aims, these are:
-#### Primary Aim <!-- omit in toc -->
-Create a web based tool that allows for quick and easy simulation of process models in a interative manner.
-
-#### Secondary Aim <!-- omit in toc -->
-Demonstrate how existing process models can be improved by use of the tool.  
-
-Verify or dismiss the effect of the implemented model changes by running accurate simulations on the enhanced models.  
-
-> ...the “Achilles heel of process mining” is the fact that it is backward-looking. Process mining can be used to diagnose problems (e.g., bottlenecks or non-compliance) and predict the paths taken by running process instances (i.e., cases), but it cannot be used to answer “what if” questions and explore radical redesigns. Given the above, it is very natural to combine process mining and simulation.   
-> 
-> Source: [Process mining and simulation: A match made in heaven!](./resources/literature/p1002(1).pdf)
-
-> A high level overview.   
-> The resulting application will be a detailed instance of this exact model.
-
-![](./resources/method-overview.svg)
-
-**Steps:**
-1. The event log will have to be prepared by the user. This includes filtering, grouping, and cleaning.
-2. The event log is then uploaded.
-3. Envent log is transformed to a process model by use of on of the [process discovery algorithms](#process-discovery).
-4. The model will then have to be checked for [validity](#model-validation). 
-   1. Process discovery will often not yield a perfect model. There might be need to intercept and edit.
-   2. There are techniques for both manual and automatic model checking.
-6. The resulting model is then simulated by use of one of the [simulation techniques](#simulation).
-7. The simulation will yield a new event log. This is then analysed by of appropriate [techniques](#process-analysis).
-8. Lastly, the user has to reason over the resulting metrics. If the metrics are not are not as expected then this issue needs to be resolved by altering the model composition. The user jumpts back to step 4.
-
-
-### Approach
-As described, the fundamental method employed in this paper builds on the method used to build executable simulation models in [Discovering simulaton models](/resources/literature/discsim_is.pdf). This paper explores how one can build a detailed simulation model by creating individual models that focus on some perspective of the event log, and then combine these into a single holistic model. This model is then translated into a executable simulation model that can run in CPN Tools. The described method is executed by a series of plugins in ProM, as well as the completely separate CPN Tool application. While ProM can run on any system that has Java, CPN Tools it not as flexible and has much more restrictive system requirements, e.g its gui application cannot run on any unix based system. However, the simulator on which CPN Tools is built on can be compiled to run on unix. Prom plugins are used for translating model formats, creating a model that focuses on a specific perspective, and lastly to combine and translate the holistic model into an executable model. The CPN Tool is used to execute the simulatio model and generate new event logs.
-
-Some plugins are fully automatic and require no arguments other than the process log, while others require several parameters and generally more finesse. Given that one has to go through a series of steps, plugins, and tools in order to end up with the resulting process log, i think that this could be made easier by stripping away some of the inherent complexitites of these plugins, but also the complexities of using ProM. While ProM is the defacto tooling and has a track record spanning over a decade, it is not very intuitive and is bound to the local Java Runtime. Other tooling such as fluxicon's Disco have managed to create a tool that is easy and intuitive to use, but lack the same featureset that is available in ProM. ProM's plugin system is a clever way of allowing new methods and techniques created by the community to be introduced to the process mining space, but these plugins are naturally bound to the same requirements as ProM. While this approach is fully functional, it is arguably far from ideal as it forces researchers and developers to write new plugins in java. Reusing these plugins elsewhere would then require that they are reimpemented or ported to a more flexible format.
-
-There exists other projects that have addressed this interoperability concern, such as the process mining library for python - PM4PY. However, this does not offer the same "no-code" approach as Prom plugins, but it is more flexible.
-
-I argue that using docker containers might be a more feasible approach to orchestrating a ecosystem that is fundamentally built on plugins. These containers do not share resources with the underlying host and communicate over networking protocols. This creates a much clearer separation of concerns and comes with other benefits:
-1. Plugins can have separate front and backends. This is possible by creating two completely separate applications within the same container.
-2. Flexibility: Plugins can be written in any language and use any runtime. Given the abstraction layer that comes with containers the developer is no longer bound by creating a plugin that integrates with the existing plugin system i ProM.
-3. Flexibility. Given that containers are completely independent, this would allow for them to be incorporated other systems. 
-
-
-    
-### Research questions
-   > Current RQs are subject to change..  
-Current draft:  
-1. How can simulatons be used to verify the outcome of a process model?  
-2. How can simulatons be used to improve a real life process model?  
-3. What simulation algorithms exist, and what scenarios are they fit for?    
-4. How can one use existing tools to conduct process mining and simulation, what workflows exist and what tools are popular?
-   1. How well does this work?
-   2. How can it be improved?
-
-
-### Novelty 
-> Overlaps with [#yet-another-tool](#yet-another-tool)   
-
-1. issues with current tooling and perhaps academic tooling in general
-   1. describe current trends and existent tooling
-   2. by creating a web based tool that uses async http requests in the process we are also making it easier for new developers and researchers to introduce their techniques into this process flow
-      1. say you have a new model checking technique then you can simply craete a dockerized application of it and substitute your method instead of using the default
-2. transition from research to production is difficult?
-   1. use ProM for research and then use what for production?
-3. process mining and modularization of software is non-existent
-   1. there are some ad-hoc docker images of commonly used applications
-4. Does curretly not exist a tool with the described [feature set](#app).  
-
-The general technique describes is not unique. Process mining and simulation is not unique. Creating an app that allows for different methods to be combined is unique.
-
-Automation possibilities? 
-
-### Why (Project usefulness)
-
-**Extract from initial proposal:**
-
-> We can mention one example from treatment of age-related macular degeneration in the eye clinic at Haukeland University Hospital. By analyzing patient data, it was found that in some cases it takes less than 15 minutes to provide the necessary injection, and in other cases it takes as much as 45 minutes. **Based on the data, nurses were trained to handle the easy cases, while specialists handled the more complex cases. It reduced the workload for the specialists, and it was possible to provide services to more patients without comProMising the quality.** With this arrangement of training nurses with responsibilities that requires relatively lower competence, it was possible to provide better services at reduced cost, as specialists could do more complex tasks. However, **there is a lack of tool support for this kind of careflow analysis in the hospital, even though it is very important for the management and planning of resources, and to improve the service quality.**
-
-We can simplify this process into the following basic [petri net](#petri-net):
-
-![](./resources/PN-1.svg)
-
-This process could be resolved by adding a two new actions. A classification action where it is determined if the patient is a demanding or a easy case. And secondly a treatment step where the easy cases can be handled. 
-
-![](./resources/PN-2.svg)
- 
-
-> Provided that the process has been given a new a path we can expect improvements in the time spent in place P3 and P4. However, we now have to also consider the time spent to diagnose the patient in P2.
-
-TODO: reference process mining and simulation paper, a match made in heaven for the usefullness and ProMise of combining these two techniques.
-
-#### Yet another tool? <!-- omit in toc -->
-1. Why do we need another tool?
-2. find work that details existing tooling
-3. what is the problem with the tools that exist
-4. what is it that this tool is trying to solve that other tools do not have
-
- 
- 
-
-### Deliverables  
-#### App
-**Feature set:**  
-- Upload event log and translate this into a process model.
-    - Allows for the user to select the process discovery algorithm to be used
-  - Upload process model directly
-- View the resulting petri net
-- Edit the resulting petri net by adding or removing places or transitions
-- Run simulation by selecting one of the available simulation methods
-- Run process analysis that fetches key performance indicators (KPI)
-
-> The web application is packaged in a easy to use interface that is designed for quick iteration. This again allows us to explore model alternatives with quick succession. While the app does return some performance indicators, it does not try to make intelligent observations about its results. It is the responsibility of the process mining expert and domain experts to reason over the results. 
 
 ## Concepts:
 ### Fundamental statistical concepts:
@@ -915,15 +949,6 @@ All normal distributions have the following properties:
 2. Mean, mode, and median are the same
 3. Half of the populaton is greater than the mean and half is less.
  
-### L* life-cycle
-A well know paper published by van der Aalst (2011) proposed the L ∗ life-cycle model consisting of five phases for conducting a process mining application.
-
-- Plan and justify phase-focus is data-driven to explore and answer curiosities and gain insights; or, question-driven focused on explaining a specific situation e.g., why determined issues occur; or, goal-driven focused on improving the KPI, response time performance, explain deviations, reduce costs.
-- Extract-explore the knowledge system data domain for recover- ing relevant events. Sometimes it can be very time-consuming owing to system complexity, e.g., with thousands of repositories spread among many tables.
-- Discover a process model based on event logs-process miner algorithms are used to obtain a process model. When an un- derstandable model is acquired, it is possible to start confor- mance checks, analyzing activities and deviations to the discov- ered process model.
-- Create integrated process model-enhancements and added in- formation are integrated in the model, ProMoting new perspec- tives related to time replayed, organization, resource utilization, case comparisons, and simulation, among other possibilities.
-- Operational support-involves detecting, predicting, and recom- mending. This is the most advanced level of computational sup- port, for example, the process mining tool should be capable to alert (email) on deviation cases, provide advice about bottle- necks, recommend resource setup or reallocation, etc
-
 ### Process log
 Zakarija I, Škopljanac-Macina F, Blaškovic B. Discov- ering process model from incomplete log using pro- cess mining. In: 2015 57th International Symposium ELMAR (ELMAR); ÍEEE; 2015. p. 117–120.
 
