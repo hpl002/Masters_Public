@@ -1,0 +1,49 @@
+# Outline
+
+## Introduction
+
+- Abstract
+
+- Introduction
+
+- Constributions
+
+- Paper structure
+
+## Background
+
+- Process mining
+
+  *What is process mining*
+
+  - Manifesto
+
+    *Main activities*
+
+    *Event logs*
+
+    *Lifecycle of process mining project*
+
+    *Guiding principles*
+
+    *Challenges*
+
+- More process mining fundamentals
+
+  - Petri nets
+    - definitions
+  - Colored petri nets
+
+- Process mining and simulation
+
+- Analysis
+
+  - Model analysis
+  - Performance analysis
+
+## Tooling
+
+- Process mining tools
+- Development tools
+- Simulation tools
+!INCLUDE "main/sections/xes.mdpp", 2
