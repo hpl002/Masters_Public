@@ -1,30 +1,6 @@
 # eXtensible Event Stream (XES)
 > IEEE stadard approved September 22 2016 and sponsored by the Standards Committee of the IEEE Computational Intelligence Society.
 
-**Works:**
-1. @book{IEEEComputationalIntelligenceSociety2016,
-abstract = {The XES standard defines a grammar for a tag-based language whose aim is to provide designers of information systems with a unified and extensible methodology for capturing systems behaviors by means of event logs and event streams. This standard includes a XML Schema describing the structure of an XES event log/stream and a XML Schema describing the structure of an extension of such a log/stream. Moreover, the standard includes a basic collection of so-called XES extension prototypes that provide semantics to certain attributes as recorded in the event log/stream.},
-author = {{IEEE Computational Intelligence Society}},
-booktitle = {Proceedings of the IEEE},
-file = {:Users/hermanplatou/code/private/Masters{\_}Literature/IEEE{\_}XES.pdf:pdf},
-isbn = {9781504424219},
-keywords = {IEEE 1849™,XML,event log,event stream,extensions,system behavior},
-number = {June},
-pages = {1--50},
-title = {{Standard for eXtensible Event Stream (XES) for Achieving Interoperability in Event Logs and Event Streams}},
-url = {https://ieeexplore.ieee.org/servlet/opac?punumber=7740856},
-year = {2016}
-}
-2. @article{Verbeek2010,
-author = {Verbeek, H. M.W. and Buijs, Joos C.A.M. and van Dongen, Boudewijn F. and van der Aalst, Wil M.P.},
-file = {:Users/hermanplatou/code/private/Masters{\_}Literature/Verbeek2011{\_}Chapter{\_}XESXESameAndProM6.pdf:pdf},
-journal = {Information Systems Evolution},
-pages = {60--75},
-title = {{XES, XESame, and ProM 6}},
-year = {2010}
-}
----
-
 XES is a XML based standard for describing event logs and event streams. These logs are commonly exhanged between different information systems and other types of clients, and therefore need to adhere to a fixed and agreed upon standard. XES is this standard.  
 It allows for use of external ontologies, thus having the capability of providing accurate semantics to its content. It is the IEEE standard for describing event logs and event streams. 
 
