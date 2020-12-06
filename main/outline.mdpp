@@ -29,9 +29,11 @@
     *Challenges*
 
 - More process mining fundamentals
-
+  - Core activities in process mining
+  > TODO: Relate core activities to lifecycle and the different types of plugins available in prom (dscovery, analysis, import, etc.)
   - Petri nets
     - definitions
+
   - Colored petri nets
 
 - Process mining and simulation
