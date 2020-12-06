@@ -206,10 +206,158 @@ Attributes that are understood to be available and properly defined for each eve
 
 ### Classifiers
 In the XES standard there are no predefied attributes with any well-understood meaning. instead a log has to hold a list of classifiers, which can be empty. These classifiers are a mandatory feature. 
-A classifier assigns an identity to each event. This makes the event comparable to other events by use of this assigned id. Examples of identiteis include the descriptive name of the event, and/or its case. A classifier can be either a **event classifier** or **trace classifier**. 
+A classifier assigns an identity to each event. This makes the event comparable to other events by use of this assigned id. Examples of identities include the descriptive name of the event, and/or its case. A classifier can be either a **event classifier** or **trace classifier**. 
 
 #### Event and Trace classifier
 Has to be defined via an ordered list of attribute keys. The identity of the event/trace shall be described from the actual values of the attributes with these keys. An Attribute whose key appears in the event/trace classifier list has to be declared as a global event attribute before the classifier is defined. 
 
 #### Extensions
+An extension defines a possibly empty set of attributes for every type of component.   
+Extensions provide points of reference for interpreting these attributes, and, thus their components.  
+*Extensions, therefore, are primarily a vehicle for attaching semantics to a set of defined attributes per component.*  
+Extensions can be used as a set of commonly understood attributes that are vital for a specific perspective or dimension of evnet log analysis. 
+Another use is the definition of generally-understood attributes for a specific application domain. (e.g medial attributes for use in the medical domain.)  
+An extension has to have a descriptive name, prefix, and unifirm resource identifier (URI). The prefix being the prefix for all attributes defined by the extension. 
+They keys of all attributes defined in by the extension have to be prepended with this prefix and a colon separation character. The URI is unique and points to the definition of the extension.
 
+The definition has to contain a list of attribute declarations for every comonent, this list can be empty. 
+An attribute declaration has to contain the key of the attribute, the datatype, and a possibly empty list of aliases. 
+The alias has to contain the descriptive text for the attribute and the language code of the language of this descriptive text.
+
+![](./../../resources/XES_IEEE_STATE_FLOW.png)
+> Figure of state flow diagram, taken from IEEEComputationalIntelligenceSociety2016
+
+
+
+The XES schema has a corresponding XML schema definition.
+``` XML
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="log" type="LogType"/>
+	<!-- Attributables -->
+	<xs:group name="AttributableGroup">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="string" type="AttributeStringType"/>
+				<xs:element name="date" type="AttributeDateType"/>
+				<xs:element name="int" type="AttributeIntType"/>
+				<xs:element name="float" type="AttributeFloatType"/>
+				<xs:element name="boolean" type="AttributeBooleanType"/>
+				<xs:element name="id" type="AttributeIDType"/>
+				<xs:element name="list" type="AttributeListType"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="AttributableType">
+		<xs:group ref="AttributableGroup"/>
+	</xs:complexType>
+	<!-- String attribute -->
+	<xs:complexType name="AttributeStringType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Date attribute -->
+	<xs:complexType name="AttributeDateType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:dateTime" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Integer attribute -->
+	<xs:complexType name="AttributeIntType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:long" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Floating-point attribute -->
+	<xs:complexType name="AttributeFloatType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:double" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Boolean attribute -->
+	<xs:complexType name="AttributeBooleanType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:boolean" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ID attribute -->
+	<xs:complexType name="AttributeIDType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- List attribute -->
+	<xs:complexType name="AttributeListType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:sequence>
+					<xs:element name="values" type="AttributeType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Extension definition -->
+	<xs:complexType name="ExtensionType">
+		<xs:attribute name="name" type="xs:NCName" use="required"/>
+		<xs:attribute name="prefix" type="xs:NCName" use="required"/>
+		<xs:attribute name="uri" type="xs:anyURI" use="required"/>
+	</xs:complexType>
+	<!-- Globals definition -->
+	<xs:complexType name="GlobalsType">
+		<xs:group ref="AttributableGroup"/>
+		<xs:attribute name="scope" type="xs:NCName"/>
+	</xs:complexType>
+	<!-- Classifier definition -->
+	<xs:complexType name="ClassifierType">
+		<xs:attribute name="name" type="xs:NCName" use="required"/>
+		<xs:attribute name="scope" type="xs:NCName"/>
+		<xs:attribute name="keys" type="xs:token" use="required"/>
+	</xs:complexType>
+	<!-- Attribute -->
+	<xs:complexType name="AttributeType">
+		<xs:complexContent>
+			<xs:extension base="AttributableType">
+				<xs:attribute name="key" type="xs:Name" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Logs are elements that may contain traces -->
+	<xs:complexType name="LogType">
+		<xs:sequence>
+			<xs:element name="extension" type="ExtensionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="global" type="GlobalsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="classifier" type="ClassifierType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:group ref="AttributableGroup"/>
+			<xs:element name="trace" type="TraceType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="xes.version" type="xs:decimal" use="required"/>
+		<xs:attribute name="xes.features" type="xs:token"/>
+	</xs:complexType>
+	<!-- Traces are elements that may contain events -->
+	<xs:complexType name="TraceType">
+		<xs:sequence>
+			<xs:group ref="AttributableGroup"/>
+			<xs:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Events are elements -->
+	<xs:complexType name="EventType">
+		<xs:group ref="AttributableGroup"/>
+	</xs:complexType>
+</xs:schema>
+
+```
