@@ -168,7 +168,7 @@ Provided that the standard has a official XML schema definition we can use freel
 As mentioned there are many freely available tools that are useful when working with or creating new XML documents. While there are many standalone tools, i have choosen to use a freely available extension for the popular Visual Studio code IDE created by Microsoft. The extension is created by [red hat](https://www.redhat.com/en) and is freely available on [github](https://github.com/redhat-developer/vscode-xml/blob/master/docs/README.md) and naturally also in the [VScode marketplace](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml). 
 
 
- ### Creating a XES skeleton file
+ ## Creating a XES skeleton file
 Skeleton files that contain the absolute minimum while still conforming to the schema. 
 Given that the schema defines the grammar for the XML file this naturally implies that it itself can be used to generate a working example. There are numerouse freely available generators, i chose to use a generator that is available [here](https://www.liquid-technologies.com/online-xsd-to-xml-converter). This then produced the follwing XML document:
 ```XML
@@ -222,7 +222,7 @@ Given that the schema defines the grammar for the XML file this naturally implie
 ```
  
  While the skeleton file is representative, it is perhaps not very intuititve. Drawing from the examples provided in the @VanderAalst2011 book we can create a basic example and walk through its contents
-### Creating a basic example
+## Creating a basic example
 In Chapter 1 of @VanderAalst2011 the author details a running example of the *handling of requests for compensation.* The example below uses this log as inspiration, but has been reduced down to a single trace and a single event for simplicity. Given this simple log we can walk through all tags and correlate them to their definitions and descriptions in the official specification. I will reference the line numbers in this example log and provide snippets and descriptions from the specification.
 
 ``` XML
@@ -261,7 +261,7 @@ In Chapter 1 of @VanderAalst2011 the author details a running example of the *ha
 
 
 
-#### XML namespaces
+## XML namespaces
 For readers that are not well versed in XML it is recommended to read a quickstart guide. However, one key aspect that will be explicitly mentioned here becuase it is so crucial, are XML namespaces and some schema location attributes. These are often used in XML documents and can for example be seen in the provided log.
 ```
 02.<log xes.version="3" xsi:noNamespaceSchemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -281,7 +281,7 @@ First the xsi namespace is declared, xsi being short for XML Schema Instance. Th
 ```
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 ```
-##### Schema location attributes
+## Schema location attributes
 Provided that the XES schema definition does not have a defined targetNamespace attribute on its root element, we have to source it by use of the ```noNamespaceSchemaLocation``` xsi attribute. This the attaches the schema definitions to the undefined namespace. It is therefore not possible to declare multiple schemas in this attribute.
 
 In the event where the source schema has a target namespace attribute defined then this has to be imported and defined in the target document accordingly. 
@@ -293,18 +293,18 @@ If the XES schema had a target namespace defined as xes, then we would use a dif
 xsi:schemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd"
 ```
 
-#####
-#### XML Declaration
+###
+## XML Declaration
 **Line 1**  
 All xml documents should start this declaration. The declaration acts as processing instructions. 
 The declaration should contian a version number that specified what version of the XML standard the document is compliant with. The document should also have a specifeid character encoding. The tag can also include a optional *standalone* attribute. This defaults to *no*, but is set to *yes* then the declaration is specfying that there are no external declarations required for document parsing.
 
-#### XES specification nomenclature
+## XES specification nomenclature
 XES i built on a series of components.  
 The strict definition being:  
 **component:** An extensible event stream (XES) element that may contain XES attributes, that is, a log, a trace, an event, or an attribute.*
 
-#### Log components
+## Log components
 The outermost element in a XES log. 
 *Represents information that is related to a specific process.*  
 If the log only contains events and no traces, then the log is called a **stream**. I.e if the log is simply one trace.
@@ -333,7 +333,7 @@ If the log only contains events and no traces, then the log is called a **stream
 | xes.version  | xes.decimal |   yes    | Version of the XES standard that the document conforms to                     |
 | xes.features |  xs:token   |    no    | whitespace separated list of optional xes.features, such as nested attributes |
 
-### Extensions
+## Extensions
 An extension defines a possibly empty set of attributes for every type of component.   
 Extensions provide points of reference for interpreting these attributes, and, thus their components.  
 *Extensions, therefore, are primarily a vehicle for attaching semantics to a set of defined attributes per component*
@@ -361,7 +361,7 @@ The alias has to contain the descriptive text for the attribute and the language
 </xs:complexType>
 ```
 
-### Attribute component
+## Attribute component
 Information pertaining to any component is stored in the attibute component. The aforementioned components are simply wrappers. Attributes describe the enclosing component, which can contain any number of attributes.  
 > Attributes can nest other attributes.
 However, no two attributes of the same component can share the same key. 
@@ -369,7 +369,7 @@ However, no two attributes of the same component can share the same key.
 
 An attribute has to be either **elementary** or **composite**  
 
-#### Elementary attributes
+### Elementary attributes
 An attribute that contains a value that is singular and basic. These attribute are *string, date and time, integer number, real number, Boolean, ID*.
 1. **String** attribute
 - valid values must conform to the xs:string datatype
@@ -445,7 +445,7 @@ There are many occurances of elementary attributes in the example. Provides it t
 	</xs:complexType>
 ```
   
-#### Composite attributes
+### Composite attributes
 Composite attributes are attributes that can contain other attributes. In the XES standard this is also known as a *list attribute*.
  
 Valid values for the list datatype are all series of attribute values. The ordering of child attributes is important. Attributes may share the same key. Should be noted that the *value* list is not the same as the list attribute. The list *attribute* can contain value lists. It is also a component. The list *datatype* is not a component.  
@@ -487,7 +487,7 @@ The declared example does not contain any components of the list datatype. But, 
 </xs:complexType>
 ```
 
-### Global component
+## Global component
 The log can hold a list of global attribute declarations. This attribute shall have a key, datatype, and value. This attribute is either a **event attribute** or **trace attribute**.
 
 Attributes that are understood to be available and properly defined for each event and/or trace in the log. This means that **every** event and/or trace has the attributes declared in this attribute. This includes key,datatype, and value. The events and/or trace themselves can orverride the value. In the event where the event and/or trace has a missing attribute, then this is substituted by the value in the global attribute. It should only be used in this scenario. 
@@ -514,7 +514,7 @@ Attributes that are understood to be available and properly defined for each eve
 	</xs:complexType>
 ```
 
-### Trace component
+## Trace component
 Represents the execution of a single case.
 Should contain a list of events that relates to that particular case.
 Ordering og the containing events is imporant.
@@ -536,7 +536,7 @@ Ordering og the containing events is imporant.
 </xs:complexType>
 ```
 
-#### Event component
+## Event component
 The most atomic component.  
 If the event occurs in some trace then it is clear to which case it belongs.  If the event does not occur in some trace, i.e in the log, then we need some way of relating events to cases. For this we use **trace classifiers** and **event classifiers**.
 > Events do not have to be directly tied to some case, i.e not wrapped in the trace element.  
@@ -559,12 +559,12 @@ If the event occurs in some trace then it is clear to which case it belongs.  If
 </xs:complexType>
 ```
 
-### Classifiers
+## Classifiers
 In the XES standard there are no predefied attributes with any well-understood meaning. Instead a log has to hold a list of classifiers.  
 
 A classifier assigns an identity to each event. This makes the event comparable to other events by use of this assigned id. Examples of identities include the descriptive name of the event, and/or its case. A classifier can be either a **event classifier** or **trace classifier**. 
 
-#### Event and Trace classifier
+### Event and Trace classifier
 Has to be defined via an ordered list of attribute keys. The identity of the event/trace shall be described from the actual values of the attributes with these keys. An Attribute whose key appears in the event/trace classifier list has to be declared as a global event attribute before the classifier is defined. 
 
 **From example**
