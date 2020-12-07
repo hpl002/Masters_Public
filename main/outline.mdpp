@@ -48,4 +48,4 @@
 - Process mining tools
 - Development tools
 - Simulation tools
-!INCLUDE "main/sections/xes.mdpp", 2
+!INCLUDE "main/sections/XES/xes.mdpp", 2

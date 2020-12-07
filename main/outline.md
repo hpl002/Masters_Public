@@ -29,9 +29,11 @@
     *Challenges*
 
 - More process mining fundamentals
-
+  - Core activities in process mining
+  > TODO: Relate core activities to lifecycle and the different types of plugins available in prom (dscovery, analysis, import, etc.)
   - Petri nets
     - definitions
+
   - Colored petri nets
 
 - Process mining and simulation
@@ -49,140 +51,14 @@
 ### eXtensible Event Stream (XES)
 > IEEE stadard approved September 22 2016 and sponsored by the Standards Committee of the IEEE Computational Intelligence Society.
 
-**Works:**
-1. @book{IEEEComputationalIntelligenceSociety2016,
-abstract = {The XES standard defines a grammar for a tag-based language whose aim is to provide designers of information systems with a unified and extensible methodology for capturing systems behaviors by means of event logs and event streams. This standard includes a XML Schema describing the structure of an XES event log/stream and a XML Schema describing the structure of an extension of such a log/stream. Moreover, the standard includes a basic collection of so-called XES extension prototypes that provide semantics to certain attributes as recorded in the event log/stream.},
-author = {{IEEE Computational Intelligence Society}},
-booktitle = {Proceedings of the IEEE},
-file = {:Users/hermanplatou/code/private/Masters{\_}Literature/IEEE{\_}XES.pdf:pdf},
-isbn = {9781504424219},
-keywords = {IEEE 1849™,XML,event log,event stream,extensions,system behavior},
-number = {June},
-pages = {1--50},
-title = {{Standard for eXtensible Event Stream (XES) for Achieving Interoperability in Event Logs and Event Streams}},
-url = {https://ieeexplore.ieee.org/servlet/opac?punumber=7740856},
-year = {2016}
-}
-2. @article{Verbeek2010,
-author = {Verbeek, H. M.W. and Buijs, Joos C.A.M. and van Dongen, Boudewijn F. and van der Aalst, Wil M.P.},
-file = {:Users/hermanplatou/code/private/Masters{\_}Literature/Verbeek2011{\_}Chapter{\_}XESXESameAndProM6.pdf:pdf},
-journal = {Information Systems Evolution},
-pages = {60--75},
-title = {{XES, XESame, and ProM 6}},
-year = {2010}
-#### }
+#### History of XES
+Unlike tradtional business intelligence tools, process mining takes a deeper look *into* the process and allows for insights on a much finer level. The omnipresence of event logs is a crutial enaler of process mining. Many information system either provide a wholistic log or have the information spread throughout, thus making it possible to extract. The MXML format proven its use as the standard log format in process mining, but has serious shortcomings that have been discovered through extensive use. One of the primary problems being the semantics of additional attributes in the event log. In MXML these are simply treated as string values with a key, and therefore have no understood meaning. Nomenclature has also been proven to be difficult, which is due to the fact that MXML was built on the assumption that it would document strictly structured processes. Strict processes is not always the case. XES was created to address and solve these issues.
 
-XES is a XML based standard for describing event logs and event streams. These logs are commonly exhanged between different information systems and other types of clients, and therefore need to adhere to a fixed and agreed upon standard. XES is this standard.  
-It allows for use of external ontologies, thus having the capability of providing accurate semantics to its content. It is the IEEE standard for describing event logs and event streams. 
+XES is a XML based standard for describing event logs and event streams. These logs are commonly exhanged between different information systems and other types of clients, and therefore need to adhere to a fixed and agreed upon standard. XES is this standard. It allows for use of external ontologies, thus having the capability of providing accurate semantics to its content. It is the IEEE standard for describing event logs and event streams. 
 
-XES is designed to resolve some of the discovered issues with MXML, such as concept ambiguity in advanced scenarios. MXML has a series of predefined attributes which have well defined semantics, but lacks a mechanism for describing advanced concepts. It is whenever one tries to expand on any of these well defined attributes or introduce new ones that problems may arise. These concepts do not have to be only domain specific, it could just as well be generic concepts with ambiguity. The semantic meaning of these non-standard attributes are difficult to define in MXML. XES inherits many of the same attributes from MXML, but implement them  differently. XES is built on SA-MXML which is the semantic extension of MXML. XES therefore has a well defined mechanism for describing these complex concepts as one can link to ontologies. Understanding the differences of these formats is not paramount as we are only interested XES. However, the main featureset of XES can be described and demonstrated by presenting the main differences. 
+XES is designed to resolve some of the discovered issues with MXML, such as concept ambiguity in advanced scenarios. MXML has a series of predefined attributes which have well defined semantics, but lacks a mechanism for describing advanced concepts. It is whenever one tries to expand on any of these well defined attributes or introduce new ones that problems may arise. These concepts do not have to be only domain specific, it could just as well be generic concepts with ambiguity. The semantic meaning of these non-standard attributes are difficult to define in MXML. XES inherits many of the same attributes from MXML, but implement them  differently. XES is built on SA-MXML which is the semantic extension of MXML. XES therefore has a well defined mechanism for describing these complex concepts as one can link to ontologies. Understanding the differences of these formats is not paramount as we are only interested XES. [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)
 
-
-
-
-
-
-
-Here is a simple MXML file from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf). 
-```
-<WorkflowLog xmlns:xsi= ”http: www.w3.org 2001 XMLSchema−instance” xsi:noNamespaceSchemaLocation= ”http: is.ieis.tue.nl research processmining WorkflowLog.xsd” description= ”Example log”>
-    <Process id= ”Order”>
-        <ProcessInstance id= ”Order 1” description= ”instance with Order 1”>
-            <Data>
-                <Attribute name= ”TotalValue”>2142.38<Attribute>
-            </Data>
-            <AuditTrailEntry>
-                <WorkflowModelElement>Create</WorkflowModelElement>
-                <EventType>complete</EventType>
-                <Originator>Wil<Originator>
-                        <Timestamp>2009−01−03T15:30:00.000+01:00</Timestamp>
-                        <Data>
-                            <Attribute name= ”currentValue”>2142.38</Attribute>
-                            <Attribute name= ”requestedBy”>Eric</Attribute>
-                            <Attribute name= ”supplier”>Fluxi Inc.</Attribute>
-                            <Attribute name= ”expectedDelivery”> 2009−01−12T12:00:00.000+01:00</Attribute>
-                        </Data>
-            </AuditTrailEntry>
-        </ProcessInstance>
-    </Process>
-</WorkflowLog>
-```
-
-In this simple MXML log we see a number of elements and attributes. These are:  
-| Term MXML            | Term XES | Meaning                                                                             |
-| -------------------- | -------- | ----------------------------------------------------------------------------------- |
-| WorkflowLog          | Log      | Captures an entire log. Outermost element.                                          |
-| ProcessInstance      | Trace    | Captures a single process instance                                                  |
-| AuditTrailEntry      | Event    | Captures a single event                                                             |
-| Data                 | X        | Wrapper for attribute elements                                                      |
-| Attribute            | X        | Elements that describe some aspect of its parent.                                   |
-| WorkflowModelElement | X        | Captures the name of the activity that triggered the event                          |
-| EventType            | X        | Captures the type of the event, like start, complete, suspend, and resume           |
-| Originator           | X        | Captures the name of the resource (human or not) who actually executed the activity |
-| Timestamp            | X        | Captures the time at which the event occurred in the system                         |
- > Table crated based on descriptions from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf)
-
-The corresponding log in XES is:  
-```
-<log>
-    <extension name= ”Lifecycle” prefix= ”lifecycle” uri= ”http: www.xes−standard.org lifecycle.xesext” />
-    <extension name= ”Time” prefix= ”time” uri= ”http: www.xes−standard.org time.xesext” />
-    <extension name= ”Concept” prefix= ”concept” uri= ”http: www.xes−standard.org concept.xesext” />
-    <extension name= ”Semantic” prefix= ”semantic” uri= ”http: www.xes−standard.org semantic.xesext” />
-    <extension name= ”Organizational” prefix= ”org” uri= ”http: www.xes−standard.org org.xesext” />
-    <extension name= ”Order” prefix= ”order” uri= ”http: my.company.com xes order.xesext” />
-    <global scope= ”trace”>
-        <string key= ”concept:name” value= ”unknown” />
-    </global>
-    <global scope= ”event”>
-        <string key= ”concept:name” value= ”unknown” />
-        <string key= ”lifecycle:transition” value= ”unknown” />
-        <string key= ”org:resource” value= ”unknown” />
-    </global>
-    <classifier name= ”Activity classifier” keys= ”concept:name lifecycle:transition” />
-    <string key= ”concept:name” value= ”Example log” />
-    <trace>
-        <string key= ”concept:name” value= ”Order 1” />
-        <float key= ”order:totalValue” value= ”2142.38” />
-        <event>
-            <string key= ”concept:name” value= ”Create” />
-            <string key= ”lifecycle:transition” value= ”complete” />
-            <string key= ”org:resource” value= ”Wil” />
-            <date key= ”time:timestamp” value= ”2009−01−03T15:30:00.000+01:00” />
-            <float key= ”order:currentValue” value= ”2142.38” />
-            <string key= ”details” value= ”Order creation details”>
-                <string key= ”requestedBy” value= ”Eric” />
-                <string key= ”supplier” value= ”Fluxi Inc.” />
-                <date key= ”expectedDelivery” value= ”2009−01−12T12:00:00.000+01:00” />
-            </string>
-        </event>
-    </trace>
-</log>
-```
-
-Based on the table we can see that there is not a one to one relationship between MXML and XES. The XES elements *Log, Trace, Event* are purely used to describe the structure of the document and do not contain any information themselves. Attributes are used to describe and store data in XES. Every attribute has a key, value, and type. The types being *string, interger, boolean, float, and date.* Attributes can be deeply nested, thus making it possible to describe attributes with attributes.
-
-![](./resources/XEs_metamodel.png)
-> Figure taken from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that described the XES metamodel.
-
-
-| Extension      | Key            | Level           | Type   | Description                                                                                                 |
-| -------------- | -------------- | --------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
-| Concept        | name           | log,trace,event | string | Generally understood name                                                                                   |
-| Concept        | instance       | event           | string | Identifier of the activity whose execution generated the event                                              |
-| Lifecycle      | model          | log             | string | The transactional model used for the lifecycle transition for all events in the log                         |
-| Lifecycle      | transition     | event           | string | The lifecycle transition represented by each event (e.g. start, complete, etc.)                             |
-| Organizational | resource       | event           | string | The name, or identifier of the resource having triggered the event, within the organizational structure     |
-| Organizational | role           | event           | string | The role of the resource having triggered the event, within the organizational structure                    |
-| Organizational | group          | event           | string | The group within the organizational structure, of which the resource having triggered the event is a member |
-| Time           | timestamp      | event           | date   | The date and time, at which the event has occurred                                                          |
-| Semantic       | modelReference | all             | string | Reference to model concepts in an ontology                                                                  |
- > Table from [XES, XESame, and ProM 6](./resources/literature/Verbeek2011_Chapter_XESXESameAndProM6.pdf) that shows the standard XES extensions.
-
-The semantics of an attribute is described by its extension. Extensions are not mandatory as exemplified in the XES example log above. We differ between **standard** and **custom** extensions. The standard extensions are the contepts described in the table above, while custom extensions can be user defined or point to some ontology. **Event classifiers** are specified in the log element and are used to assign some identity to an event. The identity is a product of its containing attributes, thus making it possible to compare similar events by looking purely at their identity. The global element is used to declare well defined values for every trace or event in the log. This can be compared to declaring and initializing attributes on a class in object oriented programming. This is very useful for plugins as they can be certain that every trace or event instance has the declared attributes. The globally defined value being the fallback if it is not overwritten.
-
-#### 
-Note and quoted from @book{IEEEComputationalIntelligenceSociety2016,
+>Notes and quotes from @book{IEEEComputationalIntelligenceSociety2016,
 
 *A XES instance corresponds to a file-based event log or a formatted event stream that can be used to transfer event-driven data in a unified and extensible manner from a first site to a second site. *   
 *To transfer event-driven data in a unified manner, this standard includes a W3C XML Schema describing the structure of a XES instance.*  
@@ -192,90 +68,19 @@ Note and quoted from @book{IEEEComputationalIntelligenceSociety2016,
 As such, this standard aims to fix the syntax and the semantics of the event data which,for example, is being transferred from the site generating this data to the site analyzing this data.
 As a result of this standard, if the event data is transferred using the syntax as described by this standard, its semantics will be well understood and clear at both sites.*
 
-##### components
-XES i built on a series of components.  
-The formal definition as used in this paper for a component is:  
-* **component:** An extensible event stream (XES) element that may contain XES attributes, that is, a log, a trace, an event, or an attribute.*
-
-###### Log component
-*Represents information that is related to a specific process.*  
-The log shall contain a collection of traces followed by a list of events both of which could be empty, but must be present. 
-The ordering of the events in the list is important as this represents the order in which they were observed.  
-
-If the log only contains events and no traces, then the log is called a **stream**. I.e if the log is simply one trace.
-
-###### Trace component
-Represents the execution of a single case.  Should contain a list of events that relates to that particular case. This list can be empty, but must be present.  Orderin, as mentoned, is important.
-
-###### Event component
-The most atomic component.  
-If the event occurs in some trace then it is clear to which case it belongs.  If the event does not occur in some trace, i.e in the log, then we need some way of relating events to cases. For this we use **trace classifiers** and **event classifiers**.
-> Events do not have to be directly tied to some case, i.e not wrapped in the trace element.  
-
-###### Attribute component
-Information pertaining to any component is stored in the attibute component. The aforementioned components are simply wrappers.  
-Attributes describe the enclosing component, which can contain any number of attributes.  
-> Attributes can nest/wrap attributes
-However, no two attributes of the same component can share the same key. 
-**Every key shall occur only once in a single component**
-
-Attribute wrapping is not mandatory for complicance. Some tools do not implement this. However, these tool should still be able to read these attributes and then discard them. The user shold then be notified of this.
-An attribute has to be either **elementary** or **composite**
-
-###### Elementary attributes
-An attribute that contains a value that is singular and basic. These attribute are *string, date and time, integer number, real number, Boolean, ID*.
-1. String attribute
-- valid values must conform to the xs:string datatype
-2. Date and time attribute
-- valid values must be specified in UTC (ISO 8601) and represented as xs:dateTime datatype
-3. Integer number attribute
-- valid values must conform to the xs:long datatype
-4. Real number attribute
-- valid values must conform to the xs:double datatype
-5. Boolean attribute
-- valid values must conform to the xs:boolean datatype
-6. ID attribute
-- valid values must conform to the ID datatype, i.e string representations of UUID.
-  
-###### Composite attributes
-Attribute that may contain multiple values. In the XES standard this is known as a **list attribute**
-> Attribute that contains other attributes
-
-Valid values for the list datatype are all series of attribute values. The ordering of child attributes is important. Attributes may share the same key. Should be noted that the attribute value list is not the same as the list attribute.
-The list *attribute* can contain value lists. It is also a component. The list *datatype* is not a component. 
-
-##### Global attributes
-The log should hold a list of global attribute declarations, which can be empty. This attribute shall have key, datatype, and value. This attribute is either a event attribute or trace atrtibute.
-
-###### Global event and trace attribute
-Attributes that are understood to be available and properly defined for each event and/or trace in the log. This means that **every** event and/or trace has the attributes declared in this attribute. This includes key,datatype, and value. The events and/or trace themselves can orverride the value. In the event where the event and/or trace has a missing attribute, then this is substituted by the value in the global attribute. It should only be used in this scenario. Global trace attributes pertain to the non-global trace attributes. Global trace attributes can not be used for non-global event attributes.
-
-##### Classifiers
-In the XES standard there are no predefied attributes with any well-understood meaning. instead a log has to hold a list of classifiers, which can be empty. These classifiers are a mandatory feature. 
-A classifier assigns an identity to each event. This makes the event comparable to other events by use of this assigned id. Examples of identities include the descriptive name of the event, and/or its case. A classifier can be either a **event classifier** or **trace classifier**. 
-
-###### Event and Trace classifier
-Has to be defined via an ordered list of attribute keys. The identity of the event/trace shall be described from the actual values of the attributes with these keys. An Attribute whose key appears in the event/trace classifier list has to be declared as a global event attribute before the classifier is defined. 
-
-###### Extensions
-An extension defines a possibly empty set of attributes for every type of component.   
-Extensions provide points of reference for interpreting these attributes, and, thus their components.  
-*Extensions, therefore, are primarily a vehicle for attaching semantics to a set of defined attributes per component.*  
-Extensions can be used as a set of commonly understood attributes that are vital for a specific perspective or dimension of evnet log analysis. 
-Another use is the definition of generally-understood attributes for a specific application domain. (e.g medial attributes for use in the medical domain.)  
-An extension has to have a descriptive name, prefix, and unifirm resource identifier (URI). The prefix being the prefix for all attributes defined by the extension. 
-They keys of all attributes defined in by the extension have to be prepended with this prefix and a colon separation character. The URI is unique and points to the definition of the extension.
-
-The definition has to contain a list of attribute declarations for every comonent, this list can be empty. 
-An attribute declaration has to contain the key of the attribute, the datatype, and a possibly empty list of aliases. 
-The alias has to contain the descriptive text for the attribute and the language code of the language of this descriptive text.
-
-![](./../../resources/XES_IEEE_STATE_FLOW.png)
+![](./../../resources/figuredAndAssorted/XES_IEEE_STATE_FLOW.png)
 > Figure of state flow diagram, taken from IEEEComputationalIntelligenceSociety2016
 
+#### XML Schema Definition(XSD) describing the current XES standard
+> XSD sourced from http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd  
+> Additional information about the XES standard is available on their website as well as IEEE  
+> XES: https://xes-standard.org/  
+> IEEE: https://ieeexplore.ieee.org/document/7740858  
 
-
-The XES schema has a corresponding XML schema definition.
+The XML and XSD language is associated with and goverened by the *world wide web consortium*(w3c). XSD was designed *to offer facilities for decribing the structure and constraining the contents of XML documents.*
+The schema is used to describe the structure of an XML document. The primary purpose being to strictly define the legal *building blocks* of a XML document.  
+These building block are the elements and attributes, number and order of child elements, datatypes, and fixed values.
+Here we have the latest release of the XES standard, published as of April 15th 2020.
 ``` XML
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -406,4 +211,417 @@ The XES schema has a corresponding XML schema definition.
 	</xs:complexType>
 </xs:schema>
 
+```
+#### Working with the XES definition
+Provided that the standard has a official XML schema definition we can use freely available tools for checking the conformity of our event logs. While such tools can be used to ensure that the log is syntactically correct, it is up to the author to ensure that the log has the correct semantics. The official document describing the standard is a good reference for investigating these semantics.
+
+As mentioned there are many freely available tools that are useful when working with or creating new XML documents. While there are many standalone tools, i have choosen to use a freely available extension for the popular Visual Studio code IDE created by Microsoft. The extension is created by [red hat](https://www.redhat.com/en) and is freely available on [github](https://github.com/redhat-developer/vscode-xml/blob/master/docs/README.md) and naturally also in the [VScode marketplace](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml). 
+
+
+ ### Creating a XES skeleton file
+Skeleton files that contain the absolute minimum while still conforming to the schema. 
+Given that the schema defines the grammar for the XML file this naturally implies that it itself can be used to generate a working example. There are numerouse freely available generators, i chose to use a generator that is available [here](https://www.liquid-technologies.com/online-xsd-to-xml-converter). This then produced the follwing XML document:
+```XML
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Technologies Online Tools 1.0 (https://www.liquid-technologies.com) -->
+<log xsi:noNamespaceSchemaLocation="schema.xsd" xes.version="-4827329.7650942" xes.features="string" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <extension name="string" prefix="string" uri="https://www.liquid-technologies.com" />
+    <extension name="string" prefix="string" uri="https://www.liquid-technologies.com" />
+    <extension name="string" prefix="string" uri="https://www.liquid-technologies.com" />
+    <extension name="string" prefix="string" uri="https://www.liquid-technologies.com" />
+    <global />
+    <global>
+        <date value="2013-05-27T23:28:52.84" key="string" />
+        <string value="string" key="string" />
+        <string value="string" key="string" />
+        <list key="string">
+            <values key="string" />
+        </list>
+    </global>
+    <global scope="string">
+        <boolean value="true" key="string" />
+        <boolean value="0" key="string" />
+        <string value="string" key="string" />
+        <string value="string" key="string" />
+    </global>
+    <global scope="string">
+        <int value="652" key="string" />
+        <int value="-3442" key="string" />
+    </global>
+    <classifier name="string" scope="string" keys="string" />
+    <classifier name="string" keys="string" />
+    <id value="string" key="string" />
+    <int value="-573" key="string" />
+    <string value="string" key="string" />
+    <boolean value="false" key="string" />
+    <trace>
+        <event />
+        <event />
+    </trace>
+    <trace />
+    <event>
+        <string value="string" key="string" />
+        <boolean value="false" key="string" />
+        <int value="-445" key="string" />
+        <int value="851" key="string" />
+    </event>
+    <event>
+        <string value="string" key="string" />
+    </event>
+</log>
+```
+ 
+ While the skeleton file is representative, it is perhaps not very intuititve. Drawing from the examples provided in the @VanderAalst2011 book we can create a basic example and walk through its contents
+##### Creating a basic example
+In Chapter 1 of @VanderAalst2011 the author details a running example of the *handling of requests for compensation.* The example below uses this log as inspiration, but has been reduced down to a single trace and a single event for simplicity. Given this simple log we can walk through all tags and correlate them to their definitions and descriptions in the official specification. I will reference the line numbers in this example log and provide snippets and descriptions from the specification.
+
+``` XML
+01.<?xml version="1.0" encoding="utf-8"?> 
+02.<log xes.version="3" xsi:noNamespaceSchemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+03.     <extension name="Concept" prefix="concept" uri="http://code.deckfour.org/xes/concept.xesext" />
+04.     <extension name="Time" prefix="time" uri="http://code.deckfour.org/xes/time.xesext" />
+05.     <extension name="Organizational" prefix="org" uri="http://code.deckfour.org/xes/org.xesext" />
+06.     <global scope="trace">
+07.         <string key="concept:name" value="name" />
+08.     </global>
+09.     <global scope="event">
+10.         <string key="concept:name" value="name" />
+11.         <string key="org:resource" value="resource" />
+12.        <date key="time:timestamp" value="2011-04-13T14:02:31.199+02:00" />
+13.        <string key="Activity" value="string" />
+14.        <string key="Resource" value="string" />
+15.        <string key="Costs" value="string" />
+17.    </global>
+18.    <classifier name="Activity" keys="Activity" />
+19.    <string key="creator" value="Fluxicon Nitro" />
+20.    <trace>
+21.        <string key="concept:name" value="3" />
+22.        <string key="creator" value="Fluxicon Nitro" />
+23.        <event>
+24.            <string key="concept:name" value="register request" />
+25.            <string key="org:resource" value="Pete" />
+26.            <date key="time:timestamp" value="2010-12-30T14:32:00.000+01:00" />
+27.            <string key="Activity" value="register request" />
+28.            <string key="Resource" value="Pete" />
+29.            <string key="Costs" value="50" />
+30.        </event>
+31.    </trace>
+32.</log>
+```
+
+
+
+###### XML namespaces
+For readers that are not well versed in XML it is recommended to read a quickstart guide. However, one key aspect that will be explicitly mentioned here becuase it is so crucial, are XML namespaces and some schema location attributes. These are often used in XML documents and can for example be seen in the provided log.
+```
+02.<log xes.version="3" xsi:noNamespaceSchemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+```
+On this log element we have three unique attributes that all have unique prefixes. These prefixes are described as namespaces and are prepended to attributes and separated by use of a colon. Namespaces are used as way of providing unique names for elements and attributes. Provided that a single XML document can use multiple vocabularies, these need to be distinguished. Namespaces are used to resolve this ambiguity.
+
+Namespaces are declared using the reserved XML attributes. And can be declared as a named namespace or as a default namespace. Default namespaces are used to set a prefix for all elements that do not have a prefix.
+Default namespaces are declared using ```xmlns``` and do not require an explicit prefix, while named namedspaces are declared as ```xmlns:<prefix>```.
+
+We can see use of namespaces in all aformentioned XML document. Continuing with describing the short example log, we can see the use of what appears to be three namespaces.
+```
+xes. -> extnesible event stream prefix
+xsi: -> XML schema instanceprefix
+xmlns: -> default XML attribute
+```
+First the xsi namespace is declared, xsi being short for XML Schema Instance. This points to the official xsi definition which defines a few attributes that can be used to associate XML schemas with XML documents.
+```
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+```
+####### Schema location attributes
+Provided that the XES schema definition does not have a defined targetNamespace attribute on its root element, we have to source it by use of the ```noNamespaceSchemaLocation``` xsi attribute. This the attaches the schema definitions to the undefined namespace. It is therefore not possible to declare multiple schemas in this attribute.
+
+In the event where the source schema has a target namespace attribute defined then this has to be imported and defined in the target document accordingly. 
+```
+xsi:noNamespaceSchemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd"
+```
+If the XES schema had a target namespace defined as xes, then we would use a different attribute.
+```
+xsi:schemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd"
+```
+
+#######
+###### XML Declaration
+**Line 1**  
+All xml documents should start this declaration. The declaration acts as processing instructions. 
+The declaration should contian a version number that specified what version of the XML standard the document is compliant with. The document should also have a specifeid character encoding. The tag can also include a optional *standalone* attribute. This defaults to *no*, but is set to *yes* then the declaration is specfying that there are no external declarations required for document parsing.
+
+###### XES specification nomenclature
+XES i built on a series of components.  
+The strict definition being:  
+**component:** An extensible event stream (XES) element that may contain XES attributes, that is, a log, a trace, an event, or an attribute.*
+
+###### Log components
+The outermost element in a XES log. 
+*Represents information that is related to a specific process.*  
+If the log only contains events and no traces, then the log is called a **stream**. I.e if the log is simply one trace.
+**From example**  
+```XML
+<log xes.version="3" xsi:noNamespaceSchemaLocation="http://www.xes-standard.org/downloads/xes-ieee-1849-2016-April-15-2020.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></log>
+```
+**From schema**  
+``` XML
+<xs:complexType name="LogType">
+	<xs:sequence>
+		<xs:element name="extension" type="ExtensionType" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element name="global" type="GlobalsType" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element name="classifier" type="ClassifierType" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:group ref="AttributableGroup"/>
+		<xs:element name="trace" type="TraceType" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:sequence>
+	<xs:attribute name="xes.version" type="xs:decimal" use="required"/>
+	<xs:attribute name="xes.features" type="xs:token"/>
+</xs:complexType>
+``` 
+
+| Attribute    |    Type     | Required | Description                                                                   |
+| :----------- | :---------: | :------: | :---------------------------------------------------------------------------- |
+| xes.version  | xes.decimal |   yes    | Version of the XES standard that the document conforms to                     |
+| xes.features |  xs:token   |    no    | whitespace separated list of optional xes.features, such as nested attributes |
+
+##### Extensions
+An extension defines a possibly empty set of attributes for every type of component.   
+Extensions provide points of reference for interpreting these attributes, and, thus their components.  
+*Extensions, therefore, are primarily a vehicle for attaching semantics to a set of defined attributes per component*
+
+Extensions can be used as a set of commonly understood attributes that are vital for a specific perspective or dimension of evnet log analysis. 
+Another use is the definition of generally-understood attributes for a specific application domain. (e.g medial attributes for use in the medical domain.)  
+An extension has to have a descriptive name, prefix, and unifirm resource identifier (URI). The prefix being the prefix for all attributes defined by the extension, similar to how elements from namespaces are used.
+
+The definition has to contain a list of attribute declarations for every comonent, this list can be empty. 
+An attribute declaration has to contain the key of the attribute, the datatype, and a possibly empty list of aliases. 
+The alias has to contain the descriptive text for the attribute and the language code of the language of this descriptive text.
+
+**From example**  
+```XML
+<extension name="Concept" prefix="concept" uri="http://code.deckfour.org/xes/concept.xesext" />
+<extension name="Time" prefix="time" uri="http://code.deckfour.org/xes/time.xesext" />
+<extension name="Organizational" prefix="org" uri="http://code.deckfour.org/xes/org.xesext" />
+```
+**From schema**  
+```XML 
+<xs:complexType name="ExtensionType">
+	<xs:attribute name="name" type="xs:NCName" use="required"/>
+	<xs:attribute name="prefix" type="xs:NCName" use="required"/>
+	<xs:attribute name="uri" type="xs:anyURI" use="required"/>
+</xs:complexType>
+```
+
+##### Attribute component
+Information pertaining to any component is stored in the attibute component. The aforementioned components are simply wrappers. Attributes describe the enclosing component, which can contain any number of attributes.  
+> Attributes can nest other attributes.
+However, no two attributes of the same component can share the same key. 
+**Every key shall occur only once in a single component**  
+
+An attribute has to be either **elementary** or **composite**  
+
+###### Elementary attributes
+An attribute that contains a value that is singular and basic. These attribute are *string, date and time, integer number, real number, Boolean, ID*.
+1. **String** attribute
+- valid values must conform to the xs:string datatype
+2. **Date** and time attribute
+- valid values must be specified in UTC (ISO 8601) and represented as xs:dateTime datatype
+3. **Integer** number attribute
+- valid values must conform to the xs:long datatype
+4. ** Real number** attribute
+- valid values must conform to the xs:double datatype
+5. **Boolean** attribute
+- valid values must conform to the xs:boolean datatype
+6. **ID** attribute
+- valid values must conform to the ID datatype, i.e string representations of UUID.
+
+**From example**  
+There are many occurances of elementary attributes in the example. Provides it the global event component and and a subset of its containing attributes, which are elementary.
+```XML
+<global scope="event">	 
+	<string key="Activity" value="string" />
+	<string key="Resource" value="string" />
+	<string key="Costs" value="string" />
+</global>
+```
+**From schema**
+```XML	
+	<!-- String attribute -->
+	<xs:complexType name="AttributeStringType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Date attribute -->
+	<xs:complexType name="AttributeDateType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:dateTime" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Integer attribute -->
+	<xs:complexType name="AttributeIntType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:long" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Floating-point attribute -->
+	<xs:complexType name="AttributeFloatType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:double" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- Boolean attribute -->
+	<xs:complexType name="AttributeBooleanType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:boolean" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ID attribute -->
+	<xs:complexType name="AttributeIDType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+				<xs:attribute name="value" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+```
+  
+###### Composite attributes
+Composite attributes are attributes that can contain other attributes. In the XES standard this is also known as a *list attribute*.
+ 
+Valid values for the list datatype are all series of attribute values. The ordering of child attributes is important. Attributes may share the same key. Should be noted that the *value* list is not the same as the list attribute. The list *attribute* can contain value lists. It is also a component. The list *datatype* is not a component.  
+
+**From other example**
+The declared example does not contain any components of the list datatype. But, drawing from another example that recorded the logistical data for a company, we can see how the *Driver attribute* is composed.
+```XML
+<event>
+	<!-- Elementary attributes -->
+    <string key="cost:currency" value="AUD" />
+	<string key="cost:total" value="123.50" />
+	<!-- Composite attribute -->
+    <list key="cost:drivers">
+        <values>
+            <string key="driver" value="d2f4ee27">
+                <float key="amount" value="21.40" />
+                <string key="type" value="Labour" />
+            </string>
+            <string key="driver" value="abc124">
+                <float key="amount" value="102.10" />
+                <string key="type" value="Variable Overhead" />
+            </string>
+        </values>
+    </list>
+</event>
+
+```
+**From schema**
+```XML
+<!-- List attribute -->
+<xs:complexType name="AttributeListType">
+	<xs:complexContent>
+		<xs:extension base="AttributeType">
+			<xs:sequence>
+				<xs:element name="values" type="AttributeType"/>
+			</xs:sequence>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+```
+
+##### Global component
+The log can hold a list of global attribute declarations. This attribute shall have a key, datatype, and value. This attribute is either a **event attribute** or **trace attribute**.
+
+Attributes that are understood to be available and properly defined for each event and/or trace in the log. This means that **every** event and/or trace has the attributes declared in this attribute. This includes key,datatype, and value. The events and/or trace themselves can orverride the value. In the event where the event and/or trace has a missing attribute, then this is substituted by the value in the global attribute. It should only be used in this scenario. 
+
+**From example**
+``` XML
+<global scope="trace">
+	<string key="concept:name" value="name" />
+</global>
+<global scope="event">
+	<string key="concept:name" value="name" />
+	<string key="org:resource" value="resource" />
+	<date key="time:timestamp" value="2011-04-13T14:02:31.199+02:00" />
+	<string key="Activity" value="string" />
+	<string key="Resource" value="string" />
+	<string key="Costs" value="string" />
+</global>
+```
+**From schema**
+```XML
+	<xs:complexType name="GlobalsType">
+		<xs:group ref="AttributableGroup"/>
+		<xs:attribute name="scope" type="xs:NCName"/>
+	</xs:complexType>
+```
+
+##### Trace component
+Represents the execution of a single case.
+Should contain a list of events that relates to that particular case.
+Ordering og the containing events is imporant.
+
+**From example**
+```XML
+<trace>
+	<string key="concept:name" value="3" />
+	<string key="creator" value="Fluxicon Nitro" />	
+</trace>
+```
+**From schema**
+```XML 
+<xs:complexType name="TraceType">
+	<xs:sequence>
+		<xs:group ref="AttributableGroup"/>
+		<xs:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:sequence>
+</xs:complexType>
+```
+
+###### Event component
+The most atomic component.  
+If the event occurs in some trace then it is clear to which case it belongs.  If the event does not occur in some trace, i.e in the log, then we need some way of relating events to cases. For this we use **trace classifiers** and **event classifiers**.
+> Events do not have to be directly tied to some case, i.e not wrapped in the trace element.  
+
+**From example**
+```XML
+<event>
+	<string key="concept:name" value="register request" />
+	<string key="org:resource" value="Pete" />
+	<date key="time:timestamp" value="2010-12-30T14:32:00.000+01:00" />
+	<string key="Activity" value="register request" />
+	<string key="Resource" value="Pete" />
+	<string key="Costs" value="50" />
+</event>
+```
+**From schema**
+```XML 
+<xs:complexType name="EventType">
+	<xs:group ref="AttributableGroup"/>
+</xs:complexType>
+```
+
+##### Classifiers
+In the XES standard there are no predefied attributes with any well-understood meaning. Instead a log has to hold a list of classifiers.  
+
+A classifier assigns an identity to each event. This makes the event comparable to other events by use of this assigned id. Examples of identities include the descriptive name of the event, and/or its case. A classifier can be either a **event classifier** or **trace classifier**. 
+
+###### Event and Trace classifier
+Has to be defined via an ordered list of attribute keys. The identity of the event/trace shall be described from the actual values of the attributes with these keys. An Attribute whose key appears in the event/trace classifier list has to be declared as a global event attribute before the classifier is defined. 
+
+**From example**
+```XML
+<classifier name="Activity" keys="Activity" />
+```
+**From schema**
+```XML 
+<xs:element name="classifier" type="ClassifierType" minOccurs="0" maxOccurs="unbounded"/>
 ```
