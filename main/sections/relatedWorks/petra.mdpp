@@ -1,0 +1,18 @@
+# Petra 
+> Process model base Extensible Toolset for Redesign and Analysis
+
+ Properties of a modeled process are explored by repeatedly executing the model. Based on outcomes, parts of the model may be manually modified to improve the process. Through iterations different models can be explored and eventually lead to a model that meets the users requirements. This is a very time consuming and labour-intensive task. 
+
+*Petra* is a framework where the user defines a space of possible process models with the use of a configurable process model. A configurable process model is a compact representaton of a familiy of process models, i.e a set of models that are related to each other. The framework allows for the use of different tools to automatically compute characteristics of a model. Through case studies it was proven that this framework helped find better models in an automated way.
+
+---
+
+Petra is a *generix tool to explore a space of possible models by repeatedly analysing elements of the space and supporting the collection and comparison of analysis results.*
+
+Configurable process model are understood as a family of compact process model. A family of process models is understood as a collection of models that are very similar. To select one of these models, one has to configure it. This involves setting configuration points and configuration options for showing where and how the model is configured. The configuration is then transformed into a executable model. 
+
+The process models in the exection space are a product of all possible configurations. The configurable process models use block-structured models, namely *process trees*. 
+
+When the executable model is obtained after configurating it, we can annotate it with analysis results. These results are annoted by use of properties. Properties are generic and are used to encode analysis reusults and run-time characteristics. 
+
+can encode any type of information, from execution times to resoruce availability. 
