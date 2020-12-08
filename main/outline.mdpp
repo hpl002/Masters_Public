@@ -44,8 +44,12 @@
   - Performance analysis
 
 ## Tooling
-
 - Process mining tools
 - Development tools
 - Simulation tools
-!INCLUDE "main/sections/XES/xes.mdpp", 2
+!INCLUDE "main/sections/Tools/CPN.mdpp", 2
+!INCLUDE "main/sections/Tools/ProM.mdpp", 2
+!INCLUDE "main/sections/Tools/xes.mdpp", 2
+
+## Revitalizing method
+!INCLUDE "main/sections/updatedMethod.mdpp", 2
