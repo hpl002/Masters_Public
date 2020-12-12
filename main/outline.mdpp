@@ -1,47 +1,78 @@
 # Outline
 
 ## Introduction
-
 - Abstract
-
-- Introduction
-
+- Process mining
+  - data gather from large information systems
+  - process mining can extract value from this data
+  - process mining vs traditional business intelligence
+  - three key aims correlate to the three main activiteis in process mining
+    - discover
+      - process discovery
+    - monitor
+      - conformance checking
+    - improve
+      - process enhancement
+  - data input; event logs
+  - These four components can together be used to:
+    - check complicance
+    - analyse bottlenecks
+    - predict delays
+    - recommend improvements
+  - process mining perspectives
+    > There is not agreement on exactly what perspectives are included and how these relate to each other. From literature we can gather:
+    - control flow
+    - organizational
+    - time
+    - role discovery
+    - performance analysis
+    - decision point analysis
+  - quality of a process model
+    - replay fitness
+    - simplicity
+    - precision
+    - generalisation
+- Process redesign / process enhancement
+  - process redesign by use of simulation
+  - > Crate a wholistic and representative model which can then be used in simulation software. We can then run specific simulation scenarios or all possible scenarios. The results are analyzed and inspected according to what our redesign goal is. The lessons learned can then impact our process model to get better yield and efficiency.
+    - Here there are two primary routes for how to conduct the simulation:
+      - CPN and CPN Tools
+      - Spin model checker
+  - Cite work: Process mining and simulation: A match made in heaven!
 - Constributions
-
 - Paper structure
 
+## Related works
+ - Discovering simulation models
+ - Petra:
+   - Petra : Process model based Extensible Toolset for Redesign and Analysis
+   - Petra: A tool for analysing a process family
+   - Configurable process trees : elicitation , analysis , and enactment  
+ - Spin model checker & LTL
+   - Automated simulation and verification of process models discovered by process mining
+ - *All works that involve any process improvement by use of simulation*
 ## Background
 
-- Process mining
-
-  *What is process mining*
-
-  - Manifesto
-
-    *Main activities*
-
-    *Event logs*
-
-    *Lifecycle of process mining project*
-
-    *Guiding principles*
-
-    *Challenges*
+- Manifesto
+  - *Main activities*
+  - *Event logs*
+  - *Lifecycle of process mining project*
+  - *Guiding principles*
+  - *Challenges*
 
 - More process mining fundamentals
   - Core activities in process mining
-  > TODO: Relate core activities to lifecycle and the different types of plugins available in prom (dscovery, analysis, import, etc.)
-  - Petri nets
-    - definitions
-
-  - Colored petri nets
+  - > TODO: Relate core activities to lifecycle and the different types of plugins available in prom (discovery, analysis, import, etc.)
+!INCLUDE "main/sections/petri-nets.mdpp", 2
+!INCLUDE "main/sections/process-trees.mdpp", 2
 
 - Process mining and simulation
 
 - Analysis
-
   - Model analysis
   - Performance analysis
+
+
 
 ## Tooling
 - Process mining tools
