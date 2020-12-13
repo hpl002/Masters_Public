@@ -1,0 +1,68 @@
+# Petra 
+> Process model base Extensible Toolset for Redesign and Analysis
+
+Paper by Schunselaar, D M M, Verbeek, H M W, van der Aalst, W M P, Reijers, Hajo A. al
+
+In this paper the authors present the *Petra* toolset. *Petra is a toolset for the analysis of so-called process families, which support the use of a multitude of analysis tools, including simulation.* The purpose and goal of this toolset being that it can help organizations make an *educated decision about the exact configuration of their processes as to satisfy their exact requirements and performance objectives*, in other words, process enhancement through process redesign. The presented toolset was designed and used in the *CoSeLoG* project, a rather large and compex project involving 10 dutch municipalities. The primary goal and aim being the development of a cloud based IT-system that would help the municipaliteis in structuring, governing, and delivering a series of different services to their citizens. See the dedicated section for more details on this project.
+
+The underlying philosofy employed in the Petra project partly contradicts that of Business Process Redesign (BPR). BRP is a common and well tested medtod for finding *the best process model*. This mehod specified a solution space defined purely on best pratices, whilst Petra specified a solution space base on the already exising model. It is believed that these model are already optimized based on the experiences of experts and human intuition. In summary, these two approaches divert in that BPR is based on theory and best practice, whilst Petra employs human intuitin. These can of course overlap on several areas, but whils BPR allows for the dismissal of all existing process model, Petra retains them and uses them as input for the configurable process model. The paper also note a series of other BPR deficienvies, these being that BPR have a limited set of performance indicators, defined using a single analytical tool, or exists only on paper. Petra combats these deficiencies by presenting a tool that is *generix, extensible, and supported by automated tools*. 
+
+The toolset is comprised of three concepts and can be described using the following figure:
+1. family of process models that all derive from a single configurable process model/process tree.
+2. set of properties inside process models
+3. a tool interface
+
+![](../../../../resources/figuredAndAssorted/petra-architecture.png)
+> Figure showing the core architecture of the Petra framework
+> Figure taken from page 2 in Process model base Extensible Toolset for Redesign and Analysis
+
+In the figure we can see a family of process models, a set of foolt, a interface for transimitting and receiving process models to the set of tools, a collection of analysed models, and lastly two distinct paths, each going to either *pareto front* or *redesign*. The figure is a good high level overview of the Petra framework and can therefore be used as a source of reference when describing these different parts in detail.
+
+## Family of process models
+The family of process models is a collection of closely related process models which are all originating from a configurable process model or process tree. The process tree is a special and specific type used to describe configurable models. While the concept of a configurable model is not novel, the implementation of a configurable model in the form of a  process tree is. By using a configurable process tree we remove any room for ambiguity. Provided that all models are derivatives of the same underlying model, we can ensure that for example all activities are unique. In the event where a process tree was not used, then issues such as confliciting activities, and more, might arise. 
+
+### Perspectivs
+The process models all contain data from five different perspectives, these being: control flow, data, resource, environment, and experiment. The control flow perspective describes the relationships between the activities used in the completion of a case. Better understood as the different modeled activities and how these relate to each other in the process model. The data perspective focuses on variabled and guards. The resource perspective focus on what resources are needed and utilized when executing some activity. The environment described all external factors that the organization does not have any control over. The experiment perspective described the paramerts used in the actual simulation. All models are described according to these five perspectives. These numerous models,also denoted as a *family of models*, are then encoded as a single configurable process tree.
+
+## Interface
+The interace, as described by *a* and *b* showcases one very important part of the Petra framework, which is also one of their main contributions and a result of their critiques of similar works. By offering a clear and distinct interface between the process model and the external toolset, such as analytical tools and transformation tools, Petra makes it possible to combine a wide assortment of available tools. While many comporable projects have used techniques limited to a single formalism or technique, Petra takes a more generic approach. 
+
+### Chaining
+The interface also allows for chaining of multiple tools and techniques. This is made possible due to requirements in how the interfaces of the respective tools are defined, see later section for details on this. Each tool in such a chain of tools has a health check which returns a signal that breaks execution if it detects any faults in its own processing. For example, provided that we have a chain of tools where all upstream processes are dependent on the results produced in the subsequent step of the chain, then these processes must be hindered from executing if the results returned from step 1 are lacking.
+
+### Wrapper and transformation functions
+The interface points *a* and *b* can each hold a wrapper or transformation function that change the outgoing model or formalism into a format that can be accepted by the tool. The tool then conducts its analysis and operations. Upon completion the input model is anotated with the results from the tool and then returned on interface *b*. This latter interface can then also hold a transformaton function that transforms the results into the same format as that which was sent out. 
+
+## Set of analysed models
+Collection of models that have been annotatated with the analysis results. These results are annotated by use of properties. Properties are described in this paper, are used as a mechanism for describing any and all additional information that falls outside the five perspectives. This includes, but is not limited to analysis results. 
+
+### Properties
+*Properties can be part of every construct, e.g., resource, data, guard, edges, nodes, the process model itself, etc.* The paper makes a clear distinciton between independent and dependent properties. The former being any properties that the user defined before any analysis is performed. The latter being any properties returned from the toolset. While properties need to support many operations, the foremost is the *comparator*. The comparator is used to simply compare and reason over different properties to help find the best value. Properties are also used to define a default *fallback* value. This value is used in the event where a tool cannot handle empty values.
+
+
+## Set of tools
+The set of tools describes the tools used to perform analysis or add additional data to properties on the model. Much of the *power* og this generic approach is its approach to combining different techiques and methods by wrapping them in this *tool* class. This allows for standarization, which then allows for the chaining of tools and thefefore automation. All tools are required to register which independent or dependent properties it requires and also what dependent properties it computes. 
+
+
+## Set of analysed models
+Collection that holds the models returned from the set of tools. Upon completion we have a collection of models which have all been analyzed using the same methods. We can then inspect the results and find the best performing model based on our specific need and requirements. 
+
+## Pareto Front 
+Term borrowed from enginering. Describes a set of possibilities that are all derived from what is previously determined to be viable options. Creating a set of all possible options if not necessary and not efficient if we already have some requirements. This can help reduce size of the resulting set. There is no need to create or explore alternatives that we already know will not be feasible. 
+
+## Redesign 
+
+
+## Implementation of Petra for use in *CoSeLoG* project
+Provided that the family of models can become quite large, the procect required that processing be performed automatically. This need limits pool of available tools quite dramatically. CPN Tools/Access has a interface which allows for programmatic interaction, i.e., no graphical interface and no direct human interaction. This made it a perfect candidate for automation. CPN and CPN Tools is also a common and well proven combination for performing model simulation. 
+
+here we can describe the implementation, finidngs, observations, etc of the coselog project. see bottom of paper
+
+
+
+
+
+
+
+
+
