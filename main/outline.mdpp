@@ -45,6 +45,7 @@
 ## Related works
  - Discovering simulation models
  - Petra:
+   - !INCLUDE "main/sections/relatedWorks/petra.mdpp", 2
    - Petra : Process model based Extensible Toolset for Redesign and Analysis
    - Petra: A tool for analysing a process family
    - Configurable process trees : elicitation , analysis , and enactment  
