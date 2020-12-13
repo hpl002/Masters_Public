@@ -1,0 +1,76 @@
+# Petri nets
+A **Petri net** is a dynamic structure and a simple process modeling language that allow for the modeling of concurrency {@VanderAalst2011}. Concurrency is a fundamental problem within computer science can be understood as a system containing multiple processes that are all executing at the same time, this is not to be confused with paralellism. Given a number of processes that all need to execute some computation and given a system with a single computational unit then theres is a natural contention for this resource. Who and what gets to access the resource, and what determines the ordering? Through complex scheduling and concurrency these processes are allowed access to the computational unit to perform their operation. This also implies nondeterministic exexution unless a specific policy has been defined. 
+
+## Origins of petri nets
+Provided how fundamental petri nets are to this thesis, it should be given a proper and worthy introduction.
+> *Petri nets are among the olderst modeling techniques of computer science.{@Reisig1995}* 
+As elegantly described in the prelude of {@Reisig1995}, the Petri net as we know it was first conceived by Carl Adam Petri in August of 1939. At the brink of world war two, the then 13 year old Petri invented the fundamental grapical representation and corresponding methodology of the Petri net as a way to visualize his knowledge about chemical processes. Due to the outset of the war the invention was not set to fruition until 1941. While initially invented to model chemical processes, Petri soon realized that it could help solve some of the basic problems within computer science and proposed his dissertation on *communication with Automata*. The argumentes presented here later became some of the cornerstones of modern distributed systems. 
+
+While petri nets are visually simple they are executable and can be used in many analytical techniques. Petri nets have exact mathematical semantics and a well developed methemetical theory for process analysis, this in turn has led to the development of different extensions that enhance the standard petri net to solve some specific problem such as the colored petri net and the workflow net. However, standard petri nets or closely related derivatices such as the workflow net are commonly used to describe processes and therby also common artefacts in process mining projects and research.
+
+## Fundamental constructs of petri nets
+ A petri net can formally be described as a biparte graph consisting of **places** and **transitions** {@VanderAalst2011}. Petri nets are static in that their structure is constant, but dynamic in that they allow for everchanging **markings**. A marking is a term used to describe the current state of all **tokens** on the graph, otherwise known as a **multi-set**. Tokens are used to mark the current state and can traverse along the **arcs** in the graph from place to place. Tokens are passed purely from a place to the next via transitions. Transitions are purely intermediaries and cannot hold tokens, i.e states. However, transitions can employ rules that govern wether a token can flow through it or not, this is often described as **firing rules**. A transitions is said to fire a token when it consumes a token from each its inputs and produces one for each of its outputs.
+
+![](./../../resources//figuredAndAssorted/simpleSplitsAndJoins.svg)
+>Simple petri net illustrating the different splits and firing rules.
+
+
+### Splits and joins
+Using this simple petri net as a description we can quickly illustrate how firing rules work. A transition or place cannot fire out new token(s) until its firing condition is met. Firstly we differentiate between **splits** and **joins**. splits are outgoing arches, whille joins are incoming arches. This naturally excludes cases where there are singular outgoing or incoming arches, a single outgoing arch is not a split. We also differentiate between AND and XOR(exclusive-OR) which are expressions borrowed from formal logic. Taking the cartesian product of the two distict concept grupings creates the following combinations:
+1. XOR-split: token coming from a place and exclusively going to one of the many outgoing arches, it cannot go to more than one.
+2. XOR-join: token coming from one of the many input transitions. Can exlusively consume a singular token coming from a singular transition.
+3. AND-split: token coming from a transition and going to every outgoing place.
+4. AND-join: tokens coming from all incoming places and going to 
+
+Transitions can also be described in terms of how many tokens they consume and how many they produce. This adds another layer of complexity and allows for the modeling of specific behaviour.
+
+![](./../../resources//figuredAndAssorted/petri_net_book.png)
+Masters_Public/resources/figuredAndAssorted/petri_net_book.png
+> figure taken from {@VanderAalst2011} showing a basic petri net  
+
+## Petri net formalism
+> TODO: Not sure wether to include this as i will try to avoid formalisms in my thesis if possible as they are not my strong suit. If i do not intend to use formalism later then this section contributes nothing.
+**Definitions**  
+A petri net is a triplet $N = (P,T,F)$.   
+$P$ is a finite set of **places**.   
+$T$ is a finite set of **transitions**, such that $P ∩ T = Ø$, thus meaning that all places and transitions are completely distinct.   
+$F$ is a **set of directed arcs**, otherwise known as the **flow relation**, and is defined as $F ⊆ (P×T)∪ (T×P)$. Thus meaning that the directed arcs are a subset of the union of the cartisan product of P&T and T&P, i.e the directed arcs are a subset of all possible directed arcs that the graph allows.  
+A **marked petri net** is a pair $(N,M)$, where $N$ is the aforementioned triple and $M$ is the markings.  
+**$M$ is the set of markings** and is an element of the multiset of places. The multiset of places being denoted as $B(P)$. Given that tokens can fill places this again means that $M$ is an element of the multiset of places, otherwise denoted as $M ∈ B(P)$. 
+
+Multisets differentiate themselves from ordinary sets in that they allow for multiple instances for each of its containing elements. For example, a simple set can be denoted as {$a,b$}. This is also a valid mutiset given that each element is multiplied by one. Therefore {$a,b$} is the same as {$a^1,b^1$}. This again also means that {$a,b,a$} is a valid multiset and can be also be denoted as {$a^2, b^1$}. The ordering of elements within these sets is insignificant as opposed to their multiplicity. Multisets are also used to model event logs as these often have multiple occurances of the same trace. 
+
+ Applying the aforementioned to the figure above we get the following:   
+ $P =${$start,c1,c2,c3,c4,c5, end$}  
+ $T =${$a, b, c,d, e, f,g, h$}  
+ $F =${$(start, a), (a, c1), (a, c2), (c1,b), (c1, c), (c2, d), (b, c3), (c, c3), (d, c4), (c3, e), (c4, e), (e, c5), (c5,f), (f, c1), (f, c2), (c5, g), (c5, h), (g, end), (h, end)$}
+
+# Colored Petri nets
+Colored petri nets are a extension of the standard petri nets that introduces the ability to assign addiitional data to tokens. These additional values are described as the color of a token, thereby colored petri nets. 
+
+*Colored Petri Nets (CPNs) combine Petri nets with a programming language to obtain a scalable modeling language for concurrent systems.* The CPN language was initated in the 80s, at the same time as distributed systems were becoming a major part of computing. The goal of CPN was to *develop a formally founded modeling language for concurrent systems taht would make it possible to formaly analyze and valdiate concurrent systems, and whichf rom a modeling perspective would scale to industrial systems.* One of the main motivatone being the need for a modeling language that could be used for developing such concurrent sytems, are these were vastly difficult to engineer correctly due to their inheret complexity. Petri nets were first intoduced by Carl Adam Petri in his doctoal thesis published in 1962 as a formalism for concurrency and synchronization and considered way ahead of its time. 
+
+The practial use of petri nets, at least in their most basic form, proved to scale poorly to large systems. This could be aleviated at the expense of lifting the level of abstraction. The primary reasoning being that petri nets are not well suited for modeling systems where data and data manipulation plays a key role. Petri nets were also lacking conceots that made it easy to scale models in accordance with some system parameter, such as the availability of servers. This hinderance lead to the deceleration of practical use. This was attempted remedied by proposing ad-hoc extensions, which lead to yet another set of problems. Conflicting standards with poor formal fundamentals were making it difficult to employ the published analytical techniques as these had to be ported to whatever the current "accepted" standard was. 
+
+The evolution of "colored petri nets" is described as a series of three steps. The first step extended the traditional notion of single color petri nets by introducing the invention of a single set of colored tokens. While a huge advanement in that it allowed for the modeling of multiple processes in the same subnet, it was hindered in that it only allowed for one single set of colored tokens. The next step forward addressed this shortcoming and was taken by *Jensen in his PhD thess in 1980 with the introductin of the first kind of Colored Petri Nets.* This allowed for the use of multiple colors sets and made it possible to represent data values more intuitevly instead of encoding all values in a single set. Types from programming languages were later introduced as a clever way to define color sets. This had three implications. Tokens became more structure; static type checking; color sets, arc expressions and guards could be specified by use of the syntax and semantics known from programming languages. The third and last step was taken by Huber, Jensen, and Shapiro in 1990 with the introduction of hierarchical CPNs. This allowed for the structuring of a large CPN model by use of a number of smaller and reusable modules, a convention well known from modern programming languages. 
+
+## Fundamental construct of CPN models
+This section will present a shorter and more elaborate version of the descriotions given in @Jensen2015 about the composition of CPN models. While the description given in the paper is of high quality and perfectly sensible once someone has transitioned from being a complete novice in the modeling of petri nets, it does little favors for those who are not as well versed. Lucklily, the constructs are simple and can be better explained by detailed diagrams. 
+
+In secton two of the paper the authors present a informal introduction to petri nets by walking through a example model of a *two-phase commit transaction system*. This is a very clear and accurate example that is worthy of restatement, but in a more elaborate manner that is easier to comprehend. The presented are here supported by details and descriptions from the corresponding petri net book @Colored Petri Nets and not purely based on @Jensen2015.
+
+### Overview
+- place
+- transition
+- color sets
+- submodule
+- directed arc
+- biparte graph
+- 
+- port-socket association
+  - port
+  - socket
+- 
+
+ 
+
